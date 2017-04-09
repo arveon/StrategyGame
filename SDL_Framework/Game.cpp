@@ -21,9 +21,7 @@ void sdlframework::game::init()
 
 	srand(time(NULL));
 	new (&splash) splash_screen(sdl_manager::get_renderer());
-	//change_color();
-	//cur_color = RGB{ 0, 0, 0 };
-	game_state = constants::game_state::splash;
+	game_state = constants::game_state::main_menu;
 }
 
 //called every frame
@@ -39,22 +37,26 @@ void sdlframework::game::input()
 		{
 			quit_game = true;
 		}
-		else if (event.type == SDL_MOUSEBUTTONDOWN)//reading mouse events to determine when the click occurs
+		
+		//storing mouse clicks and mouse releases in mouse class
+		if (event.type == SDL_MOUSEBUTTONDOWN)//reading mouse events to determine when the click occurs
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
-				left_down = true;
+				mouse.lmb_down = true;
+			else
+				mouse.rmb_down = true;
 		}
 		else if (event.type == SDL_MOUSEBUTTONUP)
 		{
 			if (event.button.button == SDL_BUTTON_LEFT)
-			{
-				if (left_down)
-					std::cout << "Clicked" << std::endl;
-				left_down = false;
-			}
+				mouse.lmb_down = false;
+			else
+				mouse.rmb_down = false;
 		}
 	}
 
+	SDL_GetMouseState(&mouse.x, &mouse.y);
+	
 }
 
 //updates every frame until false is returned
@@ -72,6 +74,7 @@ bool game::update(Uint32 delta_time)
 			game_state = constants::game_state::main_menu;
 		break;
 	case constants::game_state::main_menu:
+		menu.update(mouse);
 		break;
 	case constants::game_state::pause_menu:
 		break;
@@ -99,12 +102,4 @@ void game::draw(SDL_Renderer* renderer)
 	case constants::game_state::game_flow:
 		break;
 	}
-}
-
-//customly created method
-void game::change_color()
-{
-	dest_color = RGB{ rand()%255, rand()%255, rand()%255 };
-	std::cout << "color changed" << std::endl;
-	std::cout << "DR:" << dest_color.R << " DG:" << dest_color.G << " DB:" << dest_color.B << std::endl;
 }

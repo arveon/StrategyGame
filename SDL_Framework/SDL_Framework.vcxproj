@@ -152,10 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
@@ -163,10 +166,13 @@
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="LeePathfinder.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Mouse.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="System.h" />

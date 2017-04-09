@@ -9,6 +9,8 @@
 
 #include "Constants.h"
 #include "SplashScreen.h"
+#include "MainMenu.h"
+#include "Mouse.h"
 
 namespace sdlframework
 {
@@ -24,26 +26,22 @@ namespace sdlframework
 			RGB(){ R = 0; G = 0; B = 0; }
 		};
 
-		RGB cur_color;
-		RGB dest_color;
-
-		splash_screen splash;
-
 		constants::game_state game_state;
 
+		splash_screen splash;
+		main_menu menu;
+
+		Mouse mouse;
 
 		bool left_click;
 		bool quit_game;
 		bool pending_color_change;
-
 
 	public:
 		void init();
 		void input();
 		bool update(Uint32 deltaTime);
 		void draw(SDL_Renderer*);
-
-		void change_color();
 
 		game();
 		~game();

@@ -4,9 +4,11 @@
 
 #include "sdl_manager.h"
 
+//class that represents a splash screen shown in the beginning of the game
 class splash_screen
 {
 private:
+	//different states of the splash screen
 	enum state
 	{
 		Waiting,
@@ -20,11 +22,11 @@ private:
 
 	int elapsed_time;
 	int total_screen_time = 5000;
-	int animation_time = 1000;
-	int wait_time = 1000;
+	int animation_time = 1000;//time of animation
+	int wait_time = 1000;//time when nothing happens before splash screen appears
 	
-	Uint8 transparency;
-	SDL_Rect draw_rect;
+	Uint8 transparency;//transparency of the splash screen
+	SDL_Rect draw_rect;//destination rectangle of the splash sccreen
 
 public:
 	SDL_Texture* image;
