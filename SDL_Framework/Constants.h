@@ -26,8 +26,21 @@ namespace constants
 	};
 
 
+	//menu buttons
+	const int START_X = 550;
+	const int START_Y = 100;
 
+	const int LOAD_X = 550;
+	const int LOAD_Y = 200;
 
+	const int OPTIONS_X = 550;
+	const int OPTIONS_Y = 300;
+
+	const int EXIT_X = 550;
+	const int EXIT_Y = 400;
+
+	const int BUTTON_WIDTH = 150;
+	const int BUTTON_HEIGHT = 50;
 };
 
 

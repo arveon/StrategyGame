@@ -21,6 +21,7 @@ void sdlframework::game::init()
 
 	srand(time(NULL));
 	new (&splash) splash_screen(sdl_manager::get_renderer());
+	menu.init();
 	game_state = constants::game_state::main_menu;
 }
 
@@ -75,6 +76,25 @@ bool game::update(Uint32 delta_time)
 		break;
 	case constants::game_state::main_menu:
 		menu.update(mouse);
+
+		switch (menu.cur_state)
+		{
+		case main_menu::state::exit_clicked:
+			game_running = false;
+			break;
+		case main_menu::state::start_clicked:
+			std::cout << "Start clicked" << std::endl;
+			menu.cur_state = main_menu::state::waiting;
+			break;
+		case main_menu::state::options_clicked:
+			std::cout << "Options clicked" << std::endl;
+			menu.cur_state = main_menu::state::waiting;
+			break;
+		case main_menu::state::load_clicked:
+			std::cout << "Load clicked" << std::endl;
+			menu.cur_state = main_menu::state::waiting;
+			break;
+		}
 		break;
 	case constants::game_state::pause_menu:
 		break;
@@ -96,6 +116,7 @@ void game::draw(SDL_Renderer* renderer)
 		splash.draw(renderer);
 		break;
 	case constants::game_state::main_menu:
+		menu.draw(renderer);
 		break;
 	case constants::game_state::pause_menu:
 		break;
