@@ -23,8 +23,9 @@ void sdlframework::sdl_manager::init()
 	SDL_ShowCursor(true);
 	std::cout << "sdl initialised" << std::endl;
 	int img_flags = IMG_INIT_PNG;
-	assert(IMG_Init(img_flags) & img_flags);
 
+	assert(IMG_Init(img_flags) & img_flags);
+	assert(TTF_Init() != -1);
 	assert(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) >= 0);
 	initialised = true;
 }
@@ -42,6 +43,18 @@ SDL_Texture* sdlframework::sdl_manager::load_png_texture(SDL_Renderer* renderer1
 	else
 		return nullptr;
 	
+}
+
+TTF_Font* sdlframework::sdl_manager::load_font(std::string path, float size, SDL_Color color)
+{
+	if (initialised)
+	{
+		TTF_Font* temp = TTF_OpenFont(path.c_str(), size);
+		assert(temp);
+		return temp;
+	}
+	else
+		return nullptr;
 }
 
 Mix_Chunk* sdlframework::sdl_manager::load_sound(std::string path)
@@ -66,6 +79,13 @@ Mix_Music* sdlframework::sdl_manager::load_music(std::string path)
 	}
 	else
 		return nullptr;
+}
+
+SDL_Texture* sdlframework::sdl_manager::render_text(SDL_Renderer* renderer, std::string text, SDL_Color color, TTF_Font* font)
+{
+	SDL_Surface* temp_s = TTF_RenderText_Solid(font, text.c_str(), color);
+	assert(temp_s);
+	return SDL_CreateTextureFromSurface(renderer, temp_s);
 }
 
 

@@ -4,11 +4,15 @@
 #include "Mouse.h"
 #include "Button.h"
 #include "sdl_manager.h"
+#include "TextRenderer.h"
 
 class main_menu
 {
 private:
 	SDL_Texture* bg;
+
+	TTF_Font* font;
+	TextRenderer* display;
 
 	Button start;
 	Button load;

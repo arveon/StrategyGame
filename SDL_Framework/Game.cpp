@@ -29,7 +29,7 @@ void sdlframework::game::init()
 void sdlframework::game::input()
 {
 	static bool left_down = false;
-	
+
 	//reading events such as windows X button pressed
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0)
@@ -38,7 +38,7 @@ void sdlframework::game::input()
 		{
 			quit_game = true;
 		}
-		
+
 		//storing mouse clicks and mouse releases in mouse class
 		if (event.type == SDL_MOUSEBUTTONDOWN)//reading mouse events to determine when the click occurs
 		{
@@ -56,6 +56,15 @@ void sdlframework::game::input()
 		}
 	}
 
+	//exit splash screen on press of escape
+	const Uint8* keyboardState = SDL_GetKeyboardState(NULL);
+	if (keyboardState[SDL_SCANCODE_ESCAPE])
+	{
+		if (game_state == constants::game_state::splash)
+			game_state = constants::game_state::main_menu;
+	}
+
+
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	
 }
@@ -65,12 +74,11 @@ bool game::update(Uint32 delta_time)
 {
 	bool game_running = true;
 
-	splash.update(delta_time);
+	
 	switch (game_state)
 	{
 	case constants::game_state::splash:
-		//splash.update(delta_time);
-		//std::cout << splash.is_splash_elapsed() << std::endl;
+		splash.update(delta_time);
 		if (splash.is_splash_elapsed())
 			game_state = constants::game_state::main_menu;
 		break;

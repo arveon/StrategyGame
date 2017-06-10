@@ -31,6 +31,24 @@
     <Filter Include="Source Files\FrameworkFiles">
       <UniqueIdentifier>{179beaa1-0197-486a-a2af-192bb1a1cb21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Menu\dialog_boxes">
+      <UniqueIdentifier>{1c9400c9-8feb-41aa-89cb-1d151c72f551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menu\dialog_boxes">
+      <UniqueIdentifier>{12582793-a5f4-4369-81b9-b184b400924d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helpers\UI">
+      <UniqueIdentifier>{5f50af8e-6a53-46f5-b2d4-52785ce06460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helpers\Logic">
+      <UniqueIdentifier>{705b2134-0fb3-4846-aefb-bb49a67320b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helpers\UI">
+      <UniqueIdentifier>{953a9305-f0df-4292-b2c2-708f376e2e9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Helpers\Logic">
+      <UniqueIdentifier>{c56e4fc8-b0ea-48de-9f6f-71ab88a7e358}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -45,23 +63,11 @@
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ConfirmDialog.cpp">
-      <Filter>Source Files\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="DialogWindow.cpp">
-      <Filter>Source Files\Menu</Filter>
-    </ClCompile>
-    <ClCompile Include="LeePathfinder.cpp">
-      <Filter>Source Files\Helpers</Filter>
-    </ClCompile>
-    <ClCompile Include="SimplePoint.cpp">
-      <Filter>Source Files\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="sdl_manager.cpp">
       <Filter>Source Files\FrameworkFiles</Filter>
@@ -74,6 +80,21 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files\FrameworkFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="DialogWindow.cpp">
+      <Filter>Source Files\Menu\dialog_boxes</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfirmDialog.cpp">
+      <Filter>Source Files\Menu\dialog_boxes</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files\Helpers\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplePoint.cpp">
+      <Filter>Source Files\Helpers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LeePathfinder.cpp">
+      <Filter>Source Files\Helpers\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,20 +116,8 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="ConfirmDialog.h">
-      <Filter>Header Files\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="DialogWindow.h">
-      <Filter>Header Files\Menu</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files\Menu</Filter>
-    </ClInclude>
-    <ClInclude Include="LeePathfinder.h">
-      <Filter>Header Files\Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="SimplePoint.h">
-      <Filter>Header Files\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Header Files\FrameworkFiles</Filter>
@@ -118,6 +127,21 @@
     </ClInclude>
     <ClInclude Include="sdl_manager.h">
       <Filter>Header Files\FrameworkFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DialogWindow.h">
+      <Filter>Header Files\Menu\dialog_boxes</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfirmDialog.h">
+      <Filter>Header Files\Menu\dialog_boxes</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files\Helpers\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="LeePathfinder.h">
+      <Filter>Header Files\Helpers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplePoint.h">
+      <Filter>Header Files\Helpers\Logic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

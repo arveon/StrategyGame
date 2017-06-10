@@ -41,6 +41,8 @@ namespace constants
 
 	const int BUTTON_WIDTH = 150;
 	const int BUTTON_HEIGHT = 50;
+
+	const std::string font_inkedout = "assets/fonts/Inked_Out.ttf";
 };
 
 
