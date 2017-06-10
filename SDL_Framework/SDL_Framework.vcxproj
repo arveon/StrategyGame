@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -153,6 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ConfirmDialog.cpp" />
+    <ClCompile Include="DialogWindow.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -167,13 +169,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="ConfirmDialog.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DialogWindow.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="sdl_manager.h" />
+    <ClInclude Include="SimplePoint.h" />
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="Time.h" />

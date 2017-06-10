@@ -36,8 +36,9 @@ public:
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);
 
-	bool is_clicked() { return cur_state == state::Clicked; }
-	void reset_button() { cur_state == state::None; }
+	bool is_clicked() { return (cur_state == state::Clicked); }
+	bool is_pressed(){ return (cur_state == state::Pressed); }
+	void reset_button() { cur_state = state::None; }
 	Button();
 	~Button();
 };
