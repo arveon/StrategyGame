@@ -87,7 +87,7 @@ bool game::update(Uint32 delta_time)
 
 		switch (menu.cur_state)
 		{
-		case main_menu::state::exit_clicked:
+		case main_menu::state::exit_confirmed:
 			game_running = false;
 			break;
 		case main_menu::state::start_clicked:

@@ -88,6 +88,11 @@ SDL_Texture* sdlframework::sdl_manager::render_text(SDL_Renderer* renderer, std:
 	return SDL_CreateTextureFromSurface(renderer, temp_s);
 }
 
+SDL_Texture* sdlframework::sdl_manager::create_texture(SDL_Renderer* renderer, int w, int h)
+{
+	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+}
+
 
 sdl_manager::sdl_manager()
 {

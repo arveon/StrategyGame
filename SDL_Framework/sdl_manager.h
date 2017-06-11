@@ -32,6 +32,7 @@ namespace sdlframework
 		static SDL_Renderer* get_renderer() { return renderer; }
 
 		static SDL_Texture* render_text(SDL_Renderer*, std::string, SDL_Color, TTF_Font*);
+		static SDL_Texture* create_texture(SDL_Renderer*, int w, int h);
 
 		sdl_manager();
 		~sdl_manager();

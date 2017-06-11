@@ -42,6 +42,9 @@ namespace constants
 	const int BUTTON_WIDTH = 150;
 	const int BUTTON_HEIGHT = 50;
 
+	const int CONFIRM_EXIT_DIALOG_WIDTH = 400;
+	const int CONFIRM_EXIT_DIALOG_HEIGHT = 400;
+
 	const std::string font_inkedout = "assets/fonts/Inked_Out.ttf";
 };
 

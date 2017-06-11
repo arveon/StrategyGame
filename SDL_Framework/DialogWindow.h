@@ -2,17 +2,20 @@
 #include <SDL_ttf.h>
 #include <string>
 
+#include "TextRenderer.h"
+#include "sdl_manager.h"
+
 #pragma once
-class DialogWindow
+class dialog_window
 {
-private:
+protected:
 	std::string caption;
 	SDL_Texture* caption_text;
 	SDL_Rect window;
 	SDL_Texture* background;
 public:
-	DialogWindow();
-	DialogWindow(SDL_Texture* bg);
-	~DialogWindow();
+	dialog_window();
+	dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_modal, std::string text, int width, int height);
+	~dialog_window();
 };
 
