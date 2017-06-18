@@ -3,151 +3,84 @@
 
 void Button::init(TTF_Font* fontname, type type)
 {
-	c_default = new SDL_Color{ 255, 155, 155 };
-	c_hovered = new SDL_Color{ 255, 255, 155 };
-	c_clicked = new SDL_Color{ 255, 100, 100 };
+	set_default_colors();
 
-
-	std::cout << image << std::endl;
 	this->font = fontname;
-
-	switch (type)
-	{
-	case type::start:
-		caption = "New game";
-		break;
-	case type::load:
-		caption = "Load game";
-		break;
-	case type::options:
-		caption = "Settings";
-		break;
-	case type::exit:
-		caption = "Exit";
-		break;
-	case type::cancel:
-		caption = "Cancel";
-		break;
-	case type::ok:
-		caption = "Ok";
-		break;
-	}
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), {255,155,155});
-
 	this->b_type = type; 
-	//draw_rect.w = constants::BUTTON_WIDTH;
-	//draw_rect.h = constants::BUTTON_HEIGHT;
-
+	set_caption_and_coords();
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), { 255,155,155 });
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
-	
-	switch(b_type)
-	{
-	case type::start:
-			draw_rect.x = constants::START_X;
-			draw_rect.y = constants::START_Y;
-			break;
-	case type::load:
-		draw_rect.x = constants::LOAD_X;
-		draw_rect.y = constants::LOAD_Y;
-		break;
-	case type::options:
-		draw_rect.x = constants::OPTIONS_X;
-		draw_rect.y = constants::OPTIONS_Y;
-		break;
-	case type::exit:
-		draw_rect.x = constants::EXIT_X;
-		draw_rect.y = constants::EXIT_Y;
-		break;
-	default:
-		draw_rect.x = 0;
-		draw_rect.y = 0;
-	}
+}
+
+void Button::init(TTF_Font * font, type type, SDL_Point coords)
+{
+	set_default_colors();
+
+	this->font = font;
+	this->b_type = type;
+	set_caption_and_coords();
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), { 255,155,155 });
+	draw_rect.x = coords.x;
+	draw_rect.y = coords.y;
+	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
 void Button::init(std::string fontname, type type)
 {
-	c_default = new SDL_Color{ 255, 155, 155 };
-	c_hovered = new SDL_Color{ 255, 255, 155 };
-	c_clicked = new SDL_Color{ 255, 100, 100 };
+	set_default_colors();
 
-
-	std::cout << image << std::endl;
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + fontname, 16, { 255, 255, 255 });
-	switch (type)
-	{
-	case type::start:
-		caption = "New game";
-		break;
-	case type::load:
-		caption = "Load game";
-		break;
-	case type::options:
-		caption = "Settings";
-		break;
-	case type::exit:
-		caption = "Exit";
-		break;
-	case type::cancel:
-		caption = "Cancel";
-		break;
-	case type::ok:
-		caption = "Ok";
-		break;
-	}
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), { 255, 155, 155 });
-
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + fontname, fontsize, *c_default);
+	
 	this->b_type = type;
-	//draw_rect.w = constants::BUTTON_WIDTH;
-	//draw_rect.h = constants::BUTTON_HEIGHT;
 
+	set_caption_and_coords();
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
-
-	switch (b_type)
-	{
-	case type::start:
-		draw_rect.x = constants::START_X;
-		draw_rect.y = constants::START_Y;
-		break;
-	case type::load:
-		draw_rect.x = constants::LOAD_X;
-		draw_rect.y = constants::LOAD_Y;
-		break;
-	case type::options:
-		draw_rect.x = constants::OPTIONS_X;
-		draw_rect.y = constants::OPTIONS_Y;
-		break;
-	case type::exit:
-		draw_rect.x = constants::EXIT_X;
-		draw_rect.y = constants::EXIT_Y;
-		break;
-	default:
-		draw_rect.x = 0;
-		draw_rect.y = 0;
-	}
 }
 
 
 void Button::init(std::string font_name, type type, SDL_Point coords)
 {
-	c_default = new SDL_Color{ 255, 155, 155 };
-	c_hovered = new SDL_Color{ 255, 255, 155 };
-	c_clicked = new SDL_Color{ 255, 100, 100 };
+	set_default_colors();
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->b_type = type;
+	set_caption_and_coords();
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	draw_rect.x = coords.x;
+	draw_rect.y = coords.y;
+}
 
-	std::cout << image << std::endl;
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, 16, { 255, 255, 255 });
-	switch (type)
+void Button::set_default_colors()
+{
+	c_default = new SDL_Color{ 155, 100, 100 };
+	c_hovered = new SDL_Color{ 155, 155, 55 };
+	c_clicked = new SDL_Color{ 155, 20, 20 };
+}
+
+void Button::set_caption_and_coords()
+{
+	switch (b_type)
 	{
 	case type::start:
 		caption = "New game";
+		draw_rect.x = constants::START_X;
+		draw_rect.y = constants::START_Y;
 		break;
 	case type::load:
 		caption = "Load game";
+		draw_rect.x = constants::LOAD_X;
+		draw_rect.y = constants::LOAD_Y;
 		break;
 	case type::options:
 		caption = "Settings";
+		draw_rect.x = constants::OPTIONS_X;
+		draw_rect.y = constants::OPTIONS_Y;
 		break;
 	case type::exit:
 		caption = "Exit";
+		draw_rect.x = constants::EXIT_X;
+		draw_rect.y = constants::EXIT_Y;
 		break;
 	case type::cancel:
 		caption = "Cancel";
@@ -155,15 +88,10 @@ void Button::init(std::string font_name, type type, SDL_Point coords)
 	case type::ok:
 		caption = "Ok";
 		break;
+	default:
+		draw_rect.x = 0;
+		draw_rect.y = 0;
 	}
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), { 255, 155, 155 });
-
-	this->b_type = type;
-
-	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
-
-	draw_rect.x = coords.x;
-	draw_rect.y = coords.y;
 }
 
 void Button::update(Mouse mouse)

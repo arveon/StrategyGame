@@ -28,7 +28,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -76,8 +76,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)/libs/SDL2/include;$(SolutionDir)/libs/SDL2_image/include;$(SolutionDir)/libs/SDL2_mixer/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)/libs/SDL2_mixer/lib/x86;$(SolutionDir)/libs/SDL2/lib/x86;$(SolutionDir)/libs/SDL2_image/lib/x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)/libs/SDL2/include;$(SolutionDir)/libs/SDL2_image/include;$(SolutionDir)/libs/SDL2_mixer/include;$(SolutionDir)/libs/SDL2_ttf/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)/libs/SDL2_mixer/lib/x86;$(SolutionDir)/libs/SDL2/lib/x86;$(SolutionDir)/libs/SDL2_image/lib/x86;$(SolutionDir)/libs/SDL2_ttf/lib/x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -112,7 +112,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

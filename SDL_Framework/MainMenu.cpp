@@ -16,11 +16,7 @@ void main_menu::init()
 
 void main_menu::update(Mouse mouse)
 {
-	start.update(mouse);
-	load.update(mouse);
-	options.update(mouse);
-	exit.update(mouse);
-
+	//if exit was clicked, change the caption, menu state and reset the button
 	if (exit.is_clicked())
 	{
 		display->change_caption("attempting to close the window");
@@ -28,8 +24,14 @@ void main_menu::update(Mouse mouse)
 		exit.reset_button();
 	}
 	
+	//if exit wasn't clicked update all the buttons and check if they were clicked
 	if (cur_state != state::exit_clicked)
 	{
+		start.update(mouse);
+		load.update(mouse);
+		options.update(mouse);
+		exit.update(mouse);
+
 		if (start.is_clicked())
 		{
 			display->change_caption("start clicked");
@@ -49,19 +51,28 @@ void main_menu::update(Mouse mouse)
 			options.reset_button();
 		}
 	}
-	else
+	else//if exit was clicked 
 	{
+		//if the confirm box didn't exist before, create it
 		if (exit_confirmation == nullptr)
 		{
-			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(sdlframework::sdl_manager::get_renderer(), constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+			// temp = sdlframework::sdl_manager::create_texture(sdlframework::sdl_manager::get_renderer(), constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+			SDL_Texture* temp = sdlframework::sdl_manager::load_png_texture(sdlframework::sdl_manager::get_renderer(), "assets/graphics/temp_dialog_bg.png");
 			std::string caption = "Are you sure you want to exit?";
-			SDL_Point center = SDL_Point{ constants::WINDOW_WIDTH / 2, constants::WINDOW_HEIGHT / 2 };
+			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2 , (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2  };
 			exit_confirmation = new confirm_dialog(temp, center, caption, constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
 		}
+		//update the dialog box
+		exit_confirmation->update(mouse);
 
-
-
-
+		if (exit_confirmation->is_confirmed())
+			cur_state = state::exit_confirmed;
+		if (exit_confirmation->is_cancelled())
+		{
+			delete exit_confirmation;
+			exit_confirmation = nullptr;
+			cur_state = state::waiting;
+		}
 	}
 }
 
