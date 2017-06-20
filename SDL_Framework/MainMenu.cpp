@@ -4,13 +4,17 @@
 
 void main_menu::init()
 {
-	font = sdlframework::sdl_manager::load_font(constants::font_inkedout, 12, { 255, 255, 255 });
-	start.init("Inked_Out.ttf", start.start);
-	load.init("Inked_Out.ttf", load.load);
-	options.init("Inked_Out.ttf", options.options);
-	exit.init("Inked_Out.ttf", exit.exit);
+	
+	start.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, start.start);
+	load.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, load.load);
+	options.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, options.options);
+	exit.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, exit.exit);
 	cur_state = state::waiting;
 
+	std::string fontpath = constants::FONTS_PATH;
+	fontpath.append(constants::font_inkedout);
+
+	font = sdlframework::sdl_manager::load_font(fontpath, 15, { 255, 255, 255 });
 	display = new TextRenderer(font, { 255, 255, 255 }, "default text");
 }
 
@@ -25,7 +29,7 @@ void main_menu::update(Mouse mouse)
 	}
 	
 	//if exit wasn't clicked update all the buttons and check if they were clicked
-	if (cur_state != state::exit_clicked)
+	if (cur_state != state::exit_clicked && cur_state != options_clicked)
 	{
 		start.update(mouse);
 		load.update(mouse);
@@ -51,7 +55,7 @@ void main_menu::update(Mouse mouse)
 			options.reset_button();
 		}
 	}
-	else//if exit was clicked 
+	else if (cur_state == exit_clicked)//if exit was clicked 
 	{
 		//if the confirm box didn't exist before, create it
 		if (exit_confirmation == nullptr)
@@ -74,6 +78,25 @@ void main_menu::update(Mouse mouse)
 			cur_state = state::waiting;
 		}
 	}
+	else if (cur_state == options_clicked)
+	{
+		if (options_message == nullptr)
+		{
+			
+			SDL_Texture* temp = sdlframework::sdl_manager::load_png_texture(sdlframework::sdl_manager::get_renderer(), "assets/graphics/temp_dialog_bg.png");
+			std::string caption = "Options panel is under development...";
+			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2 , (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
+			options_message = new message_box(temp, center, caption, constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+		}
+		options_message->update(mouse);
+		if (options_message->is_confirmed())
+		{
+			delete options_message;
+			options_message = nullptr;
+			cur_state = state::waiting;
+			options.reset_button();
+		}
+	}
 }
 
 void main_menu::draw(SDL_Renderer* renderer)
@@ -84,8 +107,10 @@ void main_menu::draw(SDL_Renderer* renderer)
 	exit.draw(renderer);
 	display->draw(renderer);
 
-	if (cur_state == state::exit_clicked)
+	if (cur_state == state::exit_clicked && exit_confirmation != nullptr)
 		exit_confirmation->draw(renderer);
+	else if (cur_state == state::options_clicked && options_message != nullptr)
+		options_message->draw(renderer);
 }
 
 main_menu::main_menu()

@@ -13,9 +13,13 @@ protected:
 	SDL_Texture* caption_text;
 	SDL_Rect window;
 	SDL_Texture* background;
+	SDL_Color text_color;
+
+	void draw(SDL_Renderer* renderer);
+
 public:
-	dialog_window();
 	dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_modal, std::string text, int width, int height);
+	
 	~dialog_window();
 };
 

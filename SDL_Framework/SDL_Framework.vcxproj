@@ -160,6 +160,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MessageBox.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SimplePoint.h" />

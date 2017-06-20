@@ -16,7 +16,7 @@ private:
 	Button no;
 
 public:
-	confirm_dialog(SDL_Texture* bg, SDL_Point window_center, std::string text, int width, int height);
+	confirm_dialog(SDL_Texture* bg, SDL_Point window_coords, std::string text, int width, int height);
 	void draw(SDL_Renderer* rend);
 	void update(Mouse mouse);
 	~confirm_dialog();

@@ -95,8 +95,6 @@ bool game::update(Uint32 delta_time)
 			menu.cur_state = main_menu::state::waiting;
 			break;
 		case main_menu::state::options_clicked:
-			std::cout << "Options clicked" << std::endl;
-			menu.cur_state = main_menu::state::waiting;
 			break;
 		case main_menu::state::load_clicked:
 			std::cout << "Load clicked" << std::endl;

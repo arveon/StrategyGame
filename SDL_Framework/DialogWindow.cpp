@@ -12,8 +12,26 @@ dialog_window::dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_m
 	window.y = window_center.y;
 
 	this->caption = text;
-	TTF_Font* asd = sdlframework::sdl_manager::load_font("assets/fonts/Optimus_Princeps.ttf", 15, { 255, 255, 255 });
-	//this->caption_text = TextRenderer::get_texture_from_text(asd, caption, sdlframework::sdl_manager::get_renderer(), { 255, 255, 255 });
+
+	text_color = SDL_Color{ 0,0,0 };
+	std::string fontpath = constants::FONTS_PATH;
+	fontpath.append(constants::font_optimus);
+	TTF_Font* temp_font = sdlframework::sdl_manager::load_font(fontpath, 20, { 255, 255, 255 });
+	caption_text = TextRenderer::get_texture_from_text(temp_font, caption, sdlframework::sdl_manager::get_renderer(), text_color);
+	TTF_CloseFont(temp_font);
+}
+
+void dialog_window::draw(SDL_Renderer* renderer)
+{
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderCopy(renderer, background, NULL, &window);
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_Rect temp;
+	SDL_QueryTexture(caption_text, NULL, NULL, &temp.w, &temp.h);
+	temp.x = window.x;
+	temp.y = window.y + temp.h / 2;
+
+	SDL_RenderCopy(renderer, caption_text, NULL, &temp);
 }
 
 

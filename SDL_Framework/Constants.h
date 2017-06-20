@@ -45,7 +45,13 @@ namespace constants
 	const int CONFIRM_EXIT_DIALOG_WIDTH = 400;
 	const int CONFIRM_EXIT_DIALOG_HEIGHT = 100;
 
-	const std::string font_inkedout = "assets/fonts/Inked_Out.ttf";
+	const int MAIN_MENU_BUTTON_FONT_SIZE = 16;
+
+
+	const std::string FONTS_PATH = "assets/fonts/";
+	const std::string font_inkedout = "Inked_Out.ttf";
+	const std::string font_optimus = "Optimus_Princeps_Semi_Bold.ttf";
+
 };
 
 

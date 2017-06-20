@@ -6,6 +6,7 @@
 #include "sdl_manager.h"
 #include "TextRenderer.h"
 #include "ConfirmDialog.h"
+#include "MessageBox.h"
 
 class main_menu
 {
@@ -21,6 +22,7 @@ private:
 	Button exit;
 
 	confirm_dialog* exit_confirmation = nullptr;
+	message_box* options_message = nullptr;
 
 public:
 	enum state
