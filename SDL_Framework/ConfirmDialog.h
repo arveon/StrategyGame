@@ -14,7 +14,6 @@ private:
 	dialog_state cur_state;
 	Button yes;
 	Button no;
-
 public:
 	confirm_dialog(SDL_Texture* bg, SDL_Point window_coords, std::string text, int width, int height);
 	void draw(SDL_Renderer* rend);

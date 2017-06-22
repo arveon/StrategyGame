@@ -31,7 +31,7 @@ private:
 	SDL_Texture* image;
 	SDL_Rect draw_rect;
 
-	void set_caption_and_coords();
+	void set_caption_and_coords(std::string caption="");
 	void set_default_colors();
 public:
 	enum type
@@ -41,13 +41,15 @@ public:
 		load,
 		options,
 		ok,
-		cancel
+		cancel,
+		UI
 	};
 	void init(TTF_Font* font_name, type type);
 	void init(TTF_Font* font, type type, SDL_Point coords);
 	void init(std::string font_name, type type);
 	void init(std::string font_name, type type, SDL_Point coords);
 	void init(std::string fontname, int size, type type);
+	void init(std::string fontname, std::string caption);
 
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);

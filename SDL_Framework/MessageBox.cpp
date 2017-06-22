@@ -23,4 +23,5 @@ void message_box::draw(SDL_Renderer* renderer)
 
 message_box::~message_box()
 {
+	
 }

@@ -62,6 +62,15 @@ void Button::init(std::string font_name,int size, type type)
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
+void Button::init(std::string font_name, std::string caption)
+{
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->b_type = type::UI;
+	set_caption_and_coords();
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+}
+
 void Button::set_default_colors()
 {
 	c_default = new SDL_Color{ 255, 0, 0 };
@@ -69,36 +78,40 @@ void Button::set_default_colors()
 	c_clicked = new SDL_Color{ 0, 0, 255 };
 }
 
-void Button::set_caption_and_coords()
+void Button::set_caption_and_coords(std::string caption)
 {
 	switch (b_type)
 	{
 	case type::start:
-		caption = "New game";
+		this->caption = "New game";
 		draw_rect.x = constants::START_X;
 		draw_rect.y = constants::START_Y;
 		break;
 	case type::load:
-		caption = "Load game";
+		this->caption = "Load game";
 		draw_rect.x = constants::LOAD_X;
 		draw_rect.y = constants::LOAD_Y;
 		break;
 	case type::options:
-		caption = "Settings";
+		this->caption = "Settings";
 		draw_rect.x = constants::OPTIONS_X;
 		draw_rect.y = constants::OPTIONS_Y;
 		break;
 	case type::exit:
-		caption = "Exit";
+		this->caption = "Exit";
 		draw_rect.x = constants::EXIT_X;
 		draw_rect.y = constants::EXIT_Y;
 		break;
 	case type::cancel:
-		caption = "Cancel";
+		this->caption = "Cancel";
 		break;
 	case type::ok:
-		caption = "Ok";
+		this->caption = "Ok";
 		break;
+	case type::UI:
+		this->caption = caption;
+		draw_rect.x = 0;
+		draw_rect.y = 0;
 	default:
 		draw_rect.x = 0;
 		draw_rect.y = 0;
@@ -153,8 +166,6 @@ void Button::reset_button()
 void Button::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderCopy(renderer, image, NULL, &draw_rect);
-
-	
 }
 
 
@@ -165,5 +176,6 @@ Button::Button()
 
 Button::~Button()
 {
+	SDL_DestroyTexture(image);
 	TTF_CloseFont(font);
 }

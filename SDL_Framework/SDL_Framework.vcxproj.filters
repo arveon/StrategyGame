@@ -99,6 +99,12 @@
     <ClCompile Include="MessageBox.cpp">
       <Filter>Source Files\Menu\dialog_boxes</Filter>
     </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CodeSnippets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="MessageBox.h">
       <Filter>Header Files\Menu\dialog_boxes</Filter>
+    </ClInclude>
+    <ClInclude Include="OptionsMenu.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

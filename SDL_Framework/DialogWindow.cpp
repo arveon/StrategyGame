@@ -37,4 +37,6 @@ void dialog_window::draw(SDL_Renderer* renderer)
 
 dialog_window::~dialog_window()
 {
+	SDL_DestroyTexture(background);
+	SDL_DestroyTexture(caption_text);
 }

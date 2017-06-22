@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CodeSnippets.cpp" />
     <ClCompile Include="ConfirmDialog.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
@@ -180,6 +182,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="Mouse.h" />
+    <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SimplePoint.h" />
     <ClInclude Include="SplashScreen.h" />

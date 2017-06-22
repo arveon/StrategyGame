@@ -4,7 +4,7 @@
 //proper splash screen initialisation (when it's reinitialised)
 splash_screen::splash_screen(SDL_Renderer* renderer)
 {
-	image = sdlframework::sdl_manager::load_png_texture(renderer, "assets/graphics/splash.png");
+	image = sdlframework::sdl_manager::load_png_texture("assets/graphics/splash.png");
 	
 	draw_rect.w = 300;
 	draw_rect.h = 200;

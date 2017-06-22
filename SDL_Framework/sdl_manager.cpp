@@ -31,7 +31,7 @@ void sdlframework::sdl_manager::init()
 }
 
 
-SDL_Texture* sdlframework::sdl_manager::load_png_texture(SDL_Renderer* renderer1, std::string path)
+SDL_Texture* sdlframework::sdl_manager::load_png_texture(std::string path)
 {
 	if (initialised)
 	{
@@ -45,7 +45,7 @@ SDL_Texture* sdlframework::sdl_manager::load_png_texture(SDL_Renderer* renderer1
 	
 }
 
-TTF_Font* sdlframework::sdl_manager::load_font(std::string path, float size, SDL_Color color)
+TTF_Font* sdlframework::sdl_manager::load_font(std::string path, int size, SDL_Color color)
 {
 	if (initialised)
 	{
@@ -81,16 +81,23 @@ Mix_Music* sdlframework::sdl_manager::load_music(std::string path)
 		return nullptr;
 }
 
-SDL_Texture* sdlframework::sdl_manager::render_text(SDL_Renderer* renderer, std::string text, SDL_Color color, TTF_Font* font)
+SDL_Texture* sdlframework::sdl_manager::render_text(std::string text, SDL_Color color, TTF_Font* font)
 {
 	SDL_Surface* temp_s = TTF_RenderText_Solid(font, text.c_str(), color);
 	assert(temp_s);
-	return SDL_CreateTextureFromSurface(renderer, temp_s);
+	SDL_Texture* temp_t = SDL_CreateTextureFromSurface(renderer, temp_s);
+	SDL_FreeSurface(temp_s);
+	return temp_t;
 }
 
-SDL_Texture* sdlframework::sdl_manager::create_texture(SDL_Renderer* renderer, int w, int h)
+SDL_Texture* sdlframework::sdl_manager::create_texture(int w, int h, SDL_Color color)
 {
-	return SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+	SDL_Texture* temp = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STREAMING, w, h);
+	Uint32* pixels = new Uint32[w * h];
+	memset(pixels, 255, w * h * sizeof(Uint32));
+	SDL_UpdateTexture(temp, NULL, pixels, w * sizeof(Uint32));
+	delete[] pixels;
+	return temp;
 }
 
 

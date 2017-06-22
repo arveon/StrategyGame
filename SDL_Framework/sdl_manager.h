@@ -24,15 +24,15 @@ namespace sdlframework
 	public:
 		static void init();
 
-		static SDL_Texture* load_png_texture(SDL_Renderer* renderer, std::string path);
+		static SDL_Texture* load_png_texture(std::string path);
 		static Mix_Chunk* load_sound(std::string path);
 		static Mix_Music* load_music(std::string path);
-		static TTF_Font* load_font(std::string path, float size, SDL_Color color);
+		static TTF_Font* load_font(std::string path, int size, SDL_Color color);
 
 		static SDL_Renderer* get_renderer() { return renderer; }
 
-		static SDL_Texture* render_text(SDL_Renderer*, std::string, SDL_Color, TTF_Font*);
-		static SDL_Texture* create_texture(SDL_Renderer*, int w, int h);
+		static SDL_Texture* render_text(std::string, SDL_Color, TTF_Font*);
+		static SDL_Texture* create_texture(int w, int h, SDL_Color);
 
 		sdl_manager();
 		~sdl_manager();
