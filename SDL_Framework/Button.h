@@ -48,8 +48,9 @@ public:
 	void init(TTF_Font* font, type type, SDL_Point coords);
 	void init(std::string font_name, type type);
 	void init(std::string font_name, type type, SDL_Point coords);
-	void init(std::string fontname, int size, type type);
-	void init(std::string fontname, std::string caption);
+	void init(std::string font_name, int size, type type);
+	void init(std::string font_name, std::string caption);
+	void init(std::string font_name, std::string caption, SDL_Point position);
 
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);

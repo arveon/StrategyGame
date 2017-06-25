@@ -7,7 +7,7 @@
 namespace constants
 {
 	const int WINDOW_WIDTH = 800;
-	const int WINDOW_HEIGHT = 600;	
+	const int WINDOW_HEIGHT = 600;
 	const char WINDOW_CAPTION[] = "MyGame";
 
 	const int NUM_SOUND_CHANNELS = 5;
@@ -15,8 +15,7 @@ namespace constants
 	const bool SHOW_CURSOR = true;
 	const float scaling_vertical = 1;
 	const float scaling_horizontal = 1;
-	
-	
+
 	enum game_state
 	{
 		splash,
@@ -24,7 +23,6 @@ namespace constants
 		pause_menu,
 		game_flow
 	};
-
 
 	//menu buttons
 	const int START_X = 550;
@@ -52,6 +50,7 @@ namespace constants
 	const std::string font_inkedout = "Inked_Out.ttf";
 	const std::string font_optimus = "Optimus_Princeps_Semi_Bold.ttf";
 
+	const SDL_Color SECONDARY_MENU_SLIDER_COLOR = SDL_Color{ 255, 255, 255 };
 };
 
 

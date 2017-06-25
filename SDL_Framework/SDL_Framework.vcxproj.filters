@@ -49,6 +49,12 @@
     <Filter Include="Header Files\Helpers\Logic">
       <UniqueIdentifier>{c56e4fc8-b0ea-48de-9f6f-71ab88a7e358}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Menu\UI_elements">
+      <UniqueIdentifier>{3670af44-e606-4eeb-b2d6-29b17e5e4f96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\UI_elements">
+      <UniqueIdentifier>{097f1aad-c531-4c5e-b4b6-20fcd2fdefa4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -62,9 +68,6 @@
     </ClCompile>
     <ClCompile Include="Mouse.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\Menu</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files\Menu</Filter>
@@ -99,11 +102,17 @@
     <ClCompile Include="MessageBox.cpp">
       <Filter>Source Files\Menu\dialog_boxes</Filter>
     </ClCompile>
-    <ClCompile Include="OptionsMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CodeSnippets.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Menu\UI_elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Slider.cpp">
+      <Filter>Source Files\Menu\UI_elements</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionsMenu.cpp">
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\Menu</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Header Files\Menu</Filter>
@@ -155,8 +161,14 @@
     <ClInclude Include="MessageBox.h">
       <Filter>Header Files\Menu\dialog_boxes</Filter>
     </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Menu\UI_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Slider.h">
+      <Filter>Header Files\Menu\UI_elements</Filter>
+    </ClInclude>
     <ClInclude Include="OptionsMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

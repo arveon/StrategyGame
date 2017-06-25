@@ -19,7 +19,6 @@ protected:
 
 public:
 	dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_modal, std::string text, int width, int height);
-	
 	~dialog_window();
 };
 

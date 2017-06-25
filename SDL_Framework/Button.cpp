@@ -1,6 +1,6 @@
 #include "Button.h"
 
-
+#pragma region Initialisation
 void Button::init(TTF_Font* font, type type)
 {
 	set_default_colors();
@@ -64,11 +64,25 @@ void Button::init(std::string font_name,int size, type type)
 
 void Button::init(std::string font_name, std::string caption)
 {
+	set_default_colors();
 	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
 	this->b_type = type::UI;
-	set_caption_and_coords();
+	set_caption_and_coords(caption);
 	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+}
+
+void Button::init(std::string font_name, std::string caption, SDL_Point position)
+{
+	set_default_colors();
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->b_type = type::UI;
+	set_caption_and_coords(caption);
+	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+
+	draw_rect.x = position.x;
+	draw_rect.y = position.y;
 }
 
 void Button::set_default_colors()
@@ -113,10 +127,12 @@ void Button::set_caption_and_coords(std::string caption)
 		draw_rect.x = 0;
 		draw_rect.y = 0;
 	default:
+		this->caption = caption;
 		draw_rect.x = 0;
 		draw_rect.y = 0;
 	}
 }
+#pragma endregion
 
 void Button::update(Mouse mouse)
 {

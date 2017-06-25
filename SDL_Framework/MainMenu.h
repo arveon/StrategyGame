@@ -7,6 +7,7 @@
 #include "TextRenderer.h"
 #include "ConfirmDialog.h"
 #include "MessageBox.h"
+#include "OptionsMenu.h"
 
 class main_menu
 {
@@ -22,7 +23,7 @@ private:
 	Button exit;
 
 	confirm_dialog* exit_confirmation = nullptr;
-	message_box* options_message = nullptr;
+	options_menu* options_window = nullptr;
 
 public:
 	enum state

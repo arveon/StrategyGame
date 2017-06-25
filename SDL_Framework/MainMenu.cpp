@@ -43,7 +43,7 @@ void main_menu::update(Mouse mouse)
 		}
 		else if (load.is_clicked())
 		{
-			///display->change_caption("load clicked");
+			//display->change_caption("load clicked");
 			cur_state = state::load_clicked;
 			load.reset_button();
 		}
@@ -78,37 +78,30 @@ void main_menu::update(Mouse mouse)
 	}
 	else if (cur_state == options_clicked)
 	{
-		if (options_message == nullptr)
+		if (options_window == nullptr)
 		{
-			
-			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT, {255, 255, 255});
-			std::string caption = "Options panel is under development...";
-			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2 , (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
-			options_message = new message_box(temp, center, caption, constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+			options_window = new options_menu(sdlframework::sdl_manager::get_renderer());
 		}
-		options_message->update(mouse);
-		if (options_message->is_confirmed())
-		{
-			delete options_message;
-			options_message = nullptr;
-			cur_state = state::waiting;
-			options.reset_button();
-		}
+		options_window->update(mouse);
+		
 	}
 }
 
 void main_menu::draw(SDL_Renderer* renderer)
 {
-	start.draw(renderer);
-	load.draw(renderer);
-	options.draw(renderer);
-	exit.draw(renderer);
-	display->draw(renderer);
+	if (cur_state == state::options_clicked && options_window != nullptr)
+		options_window->draw(renderer);
+	else
+	{
+		start.draw(renderer);
+		load.draw(renderer);
+		options.draw(renderer);
+		exit.draw(renderer);
+		display->draw(renderer);
 
-	if (cur_state == state::exit_clicked && exit_confirmation != nullptr)
-		exit_confirmation->draw(renderer);
-	else if (cur_state == state::options_clicked && options_message != nullptr)
-		options_message->draw(renderer);
+		if (cur_state == state::exit_clicked && exit_confirmation != nullptr)
+			exit_confirmation->draw(renderer);
+	}
 }
 
 main_menu::main_menu()
