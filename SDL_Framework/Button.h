@@ -16,7 +16,7 @@ private:
 	SDL_Color* c_clicked;
 
 	TTF_Font* font;
-	int fontsize = 20;
+	static const int def_fontsize = 20;
 
 	enum state
 	{
@@ -46,11 +46,11 @@ public:
 	};
 	void init(TTF_Font* font_name, type type);
 	void init(TTF_Font* font, type type, SDL_Point coords);
-	void init(std::string font_name, type type);
-	void init(std::string font_name, type type, SDL_Point coords);
+	void init(std::string font_name, type type, int font_size = def_fontsize);
+	void init(std::string font_name, type type, SDL_Point coords, int font_size = def_fontsize);
 	void init(std::string font_name, int size, type type);
-	void init(std::string font_name, std::string caption);
-	void init(std::string font_name, std::string caption, SDL_Point position);
+	void init(std::string font_name, std::string caption, int font_size = def_fontsize);
+	void init(std::string font_name, std::string caption, SDL_Point position, int font_size = def_fontsize);
 
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);

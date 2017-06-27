@@ -30,14 +30,14 @@ TextRenderer::~TextRenderer()
 	SDL_DestroyTexture(text_texture);
 }
 
-SDL_Texture* TextRenderer::get_texture_from_text(TTF_Font* font, std::string caption, SDL_Renderer* renderer, SDL_Color clr)
+SDL_Texture* TextRenderer::get_texture_from_text(TTF_Font* font, std::string caption,  SDL_Color clr)
 {
 	return sdlframework::sdl_manager::render_text(caption, clr, font);
 }
 
-SDL_Texture* TextRenderer::get_texture_from_text(std::string font_name, int size, std::string caption, SDL_Renderer* renderer, SDL_Color clr)
+SDL_Texture* TextRenderer::get_texture_from_text(std::string font_name, int size, std::string caption,  SDL_Color clr)
 {
-	TTF_Font* font = sdlframework::sdl_manager::load_font("assets/fonts/"+font_name, size, clr);
+	TTF_Font* font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, size, clr);
 	SDL_Texture* temp;
 	if (font == NULL)
 		temp = sdlframework::sdl_manager::create_texture(50, 20, { 255,255,255 });

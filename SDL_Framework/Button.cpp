@@ -8,7 +8,7 @@ void Button::init(TTF_Font* font, type type)
 	this->font = font;
 	this->b_type = type; 
 	set_caption_and_coords();
-	this->image = TextRenderer::get_texture_from_text(this->font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(this->font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
@@ -19,66 +19,68 @@ void Button::init(TTF_Font * font, type type, SDL_Point coords)
 	this->font = font;
 	this->b_type = type;
 	set_caption_and_coords();
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	draw_rect.x = coords.x;
 	draw_rect.y = coords.y;
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
-void Button::init(std::string font_name, type type)
+void Button::init(std::string font_name, type type, int font_size)
 {
 	set_default_colors();
 
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, font_size, *c_default);
 	
 	this->b_type = type;
 
 	set_caption_and_coords();
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
 
-void Button::init(std::string font_name, type type, SDL_Point init_coords)
+void Button::init(std::string font_name, type type, SDL_Point init_coords, int font_size)
 {
 	set_default_colors();
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, font_size, *c_default);
 	this->b_type = type;
 	set_caption_and_coords();
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 	draw_rect.x = init_coords.x;
 	draw_rect.y = init_coords.y;
 }
 
-void Button::init(std::string font_name,int size, type type)
+void Button::init(std::string font_name,int font_size, type type)
 {
 	set_default_colors();
 
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, size, *c_default);
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, font_size, *c_default);
 	this->b_type = type;
 	set_caption_and_coords();
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
-void Button::init(std::string font_name, std::string caption)
+void Button::init(std::string font_name, std::string caption, int font_size)
 {
 	set_default_colors();
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, font_size, *c_default);
 	this->b_type = type::UI;
 	set_caption_and_coords(caption);
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	draw_rect.x = 0;
+	draw_rect.y = 0;
 }
 
-void Button::init(std::string font_name, std::string caption, SDL_Point position)
+void Button::init(std::string font_name, std::string caption, SDL_Point position, int font_size)
 {
 	set_default_colors();
-	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, fontsize, *c_default);
+	this->font = sdlframework::sdl_manager::load_font("assets/fonts/" + font_name, def_fontsize, *c_default);
 	this->b_type = type::UI;
 	set_caption_and_coords(caption);
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 
 	draw_rect.x = position.x;
@@ -144,7 +146,7 @@ void Button::update(Mouse mouse)
 			if (cur_state != Pressed)
 			{
 				SDL_DestroyTexture(this->image);
-				this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_clicked);
+				this->image = TextRenderer::get_texture_from_text(font, caption, *c_clicked);
 			}
 			cur_state = state::Pressed;
 		}
@@ -155,7 +157,7 @@ void Button::update(Mouse mouse)
 			if (cur_state != Hovered)
 			{
 				SDL_DestroyTexture(this->image);
-				this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(),	*c_hovered);
+				this->image = TextRenderer::get_texture_from_text(font, caption, *c_hovered);
 			}
 			cur_state = state::Hovered;
 		}
@@ -165,7 +167,7 @@ void Button::update(Mouse mouse)
 		if (cur_state != None)
 		{
 			SDL_DestroyTexture(this->image);
-			this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+			this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 		}
 		cur_state = state::None;
 	}
@@ -176,7 +178,7 @@ void Button::reset_button()
 {
 	cur_state = state::None;
 	SDL_DestroyTexture(this->image);
-	this->image = TextRenderer::get_texture_from_text(font, caption, sdlframework::sdl_manager::get_renderer(), *c_default);
+	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 }
 
 void Button::draw(SDL_Renderer* renderer)

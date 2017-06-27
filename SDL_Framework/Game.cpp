@@ -19,7 +19,7 @@ void sdlframework::game::init()
 	left_click = false;
 	splash.~splash_screen();
 
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	new (&splash) splash_screen(sdl_manager::get_renderer());
 	menu.init();
 	game_state = constants::game_state::splash;

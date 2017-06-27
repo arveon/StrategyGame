@@ -61,7 +61,7 @@ void splash_screen::update(int delta_time)
 	}
 
 	//update texture alpha
-	SDL_SetTextureAlphaMod(image, transparency);
+	SDL_SetTextureAlphaMod(image, (Uint8)transparency);
 }
 
 
@@ -72,4 +72,5 @@ void splash_screen::draw(SDL_Renderer* renderer)
 
 splash_screen::~splash_screen()
 {
+	SDL_DestroyTexture(image);
 }

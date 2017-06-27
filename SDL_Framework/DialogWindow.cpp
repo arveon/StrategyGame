@@ -17,7 +17,7 @@ dialog_window::dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_m
 	std::string fontpath = constants::FONTS_PATH;
 	fontpath.append(constants::font_optimus);
 	TTF_Font* temp_font = sdlframework::sdl_manager::load_font(fontpath, 20, { 255, 255, 255 });
-	caption_text = TextRenderer::get_texture_from_text(temp_font, caption, sdlframework::sdl_manager::get_renderer(), text_color);
+	caption_text = TextRenderer::get_texture_from_text(temp_font, caption, text_color);
 	TTF_CloseFont(temp_font);
 }
 

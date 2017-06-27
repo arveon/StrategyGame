@@ -80,10 +80,25 @@ void main_menu::update(Mouse mouse)
 	{
 		if (options_window == nullptr)
 		{
-			options_window = new options_menu(sdlframework::sdl_manager::get_renderer());
+			options_window = new options_menu();
 		}
 		options_window->update(mouse);
 		
+		if (options_window->is_applied())
+		{
+			std::cout << "applied" << std::endl;
+			options_window->save();
+			delete options_window;
+			options_window = nullptr;
+			cur_state = state::waiting;
+		}
+		else if (options_window->is_back_clicked())
+		{
+			std::cout << "back" << std::endl;
+			delete options_window;
+			options_window = nullptr;
+			cur_state = state::waiting;
+		}
 	}
 }
 

@@ -25,7 +25,7 @@ private:
 	int animation_time = 1000;//time of animation
 	int wait_time = 1000;//time when nothing happens before splash screen appears
 	
-	Uint8 transparency;//transparency of the splash screen
+	float transparency;//transparency of the splash screen
 	SDL_Rect draw_rect;//destination rectangle of the splash sccreen
 
 public:

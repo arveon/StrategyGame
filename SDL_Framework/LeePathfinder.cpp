@@ -13,7 +13,7 @@ std::vector<SimplePoint*> LeePathfinder::mark_tile_neighbours(SimplePoint * tile
 {
 	std::vector<SimplePoint*> temp;
 	//mark the neighbours
-	for (int i = 0; i < tile->neighbours.size(); i++)
+	for (int i = 0; i < (int)tile->neighbours.size(); i++)
 	{
 		if (tile->neighbours.at(i)->val == 0)
 		{
@@ -47,10 +47,10 @@ void LeePathfinder::mark_field(SimplePoint* start)
 		//cout << cur_number.size() << endl;
 		num++;
 		std::vector<SimplePoint*> iteration_points;
-		for (int i = 0; i < cur_number.size(); i++)
+		for (int i = 0; i < (int)cur_number.size(); i++)
 		{
 			std::vector<SimplePoint*> t1 = mark_tile_neighbours(cur_number.at(i), num);
-			for (int j = 0; j < t1.size(); j++)
+			for (int j = 0; j < (int)t1.size(); j++)
 				iteration_points.push_back(t1.at(j));
 		}
 
@@ -83,7 +83,7 @@ void LeePathfinder::calculate_path(SimplePoint * end)
 			counter++;
 		}
 
-		for (int i = 0; i < cur_point->neighbours.size(); i++)
+		for (int i = 0; i < (int)cur_point->neighbours.size(); i++)
 		{
 			if (min_point->val > cur_point->neighbours.at(i)->val &&
 				cur_point->neighbours.at(i)->val != 0 &&
