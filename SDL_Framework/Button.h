@@ -26,6 +26,7 @@ private:
 		Clicked
 	};
 	state cur_state;
+	bool lmb_prev_state;
 	
 	std::string caption;
 	SDL_Texture* image;

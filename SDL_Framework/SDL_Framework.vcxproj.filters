@@ -114,6 +114,9 @@
     <ClCompile Include="OptionsMenu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="CheckBox.cpp">
+      <Filter>Source Files\Menu\UI_elements</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -169,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="OptionsMenu.h">
       <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckBox.h">
+      <Filter>Header Files\Menu\UI_elements</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

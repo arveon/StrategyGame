@@ -1,6 +1,7 @@
 #pragma once
 #include "Button.h"
 #include "Slider.h"
+#include "CheckBox.h"
 
 
 class options_menu
@@ -17,7 +18,9 @@ private:
 	Button apply;
 	slider* volume;
 	slider* volume2;
+	check_box* fullscreen;
 	state cur_state;
+	SDL_Texture* checked_texture;
 public:
 	void draw(SDL_Renderer*);
 	void update(Mouse);

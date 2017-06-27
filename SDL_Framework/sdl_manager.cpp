@@ -97,6 +97,7 @@ SDL_Texture* sdlframework::sdl_manager::create_texture(int w, int h, SDL_Color c
 	memset(pixels, 255, w * h * sizeof(Uint32));
 	SDL_UpdateTexture(temp, NULL, pixels, w * sizeof(Uint32));
 	delete[] pixels;
+	SDL_SetTextureColorMod(temp, color.r, color.g, color.b);
 	return temp;
 }
 

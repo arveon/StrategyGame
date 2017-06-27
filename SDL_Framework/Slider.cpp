@@ -54,13 +54,15 @@ void slider::init_title(TTF_Font* font, std::string title)
 	this->value_draw_rect = SDL_Rect{ element_draw_rect.x + element_draw_rect.w + 15, element_draw_rect.y, 0, 0 };
 	SDL_QueryTexture(value_texture, NULL, NULL, &value_draw_rect.w, &value_draw_rect.h);
 	value_draw_rect.y -= value_draw_rect.h / 2;
+
+	prev_value = -1;
 }
 #pragma endregion
 
 
 void slider::update(Mouse mouse)
 {
-	static int prev_value = 0;
+	
 	if (mouse.lmb_down)
 	{
 		SDL_Point mousepoint = { mouse.x, mouse.y };

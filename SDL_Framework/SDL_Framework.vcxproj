@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="CodeSnippets.cpp" />
     <ClCompile Include="ConfirmDialog.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Button.h" />
+    <ClInclude Include="CheckBox.h" />
     <ClInclude Include="ConfirmDialog.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DialogWindow.h" />

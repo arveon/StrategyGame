@@ -20,6 +20,7 @@ private:
 	SDL_Rect title_draw_rect;
 	SDL_Rect value_draw_rect;
 	int cur_value;
+	int prev_value;
 public:
 	slider();
 	slider(TTF_Font* font, SDL_Texture* bar, SDL_Texture* slider, SDL_Rect draw_rect, int value = 0, std::string title = "default slider");

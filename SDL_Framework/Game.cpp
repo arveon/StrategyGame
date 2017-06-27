@@ -22,7 +22,7 @@ void sdlframework::game::init()
 	srand((unsigned int)time(NULL));
 	new (&splash) splash_screen(sdl_manager::get_renderer());
 	menu.init();
-	game_state = constants::game_state::splash;
+	game_state = constants::game_state::main_menu;
 }
 
 //called every frame

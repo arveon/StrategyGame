@@ -23,9 +23,7 @@ dialog_window::dialog_window(SDL_Texture* bg, SDL_Point window_center, bool is_m
 
 void dialog_window::draw(SDL_Renderer* renderer)
 {
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_RenderCopy(renderer, background, NULL, &window);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_Rect temp;
 	SDL_QueryTexture(caption_text, NULL, NULL, &temp.w, &temp.h);
 	temp.x = window.x;
