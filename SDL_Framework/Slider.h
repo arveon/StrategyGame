@@ -21,6 +21,8 @@ private:
 	SDL_Rect value_draw_rect;
 	int cur_value;
 	int prev_value;
+
+	bool is_clicked;
 public:
 	slider();
 	slider(TTF_Font* font, SDL_Texture* bar, SDL_Texture* slider, SDL_Rect draw_rect, int value = 0, std::string title = "default slider");
@@ -31,6 +33,8 @@ public:
 
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);
+
+	bool is_in_interaction() { return is_clicked; }
 	~slider();
 };
 

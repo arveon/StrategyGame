@@ -23,6 +23,7 @@ private:
 	Button exit;
 
 	confirm_dialog* exit_confirmation = nullptr;
+	message_box* msg_box = nullptr;
 	options_menu* options_window = nullptr;
 
 public:

@@ -24,7 +24,6 @@ private:
 	bool is_box_checked;
 
 	state cur_state;
-	bool prev_lmb_state;
 
 	void init_draw_rects();
 public:

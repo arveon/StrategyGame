@@ -36,8 +36,6 @@ void check_box::init_draw_rects()
 	draw_rect.x = title_draw_rect.x + title_draw_rect.w + 20;
 	draw_rect.y = title_draw_rect.y;
 	SDL_QueryTexture(box_checked, NULL, NULL, &draw_rect.w, &draw_rect.h);
-
-	prev_lmb_state = false;
 }
 
 void check_box::draw(SDL_Renderer* renderer)
@@ -58,7 +56,7 @@ void check_box::update(Mouse mouse)
 	SDL_Point temp = SDL_Point{ mouse.x, mouse.y };
 	if (SDL_PointInRect(&temp, &draw_rect))
 	{
-		if (mouse.lmb_down && prev_lmb_state == false)
+		if (mouse.lmb_down && mouse.prev_lmb_down == false)
 		{
 			cur_state = state::Pressed;
 		}
@@ -79,8 +77,6 @@ void check_box::update(Mouse mouse)
 		is_box_checked = !is_box_checked;
 		cur_state = state::None;
 	}
-
-	prev_lmb_state = mouse.lmb_down;
 }
 
 check_box::~check_box()

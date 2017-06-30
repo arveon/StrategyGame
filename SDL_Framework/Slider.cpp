@@ -56,19 +56,24 @@ void slider::init_title(TTF_Font* font, std::string title)
 	value_draw_rect.y -= value_draw_rect.h / 2;
 
 	prev_value = -1;
+	is_clicked = false;
 }
 #pragma endregion
 
 
 void slider::update(Mouse mouse)
 {
-	
-	if (mouse.lmb_down)
-	{
-		SDL_Point mousepoint = { mouse.x, mouse.y };
-		if (SDL_PointInRect(&mousepoint, &slider_draw_rect) || SDL_PointInRect(&mousepoint, &element_draw_rect))
-			slider_draw_rect.x = mouse.x - slider_draw_rect.w/2;
+	SDL_Point mousepoint = { mouse.x, mouse.y };
+	if ((SDL_PointInRect(&mousepoint, &slider_draw_rect) || SDL_PointInRect(&mousepoint, &element_draw_rect)) && mouse.lmb_down && !mouse.prev_lmb_down)
+		is_clicked = true;
+	else if (!mouse.lmb_down)
+		is_clicked = false;
 
+
+	if (is_clicked)
+	{
+		slider_draw_rect.x = mouse.x - slider_draw_rect.w / 2;
+		
 		//if slider is too far to the right/left, clamp it to size of bar
 		if (slider_draw_rect.x + slider_draw_rect.w > element_draw_rect.x + element_draw_rect.w)
 			slider_draw_rect.x = element_draw_rect.x + element_draw_rect.w - slider_draw_rect.w;
@@ -84,7 +89,6 @@ void slider::update(Mouse mouse)
 			value_texture = TextRenderer::get_texture_from_text(font, std::to_string(cur_value), constants::SECONDARY_MENU_SLIDER_COLOR);
 			SDL_QueryTexture(value_texture, NULL, NULL, &value_draw_rect.w, nullptr);
 		}
-
 
 		prev_value = cur_value;
 	}

@@ -30,6 +30,9 @@ void sdlframework::game::input()
 {
 	static bool left_down = false;
 
+	mouse.prev_lmb_down = mouse.lmb_down;
+	mouse.prev_rmb_down = mouse.rmb_down;
+
 	//reading events such as windows X button pressed
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0)
@@ -64,9 +67,7 @@ void sdlframework::game::input()
 			game_state = constants::game_state::main_menu;
 	}
 
-
-	SDL_GetMouseState(&mouse.x, &mouse.y);
-	
+	SDL_GetMouseState(&mouse.x, &mouse.y);	
 }
 
 //updates every frame until false is returned
@@ -74,7 +75,6 @@ bool game::update(Uint32 delta_time)
 {
 	bool game_running = true;
 
-	
 	switch (game_state)
 	{
 	case constants::game_state::splash:
@@ -91,7 +91,6 @@ bool game::update(Uint32 delta_time)
 			game_running = false;
 			break;
 		case main_menu::state::start_clicked:
-			menu.cur_state = main_menu::state::waiting;
 			break;
 		case main_menu::state::options_clicked:
 			break;

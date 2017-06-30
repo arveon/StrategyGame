@@ -133,8 +133,6 @@ void Button::set_caption_and_coords(std::string caption)
 		draw_rect.x = 0;
 		draw_rect.y = 0;
 	}
-
-	lmb_prev_state = false;
 }
 #pragma endregion
 
@@ -143,7 +141,7 @@ void Button::update(Mouse mouse)
 	if (mouse.x > draw_rect.x && mouse.x < draw_rect.x + draw_rect.w
 		&& mouse.y > draw_rect.y && mouse.y < draw_rect.y + draw_rect.h)
 	{
-		if (mouse.lmb_down && lmb_prev_state != true)
+		if (mouse.lmb_down && !mouse.prev_lmb_down)
 		{
 			if (cur_state != Pressed)
 			{
@@ -175,7 +173,6 @@ void Button::update(Mouse mouse)
 		}
 		cur_state = state::None;
 	}
-	lmb_prev_state = mouse.lmb_down;
 }
 
 void Button::reset_button()

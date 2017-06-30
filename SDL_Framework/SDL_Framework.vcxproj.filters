@@ -66,9 +66,6 @@
     <ClCompile Include="SplashScreen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
@@ -117,6 +114,12 @@
     <ClCompile Include="CheckBox.cpp">
       <Filter>Source Files\Menu\UI_elements</Filter>
     </ClCompile>
+    <ClCompile Include="ItemList.cpp">
+      <Filter>Source Files\Menu\UI_elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\FrameworkFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -129,9 +132,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SplashScreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
@@ -175,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="CheckBox.h">
       <Filter>Header Files\Menu\UI_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemList.h">
+      <Filter>Header Files\Menu\UI_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\FrameworkFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

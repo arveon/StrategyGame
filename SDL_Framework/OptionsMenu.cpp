@@ -42,6 +42,7 @@ void options_menu::update(Mouse mouse)
 	if (apply.is_clicked())
 		cur_state = state::apply_pressed;
 
+
 	volume->update(mouse);
 	volume2->update(mouse);
 	fullscreen->update(mouse);

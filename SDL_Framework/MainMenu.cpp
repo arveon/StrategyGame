@@ -37,9 +37,9 @@ void main_menu::update(Mouse mouse)
 
 		if (start.is_clicked())
 		{
-			//display->change_caption("start clicked");
-			//cur_state = state::start_clicked;
-			//start.reset_button();
+			display->change_caption("start clicked");
+			cur_state = state::start_clicked;
+			start.reset_button();
 		}
 		else if (load.is_clicked())
 		{
@@ -54,7 +54,8 @@ void main_menu::update(Mouse mouse)
 			options.reset_button();
 		}
 	}
-	else if (cur_state == exit_clicked)//if exit was clicked 
+	
+	if (cur_state == exit_clicked)//if exit was clicked 
 	{
 		//if the confirm box didn't exist before, create it
 		if (exit_confirmation == nullptr)
@@ -86,17 +87,31 @@ void main_menu::update(Mouse mouse)
 		
 		if (options_window->is_applied())
 		{
-			std::cout << "applied" << std::endl;
 			options_window->save();
 			delete options_window;
 			options_window = nullptr;
 			cur_state = state::waiting;
 		}
 		else if (options_window->is_back_clicked())
-		{
-			std::cout << "back" << std::endl;
+		{			
 			delete options_window;
 			options_window = nullptr;
+			cur_state = state::waiting;
+		}
+	}
+	else if (cur_state == start_clicked)
+	{
+		if (msg_box == nullptr)
+		{
+			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(200, 100, { 255, 255, 255 });
+			msg_box = new message_box(temp, { constants::WINDOW_WIDTH / 2 - 200, constants::WINDOW_HEIGHT / 2 - 50 }, "This feature is not available yet!", 400, 100);
+		}
+		msg_box->update(mouse);
+
+		if (msg_box->is_confirmed())
+		{
+			delete msg_box;
+			msg_box = nullptr;
 			cur_state = state::waiting;
 		}
 	}
@@ -116,6 +131,8 @@ void main_menu::draw(SDL_Renderer* renderer)
 
 		if (cur_state == state::exit_clicked && exit_confirmation != nullptr)
 			exit_confirmation->draw(renderer);
+		if (msg_box != nullptr)
+			msg_box->draw(renderer);
 	}
 }
 
