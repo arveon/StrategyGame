@@ -166,6 +166,7 @@
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
     <ClCompile Include="Slider.cpp" />
@@ -183,11 +184,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
+    <ClInclude Include="ListItem.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SimplePoint.h" />
     <ClInclude Include="Slider.h" />
