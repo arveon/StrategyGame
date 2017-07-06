@@ -8,6 +8,7 @@
 #include "ConfirmDialog.h"
 #include "MessageBox.h"
 #include "OptionsMenu.h"
+#include "LoadWindow.h"
 
 class main_menu
 {
@@ -25,6 +26,7 @@ private:
 	confirm_dialog* exit_confirmation = nullptr;
 	message_box* msg_box = nullptr;
 	options_menu* options_window = nullptr;
+	load_window* load_game_window = nullptr;
 
 public:
 	enum state

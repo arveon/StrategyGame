@@ -45,6 +45,7 @@ namespace constants
 
 	const int MAIN_MENU_BUTTON_FONT_SIZE = 16;
 
+	const std::string MOUSE_PATH = "assets/graphics/mouse.png";
 
 	const std::string FONTS_PATH = "assets/fonts/";
 	const std::string font_inkedout = "Inked_Out.ttf";

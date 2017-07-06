@@ -21,13 +21,14 @@ void sdlframework::sdl_manager::init()
 	SDL_RenderSetScale(renderer, constants::scaling_horizontal, constants::scaling_vertical);
 	SDL_ShowCursor(constants::SHOW_CURSOR);
 	SDL_ShowCursor(true);
-	std::cout << "sdl initialised" << std::endl;
 	int img_flags = IMG_INIT_PNG;
 
 	assert(IMG_Init(img_flags) & img_flags);
 	assert(TTF_Init() != -1);
 	assert(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) >= 0);
 	initialised = true;
+
+	SDL_ShowCursor(0);
 }
 
 

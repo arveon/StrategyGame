@@ -23,6 +23,7 @@ void sdlframework::game::init()
 	new (&splash) splash_screen(sdl_manager::get_renderer());
 	menu.init();
 	game_state = constants::game_state::main_menu;
+	mouse.init();
 }
 
 //called every frame
@@ -68,6 +69,7 @@ void sdlframework::game::input()
 	}
 
 	SDL_GetMouseState(&mouse.x, &mouse.y);	
+	mouse.update();
 }
 
 //updates every frame until false is returned
@@ -95,7 +97,6 @@ bool game::update(Uint32 delta_time)
 		case main_menu::state::options_clicked:
 			break;
 		case main_menu::state::load_clicked:
-			menu.cur_state = main_menu::state::waiting;
 			break;
 		}
 		break;
@@ -126,4 +127,6 @@ void game::draw(SDL_Renderer* renderer)
 	case constants::game_state::game_flow:
 		break;
 	}
+
+	mouse.draw(renderer);
 }

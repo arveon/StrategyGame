@@ -160,6 +160,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
+    <ClCompile Include="LoadWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="ListItem.h" />
+    <ClInclude Include="LoadWindow.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MessageBox.h" />

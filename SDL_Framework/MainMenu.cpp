@@ -28,7 +28,7 @@ void main_menu::update(Mouse mouse)
 	}
 	
 	//if exit wasn't clicked update all the buttons and check if they were clicked
-	if (cur_state != state::exit_clicked && cur_state != options_clicked)
+	if (cur_state == state::waiting)
 	{
 		start.update(mouse);
 		load.update(mouse);
@@ -43,7 +43,7 @@ void main_menu::update(Mouse mouse)
 		}
 		else if (load.is_clicked())
 		{
-			//display->change_caption("load clicked");
+			display->change_caption("load clicked");
 			cur_state = state::load_clicked;
 			load.reset_button();
 		}
@@ -115,12 +115,29 @@ void main_menu::update(Mouse mouse)
 			cur_state = state::waiting;
 		}
 	}
+	else if (cur_state == load_clicked)
+	{
+		if (load_game_window == nullptr)
+		{
+			load_game_window = new load_window();
+		}
+		load_game_window->update(mouse);
+
+		if (load_game_window->is_back())
+		{
+			delete load_game_window;
+			load_game_window = nullptr;
+			cur_state = state::waiting;
+		}
+	}
 }
 
 void main_menu::draw(SDL_Renderer* renderer)
 {
 	if (cur_state == state::options_clicked && options_window != nullptr)
 		options_window->draw(renderer);
+	else if (cur_state == state::load_clicked && load_game_window != nullptr)
+		load_game_window->draw(renderer);
 	else
 	{
 		start.draw(renderer);
@@ -133,6 +150,7 @@ void main_menu::draw(SDL_Renderer* renderer)
 			exit_confirmation->draw(renderer);
 		if (msg_box != nullptr)
 			msg_box->draw(renderer);
+
 	}
 }
 

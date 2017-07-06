@@ -123,6 +123,9 @@
     <ClCompile Include="ScrollBar.cpp">
       <Filter>Source Files\Menu\UI_elements</Filter>
     </ClCompile>
+    <ClCompile Include="LoadWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="ListItem.h">
       <Filter>Header Files\Menu\UI_elements</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadWindow.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
