@@ -31,9 +31,10 @@ class item_list
 	SDL_Texture* selected_item_bg_texture;
 	SDL_Rect selected_item_bg_draw_rect;
 
-	scroll_bar scroll_bar;
+	scroll_bar scroll_bar_i;
 
 	void init_lists();
+
 public:
 	int item_margin = 10;
 	int left_margin = 10;

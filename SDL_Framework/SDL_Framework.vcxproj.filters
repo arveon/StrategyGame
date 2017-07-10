@@ -124,7 +124,7 @@
       <Filter>Source Files\Menu\UI_elements</Filter>
     </ClCompile>
     <ClCompile Include="LoadWindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +195,7 @@
       <Filter>Header Files\Menu\UI_elements</Filter>
     </ClInclude>
     <ClInclude Include="LoadWindow.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

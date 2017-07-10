@@ -195,6 +195,6 @@ Button::Button()
 
 Button::~Button()
 {
-	SDL_DestroyTexture(image);
-	TTF_CloseFont(font);
+	/*SDL_DestroyTexture(image);
+	TTF_CloseFont(font);*/
 }
