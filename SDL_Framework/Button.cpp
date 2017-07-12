@@ -87,6 +87,12 @@ void Button::init(std::string font_name, std::string caption, SDL_Point position
 	draw_rect.y = position.y;
 }
 
+void Button::init(SDL_Texture* texture, SDL_Rect position)
+{
+	image = texture;
+	draw_rect = position;
+}
+
 void Button::set_default_colors()
 {
 	c_default = new SDL_Color{ 255, 0, 0 };
@@ -96,6 +102,7 @@ void Button::set_default_colors()
 
 void Button::set_caption_and_coords(std::string caption)
 {
+	is_icon = false;
 	switch (b_type)
 	{
 	case type::start:
@@ -145,8 +152,11 @@ void Button::update(Mouse mouse)
 		{
 			if (cur_state != Pressed)
 			{
-				SDL_DestroyTexture(this->image);
-				this->image = TextRenderer::get_texture_from_text(font, caption, *c_clicked);
+				if (!is_icon)
+				{
+					SDL_DestroyTexture(this->image);
+					this->image = TextRenderer::get_texture_from_text(font, caption, *c_clicked);
+				}
 			}
 			cur_state = state::Pressed;
 		}
@@ -158,8 +168,11 @@ void Button::update(Mouse mouse)
 		{
 			if (cur_state != Hovered)
 			{
-				SDL_DestroyTexture(this->image);
-				this->image = TextRenderer::get_texture_from_text(font, caption, *c_hovered);
+				if (!is_icon)
+				{
+					SDL_DestroyTexture(this->image);
+					this->image = TextRenderer::get_texture_from_text(font, caption, *c_hovered);
+				}
 			}
 			cur_state = state::Hovered;
 		}
@@ -168,8 +181,11 @@ void Button::update(Mouse mouse)
 	{
 		if (cur_state != None)
 		{
-			SDL_DestroyTexture(this->image);
-			this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
+			if (!is_icon)
+			{
+				SDL_DestroyTexture(this->image);
+				this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
+			}
 		}
 		cur_state = state::None;
 	}
@@ -178,8 +194,11 @@ void Button::update(Mouse mouse)
 void Button::reset_button()
 {
 	cur_state = state::None;
-	SDL_DestroyTexture(this->image);
-	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
+	if (!is_icon)
+	{
+		SDL_DestroyTexture(this->image);
+		this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
+	}
 }
 
 void Button::draw(SDL_Renderer* renderer)

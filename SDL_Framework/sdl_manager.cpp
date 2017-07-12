@@ -17,6 +17,7 @@ void sdlframework::sdl_manager::init()
 	assert(sdl_manager::renderer);
 	SDL_SetRenderDrawColor(sdl_manager::renderer, 0, 0, 0, 0);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
+	SDL_SetRenderDrawBlendMode(sdl_manager::renderer, SDL_BlendMode::SDL_BLENDMODE_ADD);
 
 	SDL_RenderSetScale(renderer, constants::scaling_horizontal, constants::scaling_vertical);
 	SDL_ShowCursor(constants::SHOW_CURSOR);

@@ -18,6 +18,7 @@ private:
 	TTF_Font* font;
 	static const int def_fontsize = 20;
 
+	bool is_icon;
 	enum state
 	{
 		None,
@@ -33,6 +34,7 @@ private:
 
 	void set_caption_and_coords(std::string caption="");
 	void set_default_colors();
+	void finalise();
 public:
 	enum type
 	{
@@ -51,6 +53,7 @@ public:
 	void init(std::string font_name, int size, type type);
 	void init(std::string font_name, std::string caption, int font_size = def_fontsize);
 	void init(std::string font_name, std::string caption, SDL_Point position, int font_size = def_fontsize);
+	void init(SDL_Texture* texture, SDL_Rect position);
 
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);
