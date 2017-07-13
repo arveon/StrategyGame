@@ -84,7 +84,7 @@ void scroll_bar::draw(SDL_Renderer* renderer)
 void scroll_bar::set_bar_percent(float percentage)
 {
 	bar_cur_percentage = percentage;
-	slider_draw_rect.y = (percentage * (draw_rect.h - slider_draw_rect.h)) + draw_rect.y;
+	slider_draw_rect.y =(int) (percentage * ((float)draw_rect.h - slider_draw_rect.h)) + draw_rect.y;
 }
 
 scroll_bar::~scroll_bar()

@@ -23,6 +23,9 @@ private:
 	int prev_value;
 
 	bool is_clicked;
+
+	int slider_width = 10;
+	int slider_height = 30;
 public:
 	slider();
 	slider(TTF_Font* font, SDL_Texture* bar, SDL_Texture* slider, SDL_Rect draw_rect, int value = 0, std::string title = "default slider");

@@ -25,6 +25,8 @@ private:
 
 	state cur_state;
 
+	int box_width = 20;
+
 	void init_draw_rects();
 public:
 	void draw(SDL_Renderer*);

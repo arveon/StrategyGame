@@ -35,7 +35,9 @@ void check_box::init_draw_rects()
 
 	draw_rect.x = title_draw_rect.x + title_draw_rect.w + 20;
 	draw_rect.y = title_draw_rect.y;
-	SDL_QueryTexture(box_checked, NULL, NULL, &draw_rect.w, &draw_rect.h);
+
+	draw_rect.w = draw_rect.h = box_width;
+	//SDL_QueryTexture(box_checked, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
 void check_box::draw(SDL_Renderer* renderer)
