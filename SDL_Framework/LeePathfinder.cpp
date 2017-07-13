@@ -1,7 +1,5 @@
 #include "LeePathfinder.h"
 
-
-
 LeePathfinder::LeePathfinder(Map map)
 {
 	this->map = map;

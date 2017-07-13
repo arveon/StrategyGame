@@ -21,7 +21,9 @@ namespace constants
 		splash,
 		main_menu,
 		pause_menu,
-		game_flow
+		game_flow,
+		confirming_exit,
+		exit_confirmed
 	};
 
 	//menu buttons

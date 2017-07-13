@@ -17,8 +17,8 @@ public:
 	bool rmb_down;
 	bool prev_lmb_down;
 	bool prev_rmb_down;
-	Mouse();
-	~Mouse();
+	Mouse(){}
+	~Mouse(){}
 
 	void init()
 	{

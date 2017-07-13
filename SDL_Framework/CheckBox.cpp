@@ -1,8 +1,11 @@
 #include "CheckBox.h"
 
-
-
-
+#pragma region Constructors
+/*
+	constructor for when you have font object
+	@position - position of the text of the checkbox, checkbox itself will be on the right of it
+	@checked - default value
+*/
 check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_texture, TTF_Font* font, SDL_Point position, std::string caption,  bool checked)
 {
 	this->box_checked = checked_texture;
@@ -15,6 +18,11 @@ check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_textur
 	init_draw_rects();
 }
 
+/*
+	constructor when you have font name and size
+	@position - position of the text of the checkbox, checkbox itself will be on the right of it
+	@checked - default value
+*/
 check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_texture, std::string font_name, int font_size, SDL_Point position, std::string caption, bool checked)
 {
 	this->box_checked = checked_texture;
@@ -28,7 +36,11 @@ check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_textur
 	this->is_box_checked = checked;
 	init_draw_rects();
 }
+#pragma endregion
 
+/*
+	function used to initialise title rectangle width and height and checkbox draw rectangle
+*/
 void check_box::init_draw_rects()
 {
 	SDL_QueryTexture(caption, NULL, NULL, &title_draw_rect.w, &title_draw_rect.h);
@@ -44,6 +56,7 @@ void check_box::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderCopy(renderer, caption, NULL, &title_draw_rect);
 	
+	//depending on the state draw appropriate texture
 	SDL_Texture* to_draw;
 	if (is_box_checked)
 		to_draw = box_checked;
@@ -57,7 +70,7 @@ void check_box::update(Mouse mouse)
 {
 	SDL_Point temp = SDL_Point{ mouse.x, mouse.y };
 	if (SDL_PointInRect(&temp, &draw_rect))
-	{
+	{//if mouse over the box, switch the state appropriately to mouse state
 		if (mouse.lmb_down && mouse.prev_lmb_down == false)
 		{
 			cur_state = state::Pressed;
@@ -71,9 +84,10 @@ void check_box::update(Mouse mouse)
 			cur_state = state::Hovered;
 		}
 	}
-	else
+	else//otherwise, state is none
 		cur_state = state::None;
 
+	//if was clicked, reset the state and change the checked/unchecked
 	if (cur_state == state::Clicked)
 	{
 		is_box_checked = !is_box_checked;

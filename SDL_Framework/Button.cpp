@@ -1,6 +1,8 @@
 #include "Button.h"
 
 #pragma region Initialisation
+//different initialisation overloads
+
 void Button::init(TTF_Font* font, type type)
 {
 	set_default_colors();
@@ -87,12 +89,17 @@ void Button::init(std::string font_name, std::string caption, SDL_Point position
 	draw_rect.y = position.y;
 }
 
+/*
+	initialiser for the button that is not text
+*/
 void Button::init(SDL_Texture* texture, SDL_Rect position)
 {
+	is_icon = true;
 	image = texture;
 	draw_rect = position;
 }
 
+//sets default highlighting colors
 void Button::set_default_colors()
 {
 	c_default = new SDL_Color{ 255, 0, 0 };
@@ -100,6 +107,7 @@ void Button::set_default_colors()
 	c_clicked = new SDL_Color{ 0, 0, 255 };
 }
 
+//sets captions and coordinates for the certain types of buttons
 void Button::set_caption_and_coords(std::string caption)
 {
 	is_icon = false;
@@ -145,13 +153,18 @@ void Button::set_caption_and_coords(std::string caption)
 
 void Button::update(Mouse mouse)
 {
-	if (mouse.x > draw_rect.x && mouse.x < draw_rect.x + draw_rect.w
-		&& mouse.y > draw_rect.y && mouse.y < draw_rect.y + draw_rect.h)
+	SDL_Point mouse_p = { mouse.x, mouse.y };
+
+	//if mouse is over button
+	if (SDL_PointInRect(&mouse_p, &draw_rect))
 	{
+		//if it just got pressed
 		if (mouse.lmb_down && !mouse.prev_lmb_down)
 		{
+			//if state wasn't changed yet
 			if (cur_state != Pressed)
 			{
+				//if its a text button, change the texture to a different color one
 				if (!is_icon)
 				{
 					SDL_DestroyTexture(this->image);
@@ -160,15 +173,15 @@ void Button::update(Mouse mouse)
 			}
 			cur_state = state::Pressed;
 		}
-		else if (!mouse.lmb_down && cur_state == state::Pressed)
+		else if (!mouse.lmb_down && cur_state == state::Pressed)//if was pressed and mouse button is up now, set to clicked
 		{
 			cur_state = state::Clicked;
 		}
 		else if(!mouse.lmb_down)
-		{
+		{//if mouse not pressed, but over it, it's in hover mode
 			if (cur_state != Hovered)
 			{
-				if (!is_icon)
+				if (!is_icon)//swap texture if not icon
 				{
 					SDL_DestroyTexture(this->image);
 					this->image = TextRenderer::get_texture_from_text(font, caption, *c_hovered);
@@ -178,7 +191,7 @@ void Button::update(Mouse mouse)
 		}
 	}
 	else
-	{
+	{//if mouse not over button, reset it to default state and image
 		if (cur_state != None)
 		{
 			if (!is_icon)
@@ -191,6 +204,9 @@ void Button::update(Mouse mouse)
 	}
 }
 
+/*
+	function used to reset state and image of the button
+*/
 void Button::reset_button()
 {
 	cur_state = state::None;
@@ -214,6 +230,6 @@ Button::Button()
 
 Button::~Button()
 {
-	/*SDL_DestroyTexture(image);
-	TTF_CloseFont(font);*/
+	SDL_DestroyTexture(image);
+	TTF_CloseFont(font);
 }

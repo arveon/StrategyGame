@@ -29,14 +29,14 @@ load_window::load_window()
 	items.push_back({ "testname11", "test_value" });
 	items.push_back({ "testname12", "test_value" });
 
-	saves_list = item_list(fontpath, { 50, 50, 170 }, texture, { 10, 10, 300, 200 }, selected_bg, items, 5);
+	saves_list = new item_list(fontpath, { 50, 50, 170 }, texture, { 10, 10, 300, 200 }, selected_bg, items, 5);
 }
 
 void load_window::update(Mouse mouse)
 {
 	back.update(mouse);
 	load.update(mouse);
-	saves_list.update(mouse);
+	saves_list->update(mouse);
 
 	if (back.is_clicked())
 		cur_state = state::back_clicked;
@@ -50,9 +50,10 @@ void load_window::draw(SDL_Renderer* renderer)
 {
 	back.draw(renderer);
 	load.draw(renderer);
-	saves_list.draw(renderer);
+	saves_list->draw(renderer);
 }
 
 load_window::~load_window()
 {
+	delete saves_list;
 }

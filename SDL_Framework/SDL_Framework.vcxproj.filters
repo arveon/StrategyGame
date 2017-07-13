@@ -117,9 +117,6 @@
     <ClCompile Include="ItemList.cpp">
       <Filter>Source Files\Menu\UI_elements</Filter>
     </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files\FrameworkFiles</Filter>
-    </ClCompile>
     <ClCompile Include="ScrollBar.cpp">
       <Filter>Source Files\Menu\UI_elements</Filter>
     </ClCompile>

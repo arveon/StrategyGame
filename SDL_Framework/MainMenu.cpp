@@ -55,7 +55,7 @@ void main_menu::update(Mouse mouse)
 		}
 	}
 	
-	if (cur_state == exit_clicked)//if exit was clicked 
+	/*if (cur_state == exit_clicked)//if exit was clicked 
 	{
 		//if the confirm box didn't exist before, create it
 		if (exit_confirmation == nullptr)
@@ -77,7 +77,7 @@ void main_menu::update(Mouse mouse)
 			cur_state = state::waiting;
 		}
 	}
-	else if (cur_state == options_clicked)
+	else */if (cur_state == options_clicked)
 	{
 		if (options_window == nullptr)
 		{

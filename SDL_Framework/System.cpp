@@ -1,15 +1,16 @@
 #include "System.h"
 
 using namespace sdlframework;
-void system::init_system()
-{
-	
-}
 
+/*
+	function represents the game loop
+*/
 void system::game_loop()
 {
+	//need to call these functions here as they don't get called in init_system for some reason
 	time.init();
 	game.init();
+
 	bool gameGoing = true;
 	while (gameGoing)
 	{
@@ -38,3 +39,9 @@ system::system()
 system::~system()
 {
 }
+
+//utterly useless, put initialisation logic at the top of the game loop function
+void system::init_system()
+{
+}
+

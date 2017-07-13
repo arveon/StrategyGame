@@ -15,7 +15,7 @@ private:
 	Button load;
 	Button back;
 
-	item_list saves_list;
+	item_list* saves_list;
 
 	enum state
 	{

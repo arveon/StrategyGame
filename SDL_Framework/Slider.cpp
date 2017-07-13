@@ -4,6 +4,9 @@
 slider::slider()
 {
 }
+/*
+	constructors that accept the size and position in different formats
+*/
 
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture* slider, SDL_Rect draw_rect, int value, std::string title)
 {
@@ -43,6 +46,11 @@ slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, i
 	init_title(font, title);
 }
 
+/*
+function that initialises the title, its texture and rectangle
+also initialises the value of the slider and the position of it
+used to dump the code that would otherwise be duplicated in all of the constructors
+*/
 void slider::init_title(TTF_Font* font, std::string title)
 {
 	this->font = font;
@@ -67,13 +75,14 @@ void slider::init_title(TTF_Font* font, std::string title)
 
 void slider::update(Mouse mouse)
 {
+	//set state of slider depending on the mouse
 	SDL_Point mousepoint = { mouse.x, mouse.y };
 	if ((SDL_PointInRect(&mousepoint, &slider_draw_rect) || SDL_PointInRect(&mousepoint, &element_draw_rect)) && mouse.lmb_down && !mouse.prev_lmb_down)
 		is_clicked = true;
 	else if (!mouse.lmb_down)
 		is_clicked = false;
 
-
+	//if clicked, make it follow the mouse
 	if (is_clicked)
 	{
 		slider_draw_rect.x = mouse.x - slider_draw_rect.w / 2;
@@ -88,6 +97,7 @@ void slider::update(Mouse mouse)
 		cur_value =(int) ((float)(slider_draw_rect.x - element_draw_rect.x) / (element_draw_rect.w - slider_draw_rect.w) * 100);
 		if (prev_value != cur_value)
 		{
+			//change value indicator
 			SDL_DestroyTexture(value_texture);
 			value_texture = nullptr;
 			value_texture = TextRenderer::get_texture_from_text(font, std::to_string(cur_value), constants::SECONDARY_MENU_SLIDER_COLOR);

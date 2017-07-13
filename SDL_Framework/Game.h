@@ -30,10 +30,11 @@ namespace sdlframework
 
 		splash_screen splash;
 		main_menu menu;
+		confirm_dialog* exit_confirm = nullptr;
+		constants::game_state state_before_exit = constants::game_state::splash;
 
 		Mouse mouse;
 
-		bool left_click;
 		bool quit_game;
 		bool pending_color_change;
 

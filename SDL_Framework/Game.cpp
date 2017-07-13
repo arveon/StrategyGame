@@ -16,21 +16,21 @@ game::~game()
 //game initialisation
 void sdlframework::game::init()
 {
-	left_click = false;
-	splash.~splash_screen();
-
 	srand((unsigned int)time(NULL));
+
+	splash.~splash_screen();
 	new (&splash) splash_screen(sdl_manager::get_renderer());
+
 	menu.init();
 	game_state = constants::game_state::main_menu;
 	mouse.init();
+
+	state_before_exit = constants::game_state::game_flow;
 }
 
 //called every frame
 void sdlframework::game::input()
 {
-	static bool left_down = false;
-
 	mouse.prev_lmb_down = mouse.lmb_down;
 	mouse.prev_rmb_down = mouse.rmb_down;
 
@@ -40,7 +40,8 @@ void sdlframework::game::input()
 	{
 		if (event.type == SDL_QUIT)
 		{
-			quit_game = true;
+			state_before_exit = game_state;
+			game_state = constants::game_state::confirming_exit;
 		}
 
 		//storing mouse clicks and mouse releases in mouse class
@@ -87,27 +88,43 @@ bool game::update(Uint32 delta_time)
 	case constants::game_state::main_menu:
 		menu.update(mouse);
 
-		switch (menu.cur_state)
+		if (menu.cur_state == main_menu::state::exit_clicked)
 		{
-		case main_menu::state::exit_confirmed:
-			game_running = false;
-			break;
-		case main_menu::state::start_clicked:
-			break;
-		case main_menu::state::options_clicked:
-			break;
-		case main_menu::state::load_clicked:
-			break;
+			state_before_exit = game_state;
+			game_state = constants::game_state::confirming_exit;
 		}
+
 		break;
 	case constants::game_state::pause_menu:
 		break;
 	case constants::game_state::game_flow:
 		break;
-	}
+	case constants::game_state::confirming_exit:
+		if (exit_confirm == nullptr)
+		{
+			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2, (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
+			exit_confirm = new confirm_dialog(sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), center, "Are you sure you want to exit?", constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+		}
+		exit_confirm->update(mouse);
 
-	if (quit_game == true)
-		game_running = false;
+		if (exit_confirm->is_confirmed())
+		{
+			delete exit_confirm;
+			exit_confirm = nullptr;
+			game_running = false;
+		}
+		else if (exit_confirm->is_cancelled())
+		{
+			delete exit_confirm;
+			exit_confirm = nullptr;
+			game_state = state_before_exit;
+
+			if (state_before_exit == constants::main_menu)
+				menu.reset_state();
+		}
+
+		break;
+	}
 	return game_running;
 }
 
@@ -125,6 +142,13 @@ void game::draw(SDL_Renderer* renderer)
 	case constants::game_state::pause_menu:
 		break;
 	case constants::game_state::game_flow:
+		break;
+	case constants::game_state::confirming_exit:
+		if (state_before_exit == constants::main_menu)
+			menu.draw(renderer);
+		
+		if (exit_confirm != nullptr)
+			exit_confirm->draw(renderer);
 		break;
 	}
 
