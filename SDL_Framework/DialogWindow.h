@@ -6,6 +6,8 @@
 #include "sdl_manager.h"
 
 #pragma once
+///Parent class of all the dialog windows
+///Contains the basic information like text, bg, draw rectangle and draw logic for them
 class dialog_window
 {
 protected:

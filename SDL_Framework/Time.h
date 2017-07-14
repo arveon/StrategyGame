@@ -3,6 +3,7 @@
 
 namespace sdlframework
 {
+	///Class responsible for updating and managing game running time and elapsed time
 	class time
 	{
 	private:

@@ -1,6 +1,8 @@
 #include "DialogWindow.h"
 #include "Button.h"
 
+///Class that is a child of the dialog window
+///Used to create confirmation dialogs with yes/no buttons
 class confirm_dialog : dialog_window
 {
 public:

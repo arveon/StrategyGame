@@ -9,6 +9,8 @@
 #include "ItemList.h"
 #include "ListItem.h"
 
+///Class represents a game loading window
+///Should allow player to choose one of the saved games from the list and load it
 class load_window
 {
 private:

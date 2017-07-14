@@ -3,7 +3,9 @@
 
 #include "Constants.h"
 #include "sdl_manager.h"
-
+///
+///Class serves as a representation of mouse states. It contains x, y, button current and previous positions
+///as well as methods to draw and update it
 class Mouse
 {
 private:

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "SimplePoint.h"
-
+///CLASS NOT FINISHED
 class Map
 {
 public:

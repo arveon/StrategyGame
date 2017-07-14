@@ -14,18 +14,12 @@
 
 namespace sdlframework
 {
+	///Class represents the game that is being run by the game loop
+	///Top-level of the actual game logic
+	///Responsible for keeping track and managing the global game state
 	class game
 	{
 	private:
-		struct RGB 
-		{ 
-			int R; 
-			int G; 
-			int B; 
-			RGB(int r, int g, int b){ R = r; G = g; B = b; }
-			RGB(){ R = 0; G = 0; B = 0; }
-		};
-
 		constants::game_state game_state;
 
 		splash_screen splash;
@@ -37,7 +31,6 @@ namespace sdlframework
 
 		bool quit_game;
 		bool pending_color_change;
-
 	public:
 		void init();
 		void input();

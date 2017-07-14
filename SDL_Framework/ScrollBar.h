@@ -40,6 +40,7 @@ public:
 	void reset(){ cur_state = none; }
 	void init();
 	void init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture* down, SDL_Rect draw_rect, int num_of_elements, SDL_Texture* bg_texture = nullptr);
+	//TODO: add total number of items to init ^
 	scroll_bar(){}
 	~scroll_bar();
 };

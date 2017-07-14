@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <string>
 
+///namespace contains all of the game and system constants
 namespace constants
 {
 	const int WINDOW_WIDTH = 800;

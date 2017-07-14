@@ -5,6 +5,7 @@
 #include "TextRenderer.h"
 #include "Mouse.h"
 #include "Constants.h"
+///Class represents a classical horizontal slider
 class slider
 {
 private:
@@ -20,10 +21,12 @@ private:
 	SDL_Rect title_draw_rect;
 	SDL_Rect value_draw_rect;
 	int cur_value;
-	int prev_value;
+	int prev_value;//every time its not equal to current, value text is reloaded into texture with the new value. required to reduce the number of times text is reloaded into texture
 
-	bool is_clicked;
+	//required so that when slider is pressed, mouse doesn't need to be over it to affect its value
+	bool is_pressed;
 
+	//dimensions of the moving element of the slider
 	int slider_width = 10;
 	int slider_height = 30;
 public:
@@ -37,7 +40,7 @@ public:
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);
 
-	bool is_in_interaction() { return is_clicked; }
+	bool is_in_interaction() { return is_pressed; }
 	~slider();
 };
 

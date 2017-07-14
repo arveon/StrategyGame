@@ -6,11 +6,14 @@
 #include "Constants.h"
 #include "TextRenderer.h"
 
+///Class serves as a representation of the UI button object
+///Contains basic button functionality and works for both, image buttons and text buttons
 class Button
 {
 private:
 	friend class main_menu;
 
+	//colors used for changing the color of the text button on hover/click/default
 	SDL_Color* c_default;
 	SDL_Color* c_hovered;
 	SDL_Color* c_clicked;
@@ -18,6 +21,7 @@ private:
 	TTF_Font* font;
 	static const int def_fontsize = 20;
 
+	//determines if the button is text or an image
 	bool is_icon;
 	enum state
 	{
@@ -34,7 +38,6 @@ private:
 
 	void set_caption_and_coords(std::string caption="");
 	void set_default_colors();
-	void finalise();
 public:
 	enum type
 	{

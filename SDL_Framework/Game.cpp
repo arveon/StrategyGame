@@ -78,28 +78,32 @@ bool game::update(Uint32 delta_time)
 {
 	bool game_running = true;
 
+	//depending on the state update appropriate elements
 	switch (game_state)
 	{
 	case constants::game_state::splash:
 		splash.update(delta_time);
+		//if splash screen is done, switch to main menu
 		if (splash.is_splash_elapsed())
 			game_state = constants::game_state::main_menu;
 		break;
 	case constants::game_state::main_menu:
 		menu.update(mouse);
-
+		//if exit was clicked in the menu, enter exit state
 		if (menu.cur_state == main_menu::state::exit_clicked)
 		{
-			state_before_exit = game_state;
+			state_before_exit = game_state;//save for when the confirm window is closed so can go back to appropriate screen
 			game_state = constants::game_state::confirming_exit;
 		}
-
 		break;
 	case constants::game_state::pause_menu:
+		//TODO: implement pause menu while in gameflow
 		break;
 	case constants::game_state::game_flow:
+		//TODO: implement gameflow
 		break;
 	case constants::game_state::confirming_exit:
+		//if the exit confirmation window didn't exist, create one
 		if (exit_confirm == nullptr)
 		{
 			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2, (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
@@ -107,6 +111,7 @@ bool game::update(Uint32 delta_time)
 		}
 		exit_confirm->update(mouse);
 
+		//if exit is confirmed, stop game from running
 		if (exit_confirm->is_confirmed())
 		{
 			delete exit_confirm;
@@ -114,15 +119,11 @@ bool game::update(Uint32 delta_time)
 			game_running = false;
 		}
 		else if (exit_confirm->is_cancelled())
-		{
+		{//if exit operation is cancelled, return to the previous state and remove the window
 			delete exit_confirm;
 			exit_confirm = nullptr;
 			game_state = state_before_exit;
-
-			if (state_before_exit == constants::main_menu)
-				menu.reset_state();
 		}
-
 		break;
 	}
 	return game_running;
@@ -140,10 +141,13 @@ void game::draw(SDL_Renderer* renderer)
 		menu.draw(renderer);
 		break;
 	case constants::game_state::pause_menu:
+		//TODO: draw the pause menu
 		break;
 	case constants::game_state::game_flow:
+		//TODO: draw the game
 		break;
 	case constants::game_state::confirming_exit:
+		//if game in exiting state and previous state was menu, draw the menu and then confirm window over it
 		if (state_before_exit == constants::main_menu)
 			menu.draw(renderer);
 		

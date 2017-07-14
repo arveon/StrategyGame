@@ -8,6 +8,7 @@
 
 namespace sdlframework
 {
+	///Main class in the game that manages the time and contains the game loop
 	class system
 	{
 	private:

@@ -10,6 +10,7 @@
 #include "OptionsMenu.h"
 #include "LoadWindow.h"
 
+///Class that represents the main menu of the game
 class main_menu
 {
 private:

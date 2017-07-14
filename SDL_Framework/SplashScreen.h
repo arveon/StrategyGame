@@ -4,7 +4,7 @@
 
 #include "sdl_manager.h"
 
-//class that represents a splash screen shown in the beginning of the game
+///class that represents a splash screen shown in the beginning of the game
 class splash_screen
 {
 private:

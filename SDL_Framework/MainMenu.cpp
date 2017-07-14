@@ -1,33 +1,30 @@
 #include "MainMenu.h"
 
-
-
+/*
+	Default initialiser is used as main menu is only used for one purpose in one state of the program
+*/
 void main_menu::init()
 {
+	//init all the buttons
 	start.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, start.start);
 	load.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, load.load);
 	options.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, options.options);
 	exit.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, exit.exit);
+
 	cur_state = state::waiting;
 
-	std::string fontpath = constants::FONTS_PATH;
-	fontpath.append(constants::font_inkedout);
-
-	font = sdlframework::sdl_manager::load_font(fontpath, 15, { 255, 255, 255 });
-	display = new TextRenderer(font, { 255, 255, 255 }, "default text");
 }
 
 void main_menu::update(Mouse mouse)
 {
-	//if exit was clicked, change the caption, menu state and reset the button
+	//if exit was clicked change menu state and reset the button
 	if (exit.is_clicked())
 	{
-		//display->change_caption("attempting to close the window");
 		cur_state = state::exit_clicked;
 		exit.reset_button();
 	}
 	
-	//if exit wasn't clicked update all the buttons and check if they were clicked
+	//if in waiting state (eg nothing changed the state before) update all the buttons and check if they were clicked
 	if (cur_state == state::waiting)
 	{
 		start.update(mouse);
@@ -35,72 +32,47 @@ void main_menu::update(Mouse mouse)
 		options.update(mouse);
 		exit.update(mouse);
 
+		//check if any of the buttons were clicked and update the screen state appropriately
 		if (start.is_clicked())
 		{
-			display->change_caption("start clicked");
 			cur_state = state::start_clicked;
 			start.reset_button();
 		}
 		else if (load.is_clicked())
 		{
-			display->change_caption("load clicked");
 			cur_state = state::load_clicked;
 			load.reset_button();
 		}
 		if (options.is_clicked())
 		{
-			display->change_caption("options clicked");
 			cur_state = state::options_clicked;
 			options.reset_button();
 		}
 	}
 	
-	/*if (cur_state == exit_clicked)//if exit was clicked 
-	{
-		//if the confirm box didn't exist before, create it
-		if (exit_confirmation == nullptr)
-		{
-			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT, { 255,255,255 });
-			std::string caption = "Are you sure you want to exit?";
-			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2 , (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2  };
-			exit_confirmation = new confirm_dialog(temp, center, caption, constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
-		}
-		//update the dialog box
-		exit_confirmation->update(mouse);
-
-		if (exit_confirmation->is_confirmed())
-			cur_state = state::exit_confirmed;
-		if (exit_confirmation->is_cancelled())
-		{
-			delete exit_confirmation;
-			exit_confirmation = nullptr;
-			cur_state = state::waiting;
-		}
-	}
-	else */if (cur_state == options_clicked)
-	{
+	//depending on the state of the menu, show/create appropriate windows/do appropriate actions
+	if (cur_state == options_clicked)
+	{//if options were clicked, if the options menu wasn't open before, create it and update
 		if (options_window == nullptr)
 		{
 			options_window = new options_menu();
 		}
 		options_window->update(mouse);
 		
-		if (options_window->is_applied())
+		//if settings were applied/cancelled either save menu and close it, or close without saving
+		if (options_window->is_applied() || options_window->is_back_clicked())
 		{
-			options_window->save();
-			delete options_window;
-			options_window = nullptr;
-			cur_state = state::waiting;
-		}
-		else if (options_window->is_back_clicked())
-		{			
+			if(options_window->is_applied())
+				options_window->save();
+
 			delete options_window;
 			options_window = nullptr;
 			cur_state = state::waiting;
 		}
 	}
 	else if (cur_state == start_clicked)
-	{
+	{//if start got clicked, create a msgbox saying that this feature isn't avaiblable yet
+		//TODO: replace the placeholder window with actual game flow screen and add start adding game logic
 		if (msg_box == nullptr)
 		{
 			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(200, 100, { 255, 255, 255 });
@@ -116,41 +88,40 @@ void main_menu::update(Mouse mouse)
 		}
 	}
 	else if (cur_state == load_clicked)
-	{
+	{//if load game is clicked, go into load screen and create it if it doesn't exist
 		if (load_game_window == nullptr)
 		{
 			load_game_window = new load_window();
 		}
 		load_game_window->update(mouse);
 
+		//if screen is closed, destroy it
 		if (load_game_window->is_back())
 		{
 			delete load_game_window;
 			load_game_window = nullptr;
 			cur_state = state::waiting;
 		}
+		//TODO: Add logic to load the game and apply it to Load button of load screen
 	}
 }
 
 void main_menu::draw(SDL_Renderer* renderer)
 {
+	//depending on the state draw appropriate elements
 	if (cur_state == state::options_clicked && options_window != nullptr)
-		options_window->draw(renderer);
+		options_window->draw(renderer);//only draw options window if user is in options and the screen has been created
 	else if (cur_state == state::load_clicked && load_game_window != nullptr)
-		load_game_window->draw(renderer);
+		load_game_window->draw(renderer);//same with load game window
 	else
-	{
+	{//if user isn't in the menu that takes up the entire screen, draw buttons and the msgbox if it exists
 		start.draw(renderer);
 		load.draw(renderer);
 		options.draw(renderer);
 		exit.draw(renderer);
-		display->draw(renderer);
 
-		if (cur_state == state::exit_clicked && exit_confirmation != nullptr)
-			exit_confirmation->draw(renderer);
 		if (msg_box != nullptr)
 			msg_box->draw(renderer);
-
 	}
 }
 
@@ -161,5 +132,4 @@ main_menu::main_menu()
 
 main_menu::~main_menu()
 {
-	delete display;
 }

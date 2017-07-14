@@ -3,7 +3,8 @@
 #include "Slider.h"
 #include "CheckBox.h"
 
-
+///Class that represents the settings menu of the game
+///Will allow player to change game settings
 class options_menu
 {
 public:
@@ -16,11 +17,13 @@ public:
 private:
 	Button back;
 	Button apply;
+
+	//TODO: replace options elements with stuff that is actually required
 	slider* volume;
 	slider* volume2;
 	check_box* fullscreen;
+
 	state cur_state;
-	SDL_Texture* checked_texture;
 public:
 	void draw(SDL_Renderer*);
 	void update(Mouse);

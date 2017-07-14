@@ -2,6 +2,8 @@
 #include "DialogWindow.h"
 #include "Button.h"
 
+///Class is a child of the dialog window
+///Serves as a message box with a single button ok
 class message_box:dialog_window
 {
 public:

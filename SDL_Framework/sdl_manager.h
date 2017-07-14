@@ -14,6 +14,7 @@
 
 namespace sdlframework
 {
+	///Class that contains static function that give access to basic SDL functions
 	class sdl_manager
 	{
 	private:

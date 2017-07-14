@@ -44,6 +44,8 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	this->down.init(down, buttons);
 
 	//set_bar_percent(1.0f);
+
+	// TODO: make bar size relative to total number of items / items in view
 }
 
 void scroll_bar::update(Mouse mouse, int percentage)

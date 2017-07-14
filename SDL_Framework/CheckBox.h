@@ -3,6 +3,7 @@
 #include "Mouse.h"
 #include "TextRenderer.h"
 
+///Class represets a classic UI checkbox
 class check_box
 {
 private:
@@ -13,6 +14,8 @@ private:
 		Hovered,
 		Clicked
 	};
+	state cur_state;
+	bool is_box_checked;
 
 	SDL_Texture* box_unchecked;
 	SDL_Texture* box_checked;
@@ -20,11 +23,8 @@ private:
 	
 	SDL_Rect draw_rect;
 	SDL_Rect title_draw_rect;
-	
-	bool is_box_checked;
 
-	state cur_state;
-
+	//is also used as box height
 	int box_width = 20;
 
 	void init_draw_rects();

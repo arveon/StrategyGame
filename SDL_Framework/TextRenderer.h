@@ -4,6 +4,8 @@
 #include "sdl_manager.h"
 
 #pragma once
+///Class can be used as both a display for text to be drawn allowing to change the text rendered whenever required
+///and as a container for static functions that allow to render text onto textures
 class TextRenderer
 {
 private:
