@@ -23,18 +23,22 @@ load_window::load_window()
 	//a dummy list
 	//TODO: replace this with file names in the saves folder
 	std::vector<list_item> items;
+	items = file_handler::get_saved_files();
+
+	/*for (int i = 0; i < items.size(); i++)
+	{
+		std::cout << items.at(i).display_name << std::endl;
+	}
+	std::cout << items.size();*/
 	/*items.push_back({ "testname1", "test_value" });
 	items.push_back({ "testname2", "test_value" });
 	items.push_back({ "testname3", "test_value" });
 	items.push_back({ "testname4", "test_value" });
 	items.push_back({ "testname5", "test_value" });
 	items.push_back({ "testname6", "test_value" });
-	items.push_back({ "testname7", "test_value" });
-	items.push_back({ "testname8", "test_value" });
-	items.push_back({ "testname9", "test_value" });
-	items.push_back({ "testname10", "test_value" });
-	items.push_back({ "testname11", "test_value" });
-	items.push_back({ "testname12", "test_value" });*/
+	items.push_back({ "testname7", "test_value" });*/
+
+	
 
 	//font
 	std::string fontpath = constants::FONTS_PATH;

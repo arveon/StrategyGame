@@ -26,10 +26,8 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	this->num_of_elements = num_of_elements;
 	this->bg_texture = bg_texture;
 	this->slider_texture = slider_texture;
+
 	slider_draw_rect.w = draw_rect.w;
-	
-	if (cur_state != state::disabled)
-		slider_draw_rect.h =(int) (draw_rect.h * ((float)view_size / num_of_elements));
 	slider_draw_rect.x = draw_rect.x;
 	slider_draw_rect.y = draw_rect.y;
 	
@@ -45,7 +43,12 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	buttons.y = draw_rect.y + draw_rect.h;
 	this->down.init(down, buttons);
 
-	if (cur_state == state::disabled)
+	if (view_size >= num_of_elements)
+		cur_state = state::disabled;
+
+	if (cur_state != state::disabled)
+		slider_draw_rect.h = (int)(draw_rect.h * ((float)view_size / num_of_elements));
+	else
 	{
 		this->up.disable();
 		this->down.disable();
@@ -78,7 +81,6 @@ void scroll_bar::update(Mouse mouse, int percentage)
 		is_clicked = true;
 	else if (!mouse.lmb_down)
 		is_clicked = false;
-
 
 	//update slider position and state to percentage_changed so that objects outside can pick it up
 	if (is_clicked)

@@ -55,6 +55,9 @@ namespace constants
 	const std::string font_optimus = "Optimus_Princeps_Semi_Bold.ttf";
 
 	const SDL_Color SECONDARY_MENU_SLIDER_COLOR = SDL_Color{ 255, 255, 255 };
+
+
+	const std::string SAVES_PATH = "saves";
 };
 
 
