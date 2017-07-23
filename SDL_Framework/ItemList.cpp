@@ -14,8 +14,13 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 	this->selected_item_bg_texture = selected_bg;
 	this->items_list = items;
 	this->top_item = 0;
-
-	init_lists();
+	
+	if (items_list.size() > 0)
+		init_lists();
+	else
+	{
+		scroll_bar_i.disable();
+	}
 	scroll_bar_i.init(sdlframework::sdl_manager::create_texture(20, 50, { 255, 0, 0 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), { box_draw_rect.x + box_draw_rect.w, box_draw_rect.y, 20, box_draw_rect.h }, items_list.size(), view_size, sdlframework::sdl_manager::create_texture(20, box_draw_rect.h, { 100, 100, 100 }));
 }
 
@@ -50,6 +55,10 @@ void item_list::init_lists()
 
 void item_list::update(Mouse mouse)
 {
+	//if its empty, don't need to update it
+	if (empty)
+		return;
+
 	SDL_Point mousepoint{ mouse.x, mouse.y };
 	if (SDL_PointInRect(&mousepoint, &box_draw_rect))
 	{//if mouse inside the box area
@@ -101,7 +110,7 @@ void item_list::update(Mouse mouse)
 	else if (scroll_bar_i.is_percentage_changed())
 	{//if scroll bar slider moved manually, update the top item
 		int old_top_item = top_item;//store, so can calculate by how much to shift the selected_item_draw_rect
-		top_item = (((float)items_list.size() - view_size) * scroll_bar_i.get_bar_percent());//calculate the id of the item that needs to be at the top by scrollbar percentage
+		top_item = (int) (((float)items_list.size() - view_size) * scroll_bar_i.get_bar_percent());//calculate the id of the item that needs to be at the top by scrollbar percentage
 		scroll_bar_i.reset();
 
 		//by how many items to move selected_item_draw_rect, move it
@@ -114,7 +123,11 @@ void item_list::update(Mouse mouse)
 void item_list::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderCopy(renderer, bg, NULL, &box_draw_rect);
-	
+	scroll_bar_i.draw(renderer);
+
+	//dont draw individual entries if list is empty
+	if (empty)
+		return;
 	//loop through the list until view size reached
 	for (int i = 0; (int) i < view_size; i++)
 	{
@@ -132,7 +145,7 @@ void item_list::draw(SDL_Renderer* renderer)
 		SDL_RenderCopy(renderer, list_item_textures_text.at(i + top_item), NULL, &list_item_text_draw_rects.at(i));
 	}
 
-	scroll_bar_i.draw(renderer);
+	
 }
 
 item_list::~item_list()

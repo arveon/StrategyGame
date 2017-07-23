@@ -26,6 +26,7 @@ class item_list
 	int selected_item;
 	//number of items that can be in the view simultaneously
 	int view_size;
+	bool empty = false;//required to block certain features in case list is empty
 
 	//required for drawing
 	//whole element

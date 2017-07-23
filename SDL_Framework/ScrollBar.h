@@ -13,7 +13,8 @@ private:
 		none,
 		move_up,
 		move_down,
-		percentage_changed
+		percentage_changed,
+		disabled
 	};
 	state cur_state;
 
@@ -33,6 +34,8 @@ public:
 	bool is_up(){ return cur_state == move_up; }
 	bool is_down(){ return cur_state == move_down; }
 	bool is_percentage_changed(){ return cur_state == percentage_changed; }
+	void disable() { cur_state = state::disabled; }
+	void enable() { cur_state = state::none; }
 
 	void set_bar_percent(float percentage);
 	float get_bar_percent(){ return bar_cur_percentage; }

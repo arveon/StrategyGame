@@ -28,7 +28,8 @@ private:
 		None,
 		Hovered,
 		Pressed,
-		Clicked
+		Clicked,
+		Disabled
 	};
 	state cur_state;
 	
@@ -64,6 +65,8 @@ public:
 	bool is_clicked() { return (cur_state == state::Clicked); }
 	bool is_pressed(){ return (cur_state == state::Pressed); }
 	void reset_button();
+	void disable() { cur_state = state::Disabled; }
+	void enable() { cur_state = state::None; }
 
 	int get_height() { return draw_rect.h; }
 	int get_width() { return draw_rect.w; }

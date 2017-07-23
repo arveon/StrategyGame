@@ -153,7 +153,14 @@ void Button::set_caption_and_coords(std::string caption)
 
 void Button::update(Mouse mouse)
 {
+
+	//if button is disabled, don't update it
+	if (cur_state == state::Disabled)
+		return;
+
 	SDL_Point mouse_p = { mouse.x, mouse.y };
+
+	
 
 	//if mouse is over button
 	if (SDL_PointInRect(&mouse_p, &draw_rect))
