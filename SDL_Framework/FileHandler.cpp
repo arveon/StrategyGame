@@ -37,6 +37,13 @@ std::vector<list_item> file_handler::get_saved_files()
 				list_item item;
 				item.display_name = name;
 				item.value = name;
+
+				//cap length to 15 symbols
+				if (item.display_name.size() > 15)
+				{
+					item.display_name = item.display_name.substr(0, 15);
+					item.display_name += "...";
+				}
 				o.push_back(item);
 
 				//loop through all files and add them to list
@@ -48,6 +55,13 @@ std::vector<list_item> file_handler::get_saved_files()
 					list_item item;
 					item.display_name = name;
 					item.value = name;
+
+					//cap length to 15 symbols
+					if (item.display_name.size() > 20)
+					{
+						item.display_name = item.display_name.substr(0, 20);
+						item.display_name += "...";
+					}
 					o.push_back(item);
 				}
 			}
