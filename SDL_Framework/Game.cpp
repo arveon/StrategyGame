@@ -40,8 +40,11 @@ void sdlframework::game::input()
 	{
 		if (event.type == SDL_QUIT)
 		{
-			state_before_exit = game_state;
-			game_state = constants::game_state::confirming_exit;
+			if (menu.cur_state != menu.exit_clicked)
+			{
+				state_before_exit = game_state;
+				game_state = constants::game_state::confirming_exit;
+			}
 		}
 
 		//storing mouse clicks and mouse releases in mouse class
@@ -123,6 +126,8 @@ bool game::update(Uint32 delta_time)
 			delete exit_confirm;
 			exit_confirm = nullptr;
 			game_state = state_before_exit;
+			if (menu.cur_state == menu.exit_clicked)
+				menu.cur_state = menu.waiting;
 		}
 		break;
 	}
