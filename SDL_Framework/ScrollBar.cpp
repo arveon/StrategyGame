@@ -16,7 +16,7 @@ void scroll_bar::init()
 	@num_of_elements number of elements in the list, required to calculate percentages properly
 	@bg_texture texture under slider, not drawn if not specified
 */
-void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture* down, SDL_Rect draw_rect, int num_of_elements, SDL_Texture* bg_texture)
+void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture* down, SDL_Rect draw_rect, int num_of_elements, int view_size,SDL_Texture* bg_texture)
 {
 	//set draw rect to exclude are with buttons
 	draw_rect.y += draw_rect.w;
@@ -27,7 +27,7 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	this->bg_texture = bg_texture;
 	this->slider_texture = slider_texture;
 	slider_draw_rect.w = draw_rect.w;
-	slider_draw_rect.h = 60;
+	slider_draw_rect.h = draw_rect.h * ((float)view_size/num_of_elements);
 	slider_draw_rect.x = draw_rect.x;
 	slider_draw_rect.y = draw_rect.y;
 	
@@ -44,8 +44,6 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	this->down.init(down, buttons);
 
 	//set_bar_percent(1.0f);
-
-	// TODO: make bar size relative to total number of items / items in view
 }
 
 void scroll_bar::update(Mouse mouse, int percentage)

@@ -39,9 +39,9 @@ load_window::load_window()
 	//font
 	std::string fontpath = constants::FONTS_PATH;
 	fontpath.append(constants::font_optimus);
-	//final (textures for the slider are loaded from inside for now
+	//final (textures for the slider are loaded from inside for now)
 	//TODO: decide if they should be loaded here and passed on
-	saves_list = new item_list(fontpath, { 50, 50, 170 }, texture, { 10, 10, 300, 200 }, selected_bg, items, 5);
+	saves_list = new item_list(fontpath, { 50, 50, 170 }, texture, { 10, 10, 300, 300 }, selected_bg, items);
 }
 
 /*
