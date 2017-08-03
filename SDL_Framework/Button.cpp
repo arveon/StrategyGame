@@ -148,6 +148,10 @@ void Button::set_caption_and_coords(std::string caption)
 		draw_rect.x = 0;
 		draw_rect.y = 0;
 	}
+
+#pragma warning(disable: 4244)
+	draw_rect.x *= constants::scaling_horizontal;
+	draw_rect.y *= constants::scaling_vertical;
 }
 #pragma endregion
 

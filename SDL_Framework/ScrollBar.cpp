@@ -1,5 +1,6 @@
 #include "ScrollBar.h"
 
+using namespace constants;
 /*
 	default constructor that just initialises up and down buttons
 */
@@ -16,21 +17,12 @@ void scroll_bar::init()
 	@num_of_elements number of elements in the list, required to calculate percentages properly
 	@bg_texture texture under slider, not drawn if not specified
 */
-void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture* down, SDL_Rect draw_rect, int num_of_elements, int view_size,SDL_Texture* bg_texture)
+void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture* down, SDL_Rect draw_rect, int num_of_elements, int view_size, SDL_Texture* bg_texture)
 {
 	//set draw rect to exclude are with buttons
 	draw_rect.y += draw_rect.w;
 	draw_rect.h -= draw_rect.w * 2;
 
-	this->draw_rect = draw_rect;
-	this->num_of_elements = num_of_elements;
-	this->bg_texture = bg_texture;
-	this->slider_texture = slider_texture;
-
-	slider_draw_rect.w = draw_rect.w;
-	slider_draw_rect.x = draw_rect.x;
-	slider_draw_rect.y = draw_rect.y;
-	
 	//rectangle that is used to initialise button positions
 	SDL_Rect buttons;
 	buttons.x = draw_rect.x;
@@ -42,6 +34,15 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 
 	buttons.y = draw_rect.y + draw_rect.h;
 	this->down.init(down, buttons);
+
+	slider_draw_rect.w = draw_rect.w;
+	slider_draw_rect.x = draw_rect.x;
+	slider_draw_rect.y = draw_rect.y;
+
+	this->draw_rect = draw_rect;
+	this->num_of_elements = num_of_elements;
+	this->bg_texture = bg_texture;
+	this->slider_texture = slider_texture;
 
 	if (view_size >= num_of_elements)
 		cur_state = state::disabled;

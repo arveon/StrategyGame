@@ -1,5 +1,5 @@
 #include "ItemList.h"
-
+using namespace constants;
 /*
 	constructor
 	@draw_rect - rectangle where the whole element (excluding the scrollbar) will be drawn
@@ -7,6 +7,10 @@
 */
 item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* background, SDL_Rect draw_rect, SDL_Texture* selected_bg, std::vector<list_item> items)
 {
+#pragma warning(disable:4244)
+	draw_rect.x *= scaling_horizontal;
+	draw_rect.y *= scaling_vertical;
+
 	this->font = sdlframework::sdl_manager::load_font(font_path, 20, font_color);
 	this->font_color = font_color;
 	this->bg = background;
@@ -21,7 +25,7 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 	{
 		scroll_bar_i.disable();
 	}
-	scroll_bar_i.init(sdlframework::sdl_manager::create_texture(20, 50, { 255, 0, 0 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), { box_draw_rect.x + box_draw_rect.w, box_draw_rect.y, 20, box_draw_rect.h }, items_list.size(), view_size, sdlframework::sdl_manager::create_texture(20, box_draw_rect.h, { 100, 100, 100 }));
+	scroll_bar_i.init(sdlframework::sdl_manager::create_texture(1, 1, { 255, 0, 0 }), sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), { box_draw_rect.x + box_draw_rect.w, box_draw_rect.y, 20, box_draw_rect.h }, items_list.size(), view_size, sdlframework::sdl_manager::create_texture(20, box_draw_rect.h, { 100, 100, 100 }));
 }
 
 /*

@@ -1,5 +1,7 @@
 #include "Slider.h"
 
+using namespace constants;
+
 #pragma region Initialisation
 slider::slider()
 {
@@ -10,6 +12,10 @@ slider::slider()
 
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture* slider, SDL_Rect draw_rect, int value, std::string title)
 {
+#pragma warning(disable:4244)
+	draw_rect.x *= scaling_horizontal;
+	draw_rect.y *= scaling_vertical;
+
 	this->element_draw_rect = draw_rect;
 	this->bar_texture = bar;
 	this->slider_texture = slider;
@@ -17,31 +23,35 @@ slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture* slider, SDL_Rect 
 	slider_draw_rect.w = slider_width;
 	slider_draw_rect.h = slider_height;
 
-	//SDL_QueryTexture(slider, NULL, NULL, &slider_draw_rect.w, &slider_draw_rect.h);
-	slider_draw_rect.y = slider_draw_rect.y - slider_draw_rect.h / 2 + element_draw_rect.h / 2;
 	cur_value = value;
 	init_title(font, title);
 }
 
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, int h, int x, int y, int value, std::string title)
 {
+#pragma warning(disable:4244)
+	x *= scaling_horizontal;
+	y *= scaling_vertical;
 	this->bar_texture = bar;
 	this->slider_texture = slider;
 	this->element_draw_rect = SDL_Rect{ x,y,w-50,h };
 	slider_draw_rect = SDL_Rect{ x,y,slider_width,slider_height };
-	slider_draw_rect.y = slider_draw_rect.y - slider_draw_rect.h / 2 + element_draw_rect.h / 2;
+	
 	cur_value = value;
 	init_title(font, title);
 }
 
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, int h, SDL_Point pos, int value, std::string title)
 {
+#pragma warning(disable:4244)
+	pos.x *= scaling_horizontal;
+	pos.y *= scaling_vertical;
 	this->bar_texture = bar;
 	this->slider_texture = slider;
 	this->element_draw_rect = SDL_Rect{ pos.x, pos.y, w, h };
 	slider_draw_rect.w = slider_width;
 	slider_draw_rect.h = slider_height;
-	slider_draw_rect.y = slider_draw_rect.y - slider_draw_rect.h / 2 + element_draw_rect.h / 2;
+	
 	this->cur_value = value;
 	init_title(font, title);
 }
@@ -53,6 +63,8 @@ used to dump the code that would otherwise be duplicated in all of the construct
 */
 void slider::init_title(TTF_Font* font, std::string title)
 {
+	slider_draw_rect.y = (slider_draw_rect.y - slider_draw_rect.h / 2 + element_draw_rect.h / 2);
+
 	this->font = font;
 
 	//init title

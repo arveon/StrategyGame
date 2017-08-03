@@ -1,5 +1,7 @@
 #include "CheckBox.h"
 
+using namespace constants;
+
 #pragma region Constructors
 /*
 	constructor for when you have font object
@@ -12,7 +14,7 @@ check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_textur
 	this->box_unchecked = unchecked_texture;
 	this->title_draw_rect.x = position.x;
 	this->title_draw_rect.y = position.y;
-	this->caption = TextRenderer::get_texture_from_text(font, caption, constants::SECONDARY_MENU_SLIDER_COLOR);
+	this->caption = TextRenderer::get_texture_from_text(font, caption, SECONDARY_MENU_SLIDER_COLOR);
 	TTF_CloseFont(font);
 	this->is_box_checked = checked;
 	init_draw_rects();
@@ -31,7 +33,7 @@ check_box::check_box(SDL_Texture* checked_texture, SDL_Texture* unchecked_textur
 	this->title_draw_rect.y = position.y;
 
 	TTF_Font* temp = sdlframework::sdl_manager::load_font(font_name, font_size, { 255,255,255 });
-	this->caption = TextRenderer::get_texture_from_text(temp, caption, constants::SECONDARY_MENU_SLIDER_COLOR);
+	this->caption = TextRenderer::get_texture_from_text(temp, caption, SECONDARY_MENU_SLIDER_COLOR);
 	TTF_CloseFont(temp);
 	this->is_box_checked = checked;
 	init_draw_rects();
@@ -45,7 +47,11 @@ void check_box::init_draw_rects()
 {
 	SDL_QueryTexture(caption, NULL, NULL, &title_draw_rect.w, &title_draw_rect.h);
 
-	draw_rect.x = title_draw_rect.x + title_draw_rect.w + 20;
+#pragma warning(disable:4244)
+	title_draw_rect.x *= scaling_horizontal;
+	title_draw_rect.y *= scaling_vertical;
+
+	draw_rect.x = (title_draw_rect.x + title_draw_rect.w + 20);
 	draw_rect.y = title_draw_rect.y;
 
 	draw_rect.w = draw_rect.h = box_width;

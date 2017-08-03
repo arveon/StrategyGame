@@ -7,15 +7,15 @@
 ///namespace contains all of the game and system constants
 namespace constants
 {
-	const int WINDOW_WIDTH = 800;
-	const int WINDOW_HEIGHT = 600;
+	const int WINDOW_WIDTH = 1920;
+	const int WINDOW_HEIGHT = 1080;
 	const char WINDOW_CAPTION[] = "MyGame";
 
 	const int NUM_SOUND_CHANNELS = 5;
 
 	const bool SHOW_CURSOR = true;
-	const float scaling_vertical = 1;
-	const float scaling_horizontal = 1;
+	const float scaling_vertical = (float)WINDOW_HEIGHT / 600;
+	const float scaling_horizontal = (float)WINDOW_WIDTH / 800;
 
 	enum game_state
 	{
