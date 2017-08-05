@@ -21,6 +21,11 @@ TextRenderer::TextRenderer(TTF_Font* font, SDL_Color color, std::string caption)
 	draw_rect.x = 0;
 	draw_rect.y = 0;
 	text_texture = sdlframework::sdl_manager::render_text(text, draw_color, font);
+
+	draw_rect.x *= constants::scaling_horizontal;
+	draw_rect.w *= constants::scaling_horizontal;
+	draw_rect.y *= constants::scaling_vertical;
+	draw_rect.h *= constants::scaling_vertical;
 }
 
 /* 

@@ -37,9 +37,15 @@ private:
 	SDL_Texture* image;
 	SDL_Rect draw_rect;
 
+	
+
 	void set_caption_and_coords(std::string caption="");
 	void set_default_colors();
+	void finalise();
 public:
+	//determines whether scale button on resolution change or not
+	bool scaling = true;
+
 	enum type
 	{
 		exit,

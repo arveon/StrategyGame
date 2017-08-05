@@ -1,7 +1,11 @@
 #pragma once
+#include <vector>
+
 #include "Button.h"
 #include "Slider.h"
 #include "CheckBox.h"
+#include "ItemList.h"
+#include "ListItem.h"
 
 ///Class that represents the settings menu of the game
 ///Will allow player to change game settings
@@ -20,8 +24,10 @@ private:
 
 	//TODO: replace options elements with stuff that is actually required
 	slider* volume;
-	slider* volume2;
+	slider* music;
+	slider* sounds;
 	check_box* fullscreen;
+	item_list* resolutions;
 
 	state cur_state;
 public:

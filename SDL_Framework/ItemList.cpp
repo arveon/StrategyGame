@@ -10,6 +10,8 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 #pragma warning(disable:4244)
 	draw_rect.x *= scaling_horizontal;
 	draw_rect.y *= scaling_vertical;
+	draw_rect.w *= scaling_horizontal;
+	draw_rect.h *= scaling_vertical;
 
 	this->font = sdlframework::sdl_manager::load_font(font_path, 20, font_color);
 	this->font_color = font_color;
@@ -19,13 +21,14 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 	this->items_list = items;
 	this->top_item = 0;
 	
+	
 	if (items_list.size() > 0)
 		init_lists();
 	else
 	{
 		scroll_bar_i.disable();
 	}
-	scroll_bar_i.init(sdlframework::sdl_manager::create_texture(1, 1, { 255, 0, 0 }), sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), sdlframework::sdl_manager::create_texture(20, 20, { 255, 255, 255 }), { box_draw_rect.x + box_draw_rect.w, box_draw_rect.y, 20, box_draw_rect.h }, items_list.size(), view_size, sdlframework::sdl_manager::create_texture(20, box_draw_rect.h, { 100, 100, 100 }));
+	scroll_bar_i.init(sdlframework::sdl_manager::create_texture(1, 1, { 255, 0, 0 }), sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), { box_draw_rect.x + box_draw_rect.w, box_draw_rect.y, 20, box_draw_rect.h }, items_list.size(), view_size, sdlframework::sdl_manager::create_texture(1,1, { 100, 100, 100 }));
 }
 
 /*
@@ -154,7 +157,12 @@ void item_list::draw(SDL_Renderer* renderer)
 
 item_list::~item_list()
 {
-
+	TTF_CloseFont(font);
+	if(bg != nullptr)SDL_DestroyTexture(bg);
+	for (int i = 0; i < list_item_textures_text.size(); i++)
+	{
+		SDL_DestroyTexture(list_item_textures_text.at(i));
+	}
 }
 
 

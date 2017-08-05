@@ -75,8 +75,8 @@ void main_menu::update(Mouse mouse)
 		//TODO: replace the placeholder window with actual game flow screen and add start adding game logic
 		if (msg_box == nullptr)
 		{
-			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(200, 100, { 255, 255, 255 });
-			msg_box = new message_box(temp, { constants::WINDOW_WIDTH / 2 - 200, constants::WINDOW_HEIGHT / 2 - 50 }, "This feature is not available yet!", 400, 100);
+			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 });
+			msg_box = new message_box(temp, { constants::WINDOW_WIDTH / 2 - 200, constants::WINDOW_HEIGHT / 2 - 50}, "This feature is not available yet!", 400, 100);
 		}
 		msg_box->update(mouse);
 

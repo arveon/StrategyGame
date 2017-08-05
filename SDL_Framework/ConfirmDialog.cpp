@@ -6,6 +6,8 @@
 confirm_dialog::confirm_dialog(SDL_Texture* bg, SDL_Point window_coords, std::string text, int width, int height) : dialog_window(bg, window_coords, true, text, width, height)
 {
 	cur_state = dialog_state::Waiting;
+	yes.scaling = false;
+	no.scaling = false;
 	yes.init(constants::font_optimus, Button::ok, {0 , 0});
 	no.init(constants::font_optimus, Button::cancel, {0 , 0});
 

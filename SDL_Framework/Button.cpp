@@ -12,6 +12,7 @@ void Button::init(TTF_Font* font, type type)
 	set_caption_and_coords();
 	this->image = TextRenderer::get_texture_from_text(this->font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	finalise();
 }
 
 void Button::init(TTF_Font * font, type type, SDL_Point coords)
@@ -25,6 +26,7 @@ void Button::init(TTF_Font * font, type type, SDL_Point coords)
 	draw_rect.x = coords.x;
 	draw_rect.y = coords.y;
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	finalise();
 }
 
 void Button::init(std::string font_name, type type, int font_size)
@@ -38,6 +40,7 @@ void Button::init(std::string font_name, type type, int font_size)
 	set_caption_and_coords();
 	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	finalise();
 }
 
 
@@ -51,6 +54,7 @@ void Button::init(std::string font_name, type type, SDL_Point init_coords, int f
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 	draw_rect.x = init_coords.x;
 	draw_rect.y = init_coords.y;
+	finalise();
 }
 
 void Button::init(std::string font_name,int font_size, type type)
@@ -62,6 +66,7 @@ void Button::init(std::string font_name,int font_size, type type)
 	set_caption_and_coords();
 	this->image = TextRenderer::get_texture_from_text(font, caption, *c_default);
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
+	finalise();
 }
 
 void Button::init(std::string font_name, std::string caption, int font_size)
@@ -74,6 +79,7 @@ void Button::init(std::string font_name, std::string caption, int font_size)
 	SDL_QueryTexture(image, NULL, NULL, &draw_rect.w, &draw_rect.h);
 	draw_rect.x = 0;
 	draw_rect.y = 0;
+	finalise();
 }
 
 void Button::init(std::string font_name, std::string caption, SDL_Point position, int font_size)
@@ -87,6 +93,7 @@ void Button::init(std::string font_name, std::string caption, SDL_Point position
 
 	draw_rect.x = position.x;
 	draw_rect.y = position.y;
+	finalise();
 }
 
 /*
@@ -97,6 +104,7 @@ void Button::init(SDL_Texture* texture, SDL_Rect position)
 	is_icon = true;
 	image = texture;
 	draw_rect = position;
+	finalise();
 }
 
 //sets default highlighting colors
@@ -148,12 +156,22 @@ void Button::set_caption_and_coords(std::string caption)
 		draw_rect.x = 0;
 		draw_rect.y = 0;
 	}
-
-#pragma warning(disable: 4244)
-	draw_rect.x *= constants::scaling_horizontal;
-	draw_rect.y *= constants::scaling_vertical;
 }
+
+void Button::finalise()
+{
+	if (scaling)
+	{
+#pragma warning(disable: 4244)
+		draw_rect.x *= constants::scaling_horizontal;
+		draw_rect.y *= constants::scaling_vertical;
+		draw_rect.w *= constants::scaling_horizontal;
+		draw_rect.h *= constants::scaling_vertical;
+	}
+}
+
 #pragma endregion
+
 
 void Button::update(Mouse mouse)
 {

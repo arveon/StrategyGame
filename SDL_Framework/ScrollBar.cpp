@@ -29,9 +29,9 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	buttons.y = draw_rect.y - draw_rect.w;
 	buttons.w = draw_rect.w;
 	buttons.h = draw_rect.w;
-
+	this->up.scaling = false;
 	this->up.init(up, buttons);
-
+	this->down.scaling = false;
 	buttons.y = draw_rect.y + draw_rect.h;
 	this->down.init(down, buttons);
 
@@ -104,10 +104,13 @@ void scroll_bar::update(Mouse mouse, int percentage)
 
 void scroll_bar::draw(SDL_Renderer* renderer)
 {
-	if (bg_texture != nullptr) { SDL_RenderCopy(renderer, bg_texture, NULL, &draw_rect); }//draw bg_texture if it was set
-	SDL_RenderCopy(renderer, slider_texture, NULL, &slider_draw_rect);
-	down.draw(renderer);
-	up.draw(renderer);
+	if (cur_state != state::disabled)
+	{
+		if (bg_texture != nullptr) { SDL_RenderCopy(renderer, bg_texture, NULL, &draw_rect); }//draw bg_texture if it was set
+		SDL_RenderCopy(renderer, slider_texture, NULL, &slider_draw_rect);
+		down.draw(renderer);
+		up.draw(renderer);
+	}
 }
 
 /*
