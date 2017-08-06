@@ -40,6 +40,9 @@ public:
 	void update(Mouse mouse);
 	void draw(SDL_Renderer*);
 
+	int get_value() { return cur_value; }
+	void set_value(int new_value);
+
 	bool is_in_interaction() { return is_pressed; }
 	~slider();
 };

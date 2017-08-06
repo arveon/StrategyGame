@@ -39,7 +39,7 @@ class item_list
 	SDL_Texture* selected_item_bg_texture;
 	SDL_Rect selected_item_bg_draw_rect;
 
-	void init_lists();
+	void init_lists(int selected = 0);
 
 public:
 	int item_margin = 10;//vertical margin between items
@@ -47,6 +47,9 @@ public:
 
 	void draw(SDL_Renderer* renderer);
 	void update(Mouse mouse);
+
+	int get_selected() { return selected_item; }
+	void set_selected(int new_select);
 
 	item_list();
 	item_list(std::string font_path, SDL_Color font_color, SDL_Texture* background, SDL_Rect draw_rect, SDL_Texture* selected_bg, std::vector<list_item>);

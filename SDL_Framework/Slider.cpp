@@ -120,6 +120,18 @@ void slider::update(Mouse mouse)
 	}
 }
 
+void slider::set_value(int new_value)
+{
+	cur_value = new_value;
+	slider_draw_rect.x = element_draw_rect.x + ((float)new_value/100) * (element_draw_rect.w - slider_draw_rect.w);
+
+	//change value indicator
+	SDL_DestroyTexture(value_texture);
+	value_texture = nullptr;
+	value_texture = TextRenderer::get_texture_from_text(font, std::to_string(cur_value), constants::SECONDARY_MENU_SLIDER_COLOR);
+	SDL_QueryTexture(value_texture, NULL, NULL, &value_draw_rect.w, nullptr);
+}
+
 void slider::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderCopy(renderer, title_texture, NULL, &title_draw_rect);

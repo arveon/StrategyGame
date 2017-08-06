@@ -1,4 +1,8 @@
 #pragma once
+#include <fstream>
+#include <string>
+#include <sstream>
+
 #include <vector>
 
 #include "Button.h"
@@ -30,6 +34,9 @@ private:
 	item_list* resolutions;
 
 	state cur_state;
+
+	void save_to_file();
+	void load_from_file();
 public:
 	void draw(SDL_Renderer*);
 	void update(Mouse);

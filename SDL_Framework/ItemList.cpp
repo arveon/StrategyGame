@@ -34,7 +34,7 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 /*
 	function used to initialise and fill the list of text textures and draw rectangles also initialises the selected item rectangle
 */
-void item_list::init_lists()
+void item_list::init_lists(int selected)
 {
 	selected_item = 0;
 
@@ -92,7 +92,6 @@ void item_list::update(Mouse mouse)
 			}
 		}
 	}
-
 	scroll_bar_i.update(mouse);
 
 	//block checks for scroll bar updates
@@ -125,6 +124,23 @@ void item_list::update(Mouse mouse)
 		selected_item_bg_draw_rect.y -= selected_item_bg_draw_rect.h * delta;
 	}
 	
+}
+
+void item_list::set_selected(int new_selected)
+{
+	selected_item = new_selected;
+	
+	top_item = (items_list.size() - selected_item >= view_size) ? selected_item : (items_list.size() - view_size);
+
+	SDL_Rect collision_rect = list_item_text_draw_rects.at(selected_item - top_item);
+	collision_rect.w = box_draw_rect.w;
+	collision_rect.h += item_margin;
+	collision_rect.x -= left_margin;
+	selected_item_bg_draw_rect = collision_rect;
+
+	//calculate the percentage of the list scrolled and update scroll bar slider position
+	float percentage = (top_item > 0) ? (float)top_item / (float)(items_list.size() - view_size) : 0;
+	scroll_bar_i.set_bar_percent(percentage);
 }
 
 void item_list::draw(SDL_Renderer* renderer)
