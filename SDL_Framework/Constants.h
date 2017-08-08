@@ -14,8 +14,8 @@ namespace constants
 	const int NUM_SOUND_CHANNELS = 5;
 
 	const bool SHOW_CURSOR = true;
-	const float scaling_vertical = (float)WINDOW_HEIGHT / 600;
-	const float scaling_horizontal = (float)WINDOW_WIDTH / 800;
+	const float scaling_vertical = (float)WINDOW_HEIGHT / 480;
+	const float scaling_horizontal = (float)WINDOW_WIDTH / 640;
 
 	enum game_state
 	{
@@ -28,16 +28,16 @@ namespace constants
 	};
 
 	//menu buttons
-	const int START_X = 550;
+	const int START_X = 380;
 	const int START_Y = 100;
 
-	const int LOAD_X = 550;
+	const int LOAD_X = 380;
 	const int LOAD_Y = 200;
 
-	const int OPTIONS_X = 550;
+	const int OPTIONS_X = 380;
 	const int OPTIONS_Y = 300;
 
-	const int EXIT_X = 550;
+	const int EXIT_X = 380;
 	const int EXIT_Y = 400;
 
 	const int BUTTON_WIDTH = 150;
@@ -56,8 +56,23 @@ namespace constants
 
 	const SDL_Color SECONDARY_MENU_SLIDER_COLOR = SDL_Color{ 255, 255, 255 };
 
-
 	const std::string SAVES_PATH = "saves";
+
+
+	//OPTIONS MENU POSITIONING and other
+	const SDL_Point VOLUME_SLIDER_POS = {10,100};
+	const SDL_Point MUSIC_SLIDER_POS = { 10,160 };
+	const SDL_Point SOUNDS_SLIDER_POS = { 10,220 };
+	const SDL_Point FULLSCREEN_CHECKBOX_POS = {400, 80};
+	const SDL_Point RESOLUTIONS_LIST_POS = {400, 140};
+	const int RESOLUTION_LIST_WIDTH = 170;
+	const int RESOLUTION_LIST_HEIGHT = 100;
+	const int SLIDER_WIDTH = 300;
+	const int SLIDER_HEIGHT = 10;
+
+
+	//general UI constants
+	const int TEXT_SLIDER_GAP = 35;
 };
 
 

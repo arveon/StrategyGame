@@ -17,25 +17,25 @@ options_menu::options_menu()
 	SDL_Texture* bar_temp = sdlframework::sdl_manager::create_texture(1, 1, { 150,150,150 });
 	SDL_Texture* slider_temp = sdlframework::sdl_manager::create_texture(1, 1, { 255,255,255 });
 
-	volume = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, {255,255,255}), bar_temp, slider_temp, SDL_Rect{ 10,100,300,10 }, 0, "Master volume");
+	volume = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, {255,255,255}), bar_temp, slider_temp, SDL_Rect{ constants::VOLUME_SLIDER_POS.x, constants::VOLUME_SLIDER_POS.y, constants::SLIDER_WIDTH,constants::SLIDER_HEIGHT }, 0, "Master volume");
 
 	//create placeholder textures for music slider
 	SDL_Texture* music_tex = sdlframework::sdl_manager::create_texture(1, 1, { 150,150,150 });
 	SDL_Texture* music_tex_sl = sdlframework::sdl_manager::create_texture(1, 1, { 255,255,255 });
 
-	music = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, { 255,255,255 }), music_tex, music_tex_sl, SDL_Rect{ 10,150,300,10 }, 0, "Music volume");
+	music = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, { 255,255,255 }), music_tex, music_tex_sl, SDL_Rect{ constants::MUSIC_SLIDER_POS.x,constants::MUSIC_SLIDER_POS.y,constants::SLIDER_WIDTH,constants::SLIDER_HEIGHT}, 0, "Music volume");
 
 	//create placeholder texture for sounds slider
 	SDL_Texture* sounds_tex = sdlframework::sdl_manager::create_texture(1, 1, { 150,150,150 });
 	SDL_Texture* sounds_tex_sl = sdlframework::sdl_manager::create_texture(1, 1, { 255,255,255 });
 
-	sounds = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, { 255,255,255 }), sounds_tex, sounds_tex_sl, SDL_Rect{ 10,200,300,10 }, 0, "Sounds");
+	sounds = new slider(sdlframework::sdl_manager::load_font(fontpath, 20, { 255,255,255 }), sounds_tex, sounds_tex_sl, SDL_Rect{ constants::SOUNDS_SLIDER_POS.x, constants::SOUNDS_SLIDER_POS.y, constants::SLIDER_WIDTH,constants::SLIDER_HEIGHT }, 0, "Sounds");
 
 	//create placeholder textures for the checkbox
 	SDL_Texture* checked_texture = sdlframework::sdl_manager::create_texture(1, 1, { 0, 255, 0 });
 	SDL_Texture* unchecked_texture = sdlframework::sdl_manager::create_texture(1, 1, {255, 0, 0});
 
-	fullscreen = new check_box(checked_texture, unchecked_texture, fontpath, 20, {10, 250}, "Fullscreen", false);
+	fullscreen = new check_box(checked_texture, unchecked_texture, fontpath, 20, constants::FULLSCREEN_CHECKBOX_POS, "Fullscreen", false);
 
 	SDL_Texture* list_bg = sdlframework::sdl_manager::create_texture(1, 1, { 150,150,150 });
 	SDL_Texture* selected_bg = sdlframework::sdl_manager::create_texture(1, 1, { 150, 0, 150 });
@@ -47,7 +47,7 @@ options_menu::options_menu()
 	res_list.push_back({ "1920x1080", "1920x1080" });
 	res_list.push_back({ "1920x1200", "1920x1200" });
 	
-	resolutions = new item_list(fontpath, { 255,255,255 }, list_bg, SDL_Rect{ 10, 350, 150, 100 }, selected_bg, res_list);
+	resolutions = new item_list(fontpath, { 255,255,255 }, list_bg, SDL_Rect{ constants::RESOLUTIONS_LIST_POS.x, constants::RESOLUTIONS_LIST_POS.y, constants::RESOLUTION_LIST_WIDTH, constants::RESOLUTION_LIST_HEIGHT}, selected_bg, res_list);
 
 	load_from_file();
 }
@@ -75,7 +75,7 @@ void options_menu::update(Mouse mouse)
 		cur_state = state::back_pressed;
 	if (apply.is_clicked())
 	{
-		save_to_file();
+		//save_to_file();
 		cur_state = state::apply_pressed;
 	}
 
@@ -90,9 +90,26 @@ void options_menu::update(Mouse mouse)
 	Function called from outside of the class if the settings need to be applied and saved
 	contains logic for saving the new settings
 */
-void options_menu::save()
+void options_menu::apply_settings()
 {
 	//TODO: logic for saving settings
+	int res_w, res_h = 0;
+	
+	std::string res_str = resolutions->get_element_at(resolutions->get_selected()).value;
+	//pull resolution values from string
+	std::stringstream str;
+	str << res_str;
+
+	std::string temp_res;
+	getline(str, temp_res, 'x');
+	res_w = stoi(temp_res);
+
+	getline(str, temp_res, 'x');
+	res_h = stoi(temp_res);
+
+	std::cout << res_w << " " << res_h << std::endl;
+
+	save_to_file();
 }
 
 void options_menu::save_to_file()

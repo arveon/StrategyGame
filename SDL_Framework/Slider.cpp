@@ -70,7 +70,7 @@ void slider::init_title(TTF_Font* font, std::string title)
 	//init title
 	this->title_texture = TextRenderer::get_texture_from_text(font, title, constants::SECONDARY_MENU_SLIDER_COLOR);
 	this->title_draw_rect = element_draw_rect;
-	title_draw_rect.y -= 50;
+	title_draw_rect.y -= constants::TEXT_SLIDER_GAP * scaling_vertical;
 	SDL_QueryTexture(title_texture, NULL, NULL, &title_draw_rect.w, &title_draw_rect.h);
 
 	//init value

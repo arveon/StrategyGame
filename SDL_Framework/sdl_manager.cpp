@@ -133,6 +133,11 @@ SDL_Texture* sdlframework::sdl_manager::create_texture(int w, int h, SDL_Color c
 	return temp;
 }
 
+void sdl_manager::save_changes(int w_res, int h_res, bool fullscr)
+{
+
+}
+
 
 sdl_manager::sdl_manager()
 {

@@ -63,7 +63,7 @@ void main_menu::update(Mouse mouse)
 		if (options_window->is_applied() || options_window->is_back_clicked())
 		{
 			if(options_window->is_applied())
-				options_window->save();
+				options_window->apply_settings();
 
 			delete options_window;
 			options_window = nullptr;

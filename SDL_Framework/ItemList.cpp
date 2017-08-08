@@ -10,8 +10,8 @@ item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* b
 #pragma warning(disable:4244)
 	draw_rect.x *= scaling_horizontal;
 	draw_rect.y *= scaling_vertical;
-	draw_rect.w *= scaling_horizontal;
-	draw_rect.h *= scaling_vertical;
+	/*draw_rect.w *= scaling_horizontal;
+	draw_rect.h *= scaling_vertical;*/
 
 	this->font = sdlframework::sdl_manager::load_font(font_path, 20, font_color);
 	this->font_color = font_color;
@@ -130,7 +130,7 @@ void item_list::set_selected(int new_selected)
 {
 	selected_item = new_selected;
 	
-	top_item = (items_list.size() - selected_item >= view_size) ? selected_item : (items_list.size() - view_size);
+	top_item = (((int)items_list.size() - selected_item) >= view_size) ?  selected_item : (items_list.size() - view_size);
 
 	SDL_Rect collision_rect = list_item_text_draw_rects.at(selected_item - top_item);
 	collision_rect.w = box_draw_rect.w;
@@ -175,7 +175,7 @@ item_list::~item_list()
 {
 	TTF_CloseFont(font);
 	if(bg != nullptr)SDL_DestroyTexture(bg);
-	for (int i = 0; i < list_item_textures_text.size(); i++)
+	for (unsigned int i = 0; i < list_item_textures_text.size(); i++)
 	{
 		SDL_DestroyTexture(list_item_textures_text.at(i));
 	}

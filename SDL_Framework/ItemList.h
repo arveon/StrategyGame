@@ -51,6 +51,8 @@ public:
 	int get_selected() { return selected_item; }
 	void set_selected(int new_select);
 
+	list_item get_element_at(int id) { return items_list.at(id); }
+
 	item_list();
 	item_list(std::string font_path, SDL_Color font_color, SDL_Texture* background, SDL_Rect draw_rect, SDL_Texture* selected_bg, std::vector<list_item>);
 	~item_list();

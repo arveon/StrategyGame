@@ -44,7 +44,7 @@ public:
 	bool is_applied() { return cur_state == apply_pressed; }
 	bool is_back_clicked() { return cur_state == back_pressed; }
 
-	void save();
+	void apply_settings();
 
 	options_menu();
 	~options_menu();
