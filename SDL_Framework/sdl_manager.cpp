@@ -13,7 +13,11 @@ bool sdl_manager::initialised = false;
 void sdlframework::sdl_manager::init()
 {
 	assert(SDL_Init(SDL_INIT_EVERYTHING)==0);
-	sdl_manager::game_window = SDL_CreateWindow(constants::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
+	if(!constants::FULLSCREEN)
+		sdl_manager::game_window = SDL_CreateWindow(constants::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
+	else
+		sdl_manager::game_window = SDL_CreateWindow(constants::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOW_FULLSCREEN);
+
 
 	//initialise window and renderer
 	assert(sdl_manager::game_window);

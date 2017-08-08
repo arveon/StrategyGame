@@ -25,7 +25,6 @@ std::vector<list_item> file_handler::get_saved_files()
 			//apply a filter, make it search only for .save files
 			sprintf_s(temp, "%s\\*.save", path);
 
-			//std::wcout << folder_name_str << std::endl;
 			HANDLE h_find = FindFirstFile(temp, &found_file_data);//finds first file
 			
 			if (h_find != INVALID_HANDLE_VALUE)//check if anything was found
@@ -74,4 +73,43 @@ std::vector<list_item> file_handler::get_saved_files()
 		std::cout << "Folder doesn't exist" << std::endl;
 
 	return o;
+}
+
+std::vector<list_item> file_handler::get_launch_config()
+{
+	//TODO: add checks to whether the file exists
+	std::vector<list_item> result;
+
+	std::ifstream configstream("cfg/launch.cfg");
+
+	std::string line;
+	while (getline(configstream, line))
+	{
+		list_item item;
+		std::stringstream buffer(line);
+
+		if (line.find("resolution ") != std::string::npos)
+		{
+			getline(buffer, item.display_name, ' ');
+			
+			std::string temp;
+			getline(buffer, item.value);
+			
+		}
+		else if (line.find("appname ") != std::string::npos)
+		{
+			getline(buffer, item.display_name, ' ');
+			std::string temp;
+			getline(buffer, item.value);
+		}
+		else
+		{
+			getline(buffer, item.display_name, ' ');
+			getline(buffer, item.value, ' ');
+		}
+		result.push_back(item);
+	}
+
+
+	return result;
 }

@@ -55,12 +55,12 @@ options_menu::options_menu()
 void options_menu::draw(SDL_Renderer* renderer)
 {
 	back.draw(renderer);
-	apply.draw(renderer);
-	volume->draw(renderer);
-	music->draw(renderer);
-	fullscreen->draw(renderer);
-	sounds->draw(renderer);
-	resolutions->draw(renderer);
+apply.draw(renderer);
+volume->draw(renderer);
+music->draw(renderer);
+fullscreen->draw(renderer);
+sounds->draw(renderer);
+resolutions->draw(renderer);
 }
 
 /*
@@ -94,7 +94,7 @@ void options_menu::apply_settings()
 {
 	//TODO: logic for saving settings
 	int res_w, res_h = 0;
-	
+
 	std::string res_str = resolutions->get_element_at(resolutions->get_selected()).value;
 	//pull resolution values from string
 	std::stringstream str;
@@ -109,29 +109,67 @@ void options_menu::apply_settings()
 
 	std::cout << res_w << " " << res_h << std::endl;
 
-	save_to_file();
+	save_to_file(res_w, res_h);
 }
 
-void options_menu::save_to_file()
+void options_menu::save_to_file(int res_w, int res_h)
 {
-	int vol_v = volume->get_value();
-	int mus_v = music->get_value();
-	int sounds_v = sounds->get_value();
-
-	bool fullscr_v = fullscreen->is_checked();
-	int res_v = resolutions->get_selected();
-
+	//TODO: add checks for whether the file exists
+	//save settings into a settings file
 	std::ofstream filestr("cfg/settings.cfg");
 	if (filestr.good())
 	{
 		filestr.clear();
-		filestr << "master_volume " << vol_v << std::endl;
-		filestr << "music_volume " << mus_v << std::endl;
-		filestr << "sounds_volume " << sounds_v << std::endl;
-		filestr << "fullscreen " << fullscr_v << std::endl;
-		filestr << "resolution " << res_v << std::endl;
+		filestr << "master_volume " << volume->get_value() << std::endl;
+		filestr << "music_volume " << music->get_value() << std::endl;
+		filestr << "sounds_volume " << sounds->get_value() << std::endl;
+		filestr << "fullscreen " << fullscreen->is_checked() << std::endl;
+		filestr << "resolution " << resolutions->get_selected() << std::endl;
 		filestr.close();
 	}
+
+	//CONFIG FILE CHANGES
+	//replace resolution and fullscreen entries in launch.cfg 
+	std::ifstream launch_ifilestr("cfg/launch.cfg");
+	bool found;
+	std::string line;
+	std::vector<std::string> lines;
+	int i = 0;
+	int res_id, fs_id = -1;
+	//store lines from file in a temp vector and find line numbers for resolution and fullscreen settings
+	while (getline(launch_ifilestr, line))
+	{
+		std::cout << line << std::endl;
+		lines.push_back(line);
+		if (line.find("resolution ") != std::string::npos)
+			res_id = i;
+		else if (line.find("fullscreen ") != std::string::npos)
+			fs_id = i;
+		i++;
+	}
+	launch_ifilestr.close();
+
+	//replace resolution line in the vector containing all file lines
+	if (res_id == -1)
+		return;
+	std::stringstream buffer;
+	buffer << "resolution " << res_w << " " << res_h << std::endl;
+	getline(buffer, lines.at(res_id));
+
+	//replace fullscreen line in the vector containing all file lines
+	if (fs_id == -1)
+		return;
+	std::stringstream buffer2;
+	buffer << "fullscreen " << fullscreen->is_checked() << std::endl;
+	getline(buffer, lines.at(fs_id));
+
+	//replace contents of file with the edited version
+	std::ofstream launch_ofilestr("cfg/launch.cfg");
+	for (int i = 0; i < lines.size(); i++)
+	{
+		launch_ofilestr << lines.at(i) << std::endl;
+	}
+	launch_ofilestr.close();
 }
 
 void options_menu::load_from_file()

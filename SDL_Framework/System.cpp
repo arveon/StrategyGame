@@ -32,7 +32,20 @@ void system::cleanup()
 
 system::system()
 {
+	init_constants();
+
 	sdl_manager::init();
+}
+
+void system::init_constants()
+{
+	//TODO: apply values in settings array to variables in constants
+	
+	bool successful = false;
+	std::vector<list_item> settings = file_handler::get_launch_config();
+	
+
+	//assert(successful);
 }
 
 /*currently not used for anything*/

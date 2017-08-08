@@ -35,7 +35,7 @@ private:
 
 	state cur_state;
 
-	void save_to_file();
+	void save_to_file(int res_w, int res_h);
 	void load_from_file();
 public:
 	void draw(SDL_Renderer*);

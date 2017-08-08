@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <Windows.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #include <vector>
 #include "ListItem.h"
@@ -13,6 +15,7 @@ class file_handler
 {
 public:
 	static std::vector<list_item> get_saved_files();
+	static std::vector<list_item> get_launch_config();
 	file_handler();
 	~file_handler();
 };

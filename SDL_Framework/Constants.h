@@ -7,8 +7,10 @@
 ///namespace contains all of the game and system constants
 namespace constants
 {
-	const int WINDOW_WIDTH = 1920;
-	const int WINDOW_HEIGHT = 1080;
+	//TODO: figure out a way to make WINDOW_WIDTH, WINDOW_HEIGHT and FULLSCREEN not constant
+	const int WINDOW_WIDTH = 640;
+	const int WINDOW_HEIGHT = 480;
+	const bool FULLSCREEN = false;
 	const char WINDOW_CAPTION[] = "MyGame";
 
 	const int NUM_SOUND_CHANNELS = 5;
