@@ -28,10 +28,11 @@ public:
 		error
 	};
 private:
+	int stable_resolution;
+
 	Button back;
 	Button apply;
 
-	//TODO: replace options elements with stuff that is actually required
 	slider* volume;
 	slider* music;
 	slider* sounds;

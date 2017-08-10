@@ -87,6 +87,7 @@ void item_list::update(Mouse mouse)
 			//update selected item index and set selected bg draw rect to collision rect
 			if (SDL_PointInRect(&mousepoint, &collision_rect) && mouse.lmb_down && !mouse.prev_lmb_down && i+top_item != selected_item)
 			{
+				previous_selected_item = selected_item;
 				selected_item_bg_draw_rect = collision_rect;
 				selected_item = i + top_item;
 			}

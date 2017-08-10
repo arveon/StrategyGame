@@ -24,6 +24,7 @@ class item_list
 	std::vector<list_item> items_list;
 	int top_item;//top visible item
 	int selected_item;
+	int previous_selected_item = 0;
 	//number of items that can be in the view simultaneously
 	int view_size;
 	bool empty = false;//required to block certain features in case list is empty
@@ -50,6 +51,7 @@ public:
 
 	int get_selected() { return selected_item; }
 	void set_selected(int new_select);
+	int get_previous_selected_id() { return previous_selected_item; }
 
 	list_item get_element_at(int id) { return items_list.at(id); }
 

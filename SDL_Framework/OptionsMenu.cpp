@@ -108,7 +108,6 @@ void options_menu::update(Mouse mouse)
 */
 bool options_menu::apply_settings()
 {
-	//TODO: logic for saving settings
 	int res_w, res_h = 0;
 
 	std::string res_str = resolutions->get_element_at(resolutions->get_selected()).value;
@@ -127,6 +126,7 @@ bool options_menu::apply_settings()
 
 	if (sdlframework::sdl_manager::save_window_changes(res_w, res_h, fullscreen->is_checked()))
 	{
+		stable_resolution = resolutions->get_selected();
 		save_to_file(res_w, res_h);
 		constants::setup::init_settings(file_handler::get_launch_config());
 		return true;
@@ -135,6 +135,7 @@ bool options_menu::apply_settings()
 	{
 		error_window = new message_box(sdlframework::sdl_manager::create_texture(1, 1, { 255,255,255 }), { constants::setup::WINDOW_WIDTH / 2 - constants::CONFIRM_EXIT_DIALOG_WIDTH/2, constants::setup::WINDOW_HEIGHT / 2  - constants::CONFIRM_EXIT_DIALOG_HEIGHT /2}, "Resolution not supported!", constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
 		cur_state = state::error;
+		resolutions->set_selected(stable_resolution);
 		return false;
 	}
 	
@@ -247,6 +248,7 @@ void options_menu::load_from_file()
 	fullscreen->set_checked(fullscr);
 	resolutions->set_selected(res);
 
+	stable_resolution = res;
 }
 
 options_menu::~options_menu()

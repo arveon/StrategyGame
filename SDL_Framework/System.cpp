@@ -1,5 +1,7 @@
 #include "System.h"
 
+//TODO: remove all debug messages
+
 using namespace sdlframework;
 
 /*
@@ -39,7 +41,6 @@ system::system()
 
 bool system::init_constants()
 {
-	//TODO: apply values in settings array to variables in constants
 	bool successful = false;
 	std::vector<list_item> settings = file_handler::get_launch_config();
 	if (settings.size() == 0)
