@@ -18,7 +18,7 @@ namespace sdlframework
 		time time;
 		game game;
 
-		void init_constants();
+		bool init_constants();
 	public:
 		void init_system();
 		void game_loop();

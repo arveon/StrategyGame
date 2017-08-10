@@ -1,23 +1,15 @@
-#pragma once
 #ifndef CONST_T
 #define CONST_T
 #include <SDL.h>
 #include <string>
+#include <vector>
+#include <sstream>
+
+#include "ListItem.h"
 
 ///namespace contains all of the game and system constants
 namespace constants
 {
-	//TODO: figure out a way to make WINDOW_WIDTH, WINDOW_HEIGHT and FULLSCREEN not constant
-	const int WINDOW_WIDTH = 640;
-	const int WINDOW_HEIGHT = 480;
-	const bool FULLSCREEN = false;
-	const char WINDOW_CAPTION[] = "MyGame";
-
-	const int NUM_SOUND_CHANNELS = 5;
-
-	const bool SHOW_CURSOR = true;
-	const float scaling_vertical = (float)WINDOW_HEIGHT / 480;
-	const float scaling_horizontal = (float)WINDOW_WIDTH / 640;
 
 	enum game_state
 	{
@@ -62,11 +54,11 @@ namespace constants
 
 
 	//OPTIONS MENU POSITIONING and other
-	const SDL_Point VOLUME_SLIDER_POS = {10,100};
+	const SDL_Point VOLUME_SLIDER_POS = { 10,100 };
 	const SDL_Point MUSIC_SLIDER_POS = { 10,160 };
 	const SDL_Point SOUNDS_SLIDER_POS = { 10,220 };
-	const SDL_Point FULLSCREEN_CHECKBOX_POS = {400, 80};
-	const SDL_Point RESOLUTIONS_LIST_POS = {400, 140};
+	const SDL_Point FULLSCREEN_CHECKBOX_POS = { 400, 80 };
+	const SDL_Point RESOLUTIONS_LIST_POS = { 400, 140 };
 	const int RESOLUTION_LIST_WIDTH = 170;
 	const int RESOLUTION_LIST_HEIGHT = 100;
 	const int SLIDER_WIDTH = 300;
@@ -75,8 +67,22 @@ namespace constants
 
 	//general UI constants
 	const int TEXT_SLIDER_GAP = 35;
+
+	class setup
+	{
+	public:
+		static int WINDOW_WIDTH;
+		static int WINDOW_HEIGHT;
+		static float scaling_vertical/* = (float)WINDOW_HEIGHT / 480*/;
+		static float scaling_horizontal/* = (float)WINDOW_WIDTH / 640*/;
+		static const int NUM_SOUND_CHANNELS = 5;
+		static const bool SHOW_CURSOR = true;
+		static bool FULLSCREEN;
+		static char WINDOW_CAPTION[];
+
+		static void init_resolution_deps();
+		static void init_settings(std::vector<list_item> settings);
+	};
 };
-
-
 #endif
 

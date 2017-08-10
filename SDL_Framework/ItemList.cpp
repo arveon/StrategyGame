@@ -8,8 +8,8 @@ using namespace constants;
 item_list::item_list(std::string font_path, SDL_Color font_color, SDL_Texture* background, SDL_Rect draw_rect, SDL_Texture* selected_bg, std::vector<list_item> items)
 {
 #pragma warning(disable:4244)
-	draw_rect.x *= scaling_horizontal;
-	draw_rect.y *= scaling_vertical;
+	draw_rect.x *= setup::scaling_horizontal;
+	draw_rect.y *= setup::scaling_vertical;
 	/*draw_rect.w *= scaling_horizontal;
 	draw_rect.h *= scaling_vertical;*/
 

@@ -48,8 +48,8 @@ void check_box::init_draw_rects()
 	SDL_QueryTexture(caption, NULL, NULL, &title_draw_rect.w, &title_draw_rect.h);
 
 #pragma warning(disable:4244)
-	title_draw_rect.x *= scaling_horizontal;
-	title_draw_rect.y *= scaling_vertical;
+	title_draw_rect.x *= setup::scaling_horizontal;
+	title_draw_rect.y *= setup::scaling_vertical;
 
 	draw_rect.x = (title_draw_rect.x + title_draw_rect.w + 20);
 	draw_rect.y = title_draw_rect.y;

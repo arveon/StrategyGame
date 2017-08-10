@@ -58,13 +58,29 @@ void main_menu::update(Mouse mouse)
 			options_window = new options_menu();
 		}
 		options_window->update(mouse);
-		
-		//if settings were applied/cancelled either save menu and close it, or close without saving
-		if (options_window->is_applied() || options_window->is_back_clicked())
-		{
-			if(options_window->is_applied())
-				options_window->apply_settings();
 
+		//if settings were applied/cancelled either save menu and close it, or close without saving
+		if (options_window->is_applied())
+		{
+			if (options_window->is_applied())
+				if (options_window->apply_settings())
+				{
+					delete options_window;
+					options_window = nullptr;
+					cur_state = state::waiting;
+					start.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, start.start);
+					load.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, load.load);
+					options.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, options.options);
+					exit.init(constants::font_inkedout, constants::MAIN_MENU_BUTTON_FONT_SIZE, exit.exit);
+				}
+			//update button positions
+			/*start.~Button();
+			load.~Button();
+			options.~Button();
+			exit.~Button();*/
+		}
+		else if (options_window->is_back_clicked())
+		{
 			delete options_window;
 			options_window = nullptr;
 			cur_state = state::waiting;
@@ -76,7 +92,7 @@ void main_menu::update(Mouse mouse)
 		if (msg_box == nullptr)
 		{
 			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 });
-			msg_box = new message_box(temp, { constants::WINDOW_WIDTH / 2 - 200, constants::WINDOW_HEIGHT / 2 - 50}, "This feature is not available yet!", 400, 100);
+			msg_box = new message_box(temp, { constants::setup::WINDOW_WIDTH / 2 - 200, constants::setup::WINDOW_HEIGHT / 2 - 50}, "This feature is not available yet!", 400, 100);
 		}
 		msg_box->update(mouse);
 

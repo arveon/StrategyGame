@@ -37,15 +37,18 @@ system::system()
 	sdl_manager::init();
 }
 
-void system::init_constants()
+bool system::init_constants()
 {
 	//TODO: apply values in settings array to variables in constants
-	
 	bool successful = false;
 	std::vector<list_item> settings = file_handler::get_launch_config();
-	
+	if (settings.size() == 0)
+		return successful;
+	else
+		successful = true;
+	constants::setup::init_settings(settings);
 
-	//assert(successful);
+	return successful;
 }
 
 /*currently not used for anything*/

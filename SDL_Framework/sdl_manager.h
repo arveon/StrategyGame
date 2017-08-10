@@ -35,7 +35,7 @@ namespace sdlframework
 		static SDL_Texture* render_text(std::string, SDL_Color, TTF_Font*);
 		static SDL_Texture* create_texture(int w, int h, SDL_Color);
 
-		static void save_changes(int w_res, int h_res, bool fullscr);
+		static bool save_window_changes(int w_res, int h_res, bool fullscr);
 
 		sdl_manager();
 		~sdl_manager();

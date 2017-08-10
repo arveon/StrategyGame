@@ -13,11 +13,12 @@ bool sdl_manager::initialised = false;
 void sdlframework::sdl_manager::init()
 {
 	assert(SDL_Init(SDL_INIT_EVERYTHING)==0);
-	if(!constants::FULLSCREEN)
-		sdl_manager::game_window = SDL_CreateWindow(constants::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
+	if(!constants::setup::FULLSCREEN)
+		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
 	else
-		sdl_manager::game_window = SDL_CreateWindow(constants::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOW_FULLSCREEN);
-
+		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOW_FULLSCREEN);
+	
+	//std::cout << constants::WINDOW_WIDTH;
 
 	//initialise window and renderer
 	assert(sdl_manager::game_window);
@@ -137,9 +138,28 @@ SDL_Texture* sdlframework::sdl_manager::create_texture(int w, int h, SDL_Color c
 	return temp;
 }
 
-void sdl_manager::save_changes(int w_res, int h_res, bool fullscr)
+bool sdl_manager::save_window_changes(int w_res, int h_res, bool fullscr)
 {
+	//if((!fullscr && (SDL_GetWindowFlags(sdl_manager::game_window) == SDL_WINDOW_FULLSCREEN)) ||
+	//	fullscr && SDL_GetWindowFlags(sdl_manager::game_window) != SDL_WINDOW_FULLSCREEN)
+	SDL_SetWindowFullscreen(sdl_manager::game_window, fullscr);
 
+	SDL_DisplayMode cur_display_mode;
+	SDL_GetDesktopDisplayMode(0, &cur_display_mode);
+
+	if (w_res > cur_display_mode.w)
+		return false;
+	
+	if (h_res > cur_display_mode.h)
+		return false;
+
+	std::cout << cur_display_mode.w << " : " << cur_display_mode.h << std::endl;
+	std::cout << w_res << " : " << h_res << std::endl;
+
+	SDL_SetWindowSize(sdl_manager::game_window, w_res, h_res);
+
+	SDL_SetWindowPosition(sdl_manager::game_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	return true;
 }
 
 

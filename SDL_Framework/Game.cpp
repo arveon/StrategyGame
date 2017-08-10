@@ -109,7 +109,7 @@ bool game::update(Uint32 delta_time)
 		//if the exit confirmation window didn't exist, create one
 		if (exit_confirm == nullptr)
 		{
-			SDL_Point center = SDL_Point{ (constants::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2, (constants::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
+			SDL_Point center = SDL_Point{ (constants::setup::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2, (constants::setup::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
 			exit_confirm = new confirm_dialog(sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), center, "Are you sure you want to exit?", constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
 		}
 		exit_confirm->update(mouse);

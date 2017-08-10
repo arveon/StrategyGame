@@ -2,12 +2,13 @@
 
 options_menu::options_menu()
 {
+	cur_state = state::waiting;
 	//init buttons
 	back.init(constants::font_inkedout, "Back", 16);
-	back.set_position({ constants::WINDOW_WIDTH - back.get_width() - 20, constants::WINDOW_HEIGHT - back.get_height() - 10 });
+	back.set_position({ constants::setup::WINDOW_WIDTH - back.get_width() - 20, constants::setup::WINDOW_HEIGHT - back.get_height() - 10 });
 
 	apply.init(constants::font_inkedout, "Apply", 16);
-	apply.set_position({ constants::WINDOW_WIDTH - back.get_width() - apply.get_width() - 50, constants::WINDOW_HEIGHT - apply.get_height() - 10 });
+	apply.set_position({ constants::setup::WINDOW_WIDTH - back.get_width() - apply.get_width() - 50, constants::setup::WINDOW_HEIGHT - apply.get_height() - 10 });
 
 	//required for sliders and checkboxes
 	std::string fontpath = constants::FONTS_PATH;
@@ -55,12 +56,14 @@ options_menu::options_menu()
 void options_menu::draw(SDL_Renderer* renderer)
 {
 	back.draw(renderer);
-apply.draw(renderer);
-volume->draw(renderer);
-music->draw(renderer);
-fullscreen->draw(renderer);
-sounds->draw(renderer);
-resolutions->draw(renderer);
+	apply.draw(renderer);
+	volume->draw(renderer);
+	music->draw(renderer);
+	fullscreen->draw(renderer);
+	sounds->draw(renderer);
+	resolutions->draw(renderer);
+	if (error_window != nullptr)
+		error_window->draw(renderer);
 }
 
 /*
@@ -68,29 +71,42 @@ resolutions->draw(renderer);
 */
 void options_menu::update(Mouse mouse)
 {
-	back.update(mouse);
-	apply.update(mouse);
-
-	if (back.is_clicked())
-		cur_state = state::back_pressed;
-	if (apply.is_clicked())
+	if (cur_state != state::error)
 	{
-		//save_to_file();
-		cur_state = state::apply_pressed;
-	}
+		back.update(mouse);
+		apply.update(mouse);
 
-	volume->update(mouse);
-	music->update(mouse);
-	fullscreen->update(mouse);
-	resolutions->update(mouse);
-	sounds->update(mouse);
+		if (back.is_clicked())
+			cur_state = state::back_pressed;
+		if (apply.is_clicked())
+		{
+			//save_to_file();
+			cur_state = state::apply_pressed;
+		}
+
+		volume->update(mouse);
+		music->update(mouse);
+		fullscreen->update(mouse);
+		resolutions->update(mouse);
+		sounds->update(mouse);
+	}
+	else
+	{
+		error_window->update(mouse);
+		if (error_window->is_confirmed())
+		{
+			delete error_window;
+			error_window = nullptr;
+			cur_state = state::waiting;
+		}
+	}
 }
 
 /*
 	Function called from outside of the class if the settings need to be applied and saved
 	contains logic for saving the new settings
 */
-void options_menu::apply_settings()
+bool options_menu::apply_settings()
 {
 	//TODO: logic for saving settings
 	int res_w, res_h = 0;
@@ -109,7 +125,19 @@ void options_menu::apply_settings()
 
 	std::cout << res_w << " " << res_h << std::endl;
 
-	save_to_file(res_w, res_h);
+	if (sdlframework::sdl_manager::save_window_changes(res_w, res_h, fullscreen->is_checked()))
+	{
+		save_to_file(res_w, res_h);
+		constants::setup::init_settings(file_handler::get_launch_config());
+		return true;
+	}
+	else
+	{
+		error_window = new message_box(sdlframework::sdl_manager::create_texture(1, 1, { 255,255,255 }), { constants::setup::WINDOW_WIDTH / 2 - constants::CONFIRM_EXIT_DIALOG_WIDTH/2, constants::setup::WINDOW_HEIGHT / 2  - constants::CONFIRM_EXIT_DIALOG_HEIGHT /2}, "Resolution not supported!", constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
+		cur_state = state::error;
+		return false;
+	}
+	
 }
 
 void options_menu::save_to_file(int res_w, int res_h)

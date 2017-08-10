@@ -10,10 +10,10 @@ load_window::load_window()
 	
 	//init buttons
 	back.init(constants::font_inkedout, "Back", 16);
-	back.set_position({ constants::WINDOW_WIDTH - back.get_width() - 20, constants::WINDOW_HEIGHT - back.get_height() - 10 });
+	back.set_position({ constants::setup::WINDOW_WIDTH - back.get_width() - 20, constants::setup::WINDOW_HEIGHT - back.get_height() - 10 });
 
 	load.init(constants::font_inkedout, "Apply", 16);
-	load.set_position({ constants::WINDOW_WIDTH - back.get_width() - load.get_width() - 50, constants::WINDOW_HEIGHT - load.get_height() - 10 });
+	load.set_position({ constants::setup::WINDOW_WIDTH - back.get_width() - load.get_width() - 50, constants::setup::WINDOW_HEIGHT - load.get_height() - 10 });
 
 	//initialise the saves list
 	//textures

@@ -8,8 +8,8 @@ splash_screen::splash_screen(SDL_Renderer* renderer)
 	
 	draw_rect.w = 300;
 	draw_rect.h = 200;
-	draw_rect.x = constants::WINDOW_WIDTH/2-(draw_rect.w/2);
-	draw_rect.y = constants::WINDOW_HEIGHT/2 - (draw_rect.h/2);
+	draw_rect.x = constants::setup::WINDOW_WIDTH/2-(draw_rect.w/2);
+	draw_rect.y = constants::setup::WINDOW_HEIGHT/2 - (draw_rect.h/2);
 	Uint8 alpha = 255;
 	SDL_SetTextureAlphaMod(image, 255);
 	state = state::Waiting;

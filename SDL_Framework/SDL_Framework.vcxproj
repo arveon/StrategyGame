@@ -157,6 +157,7 @@
     <ClCompile Include="CheckBox.cpp" />
     <ClCompile Include="CodeSnippets.cpp" />
     <ClCompile Include="ConfirmDialog.cpp" />
+    <ClCompile Include="Constants.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Game.cpp" />

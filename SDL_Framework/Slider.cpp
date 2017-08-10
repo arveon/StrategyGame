@@ -13,8 +13,8 @@ slider::slider()
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture* slider, SDL_Rect draw_rect, int value, std::string title)
 {
 #pragma warning(disable:4244)
-	draw_rect.x *= scaling_horizontal;
-	draw_rect.y *= scaling_vertical;
+	draw_rect.x *= setup::scaling_horizontal;
+	draw_rect.y *= setup::scaling_vertical;
 
 	this->element_draw_rect = draw_rect;
 	this->bar_texture = bar;
@@ -30,8 +30,8 @@ slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture* slider, SDL_Rect 
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, int h, int x, int y, int value, std::string title)
 {
 #pragma warning(disable:4244)
-	x *= scaling_horizontal;
-	y *= scaling_vertical;
+	x *= setup::scaling_horizontal;
+	y *= setup::scaling_vertical;
 	this->bar_texture = bar;
 	this->slider_texture = slider;
 	this->element_draw_rect = SDL_Rect{ x,y,w-50,h };
@@ -44,8 +44,8 @@ slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, i
 slider::slider(TTF_Font* font, SDL_Texture * bar, SDL_Texture * slider, int w, int h, SDL_Point pos, int value, std::string title)
 {
 #pragma warning(disable:4244)
-	pos.x *= scaling_horizontal;
-	pos.y *= scaling_vertical;
+	pos.x *= setup::scaling_horizontal;
+	pos.y *= setup::scaling_vertical;
 	this->bar_texture = bar;
 	this->slider_texture = slider;
 	this->element_draw_rect = SDL_Rect{ pos.x, pos.y, w, h };
@@ -70,7 +70,7 @@ void slider::init_title(TTF_Font* font, std::string title)
 	//init title
 	this->title_texture = TextRenderer::get_texture_from_text(font, title, constants::SECONDARY_MENU_SLIDER_COLOR);
 	this->title_draw_rect = element_draw_rect;
-	title_draw_rect.y -= constants::TEXT_SLIDER_GAP * scaling_vertical;
+	title_draw_rect.y -= constants::TEXT_SLIDER_GAP * setup::scaling_vertical;
 	SDL_QueryTexture(title_texture, NULL, NULL, &title_draw_rect.w, &title_draw_rect.h);
 
 	//init value

@@ -23,10 +23,10 @@ TextRenderer::TextRenderer(TTF_Font* font, SDL_Color color, std::string caption)
 	text_texture = sdlframework::sdl_manager::render_text(text, draw_color, font);
 
 #pragma warning(disable: 4244)
-	draw_rect.x *= constants::scaling_horizontal;
-	draw_rect.w *= constants::scaling_horizontal;
-	draw_rect.y *= constants::scaling_vertical;
-	draw_rect.h *= constants::scaling_vertical;
+	draw_rect.x *= constants::setup::scaling_horizontal;
+	draw_rect.w *= constants::setup::scaling_horizontal;
+	draw_rect.y *= constants::setup::scaling_vertical;
+	draw_rect.h *= constants::setup::scaling_vertical;
 }
 
 /* 
