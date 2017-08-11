@@ -1,7 +1,4 @@
 #include "System.h"
-
-//TODO: remove all debug messages
-
 using namespace sdlframework;
 
 /*
@@ -35,16 +32,19 @@ void system::cleanup()
 system::system()
 {
 	init_constants();
-
 	sdl_manager::init();
 }
 
 bool system::init_constants()
 {
+	
 	bool successful = false;
 	std::vector<list_item> settings = file_handler::get_launch_config();
 	if (settings.size() == 0)
-		return successful;
+	{
+		file_handler::create_launch_file();
+		file_handler::create_settings_file();
+	}
 	else
 		successful = true;
 	constants::setup::init_settings(settings);

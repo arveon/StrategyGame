@@ -122,8 +122,6 @@ bool options_menu::apply_settings()
 	getline(str, temp_res, 'x');
 	res_h = stoi(temp_res);
 
-	std::cout << res_w << " " << res_h << std::endl;
-
 	if (sdlframework::sdl_manager::save_window_changes(res_w, res_h, fullscreen->is_checked()))
 	{
 		stable_resolution = resolutions->get_selected();
@@ -143,103 +141,86 @@ bool options_menu::apply_settings()
 
 void options_menu::save_to_file(int res_w, int res_h)
 {
-	//TODO: add checks for whether the file exists
-	//save settings into a settings file
-	std::ofstream filestr("cfg/settings.cfg");
-	if (filestr.good())
-	{
-		filestr.clear();
-		filestr << "master_volume " << volume->get_value() << std::endl;
-		filestr << "music_volume " << music->get_value() << std::endl;
-		filestr << "sounds_volume " << sounds->get_value() << std::endl;
-		filestr << "fullscreen " << fullscreen->is_checked() << std::endl;
-		filestr << "resolution " << resolutions->get_selected() << std::endl;
-		filestr.close();
-	}
-
-	//CONFIG FILE CHANGES
-	//replace resolution and fullscreen entries in launch.cfg 
-	std::ifstream launch_ifilestr("cfg/launch.cfg");
-	bool found;
-	std::string line;
-	std::vector<std::string> lines;
-	int i = 0;
-	int res_id, fs_id = -1;
-	//store lines from file in a temp vector and find line numbers for resolution and fullscreen settings
-	while (getline(launch_ifilestr, line))
-	{
-		std::cout << line << std::endl;
-		lines.push_back(line);
-		if (line.find("resolution ") != std::string::npos)
-			res_id = i;
-		else if (line.find("fullscreen ") != std::string::npos)
-			fs_id = i;
-		i++;
-	}
-	launch_ifilestr.close();
-
-	//replace resolution line in the vector containing all file lines
-	if (res_id == -1)
-		return;
+	//prepare vector for saving settings
+	std::vector<std::string> settings;
 	std::stringstream buffer;
-	buffer << "resolution " << res_w << " " << res_h << std::endl;
-	getline(buffer, lines.at(res_id));
+	buffer << "master_volume " << volume->get_value() << std::endl;
+	settings.push_back(buffer.str());
+	buffer.clear();
 
-	//replace fullscreen line in the vector containing all file lines
-	if (fs_id == -1)
-		return;
-	std::stringstream buffer2;
+	buffer << "music_volume " << music->get_value() << std::endl;
+	settings.push_back(buffer.str());
+	buffer.str(std::string());
+
+	buffer << "sounds_volume " << sounds->get_value() << std::endl;
+	settings.push_back(buffer.str());
+	buffer.str(std::string());
+
 	buffer << "fullscreen " << fullscreen->is_checked() << std::endl;
-	getline(buffer, lines.at(fs_id));
+	settings.push_back(buffer.str());
+	buffer.str(std::string());
 
-	//replace contents of file with the edited version
-	std::ofstream launch_ofilestr("cfg/launch.cfg");
-	for (int i = 0; i < lines.size(); i++)
-	{
-		launch_ofilestr << lines.at(i) << std::endl;
-	}
-	launch_ofilestr.close();
+	buffer << "resolution " << resolutions->get_selected() << std::endl;
+	settings.push_back(buffer.str());
+	buffer.str(std::string());
+	file_handler::save_settings(settings);
+
+	//update launch file as well
+	std::stringstream buffer1;
+	buffer << res_w << " " << res_h;
+	file_handler::save_launch(buffer.str(), fullscreen->is_checked());
 }
 
 void options_menu::load_from_file()
 {
-	int master, music, sound, fullscr, res;
+	//veriables that will be saved
+	int master, music, sound, fullscr, res = 1;
 
 	std::ifstream filestr("cfg/settings.cfg");
 
-	std::string line;
-	while (getline(filestr, line))
+	if (filestr.good())//check if file exists
 	{
-		std::string temp = "";
-		std::stringstream str_buffer;
-		str_buffer << line;
-		getline(str_buffer, temp, ' ');
-		
-		if (temp == "master_volume")
+		std::string line;
+		//read file line by line and extract required values
+		while (getline(filestr, line))
 		{
-			getline(str_buffer, temp);
-			master = std::stoi(temp);
+			std::string temp = "";
+			std::stringstream str_buffer;
+			str_buffer << line;
+			getline(str_buffer, temp, ' ');
+
+			if (temp == "master_volume")
+			{
+				getline(str_buffer, temp);
+				master = std::stoi(temp);
+			}
+			else if (temp == "music_volume")
+			{
+				getline(str_buffer, temp);
+				music = std::stoi(temp);
+			}
+			else if (temp == "sounds_volume")
+			{
+				getline(str_buffer, temp);
+				sound = std::stoi(temp);
+			}
+			else if (temp == "fullscreen")
+			{
+				getline(str_buffer, temp);
+				fullscr = std::stoi(temp);
+			}
+			else if (temp == "resolution")
+			{
+				getline(str_buffer, temp);
+				res = std::stoi(temp);
+			}
 		}
-		else if (temp == "music_volume")
-		{
-			getline(str_buffer, temp);
-			music = std::stoi(temp);
-		}
-		else if (temp == "sounds_volume")
-		{
-			getline(str_buffer, temp);
-			sound = std::stoi(temp);
-		}
-		else if (temp == "fullscreen")
-		{
-			getline(str_buffer, temp);
-			fullscr = std::stoi(temp);
-		}
-		else if (temp == "resolution")
-		{
-			getline(str_buffer, temp);
-			res = std::stoi(temp);
-		}
+	}
+	else
+	{
+		master = music = sound = 100;
+		fullscr = 0;
+		res = 0;
 	}
 
 	volume->set_value(master);

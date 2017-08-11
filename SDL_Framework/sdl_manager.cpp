@@ -14,12 +14,10 @@ void sdlframework::sdl_manager::init()
 {
 	assert(SDL_Init(SDL_INIT_EVERYTHING)==0);
 	if(!constants::setup::FULLSCREEN)
-		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
+		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN/* || SDL_WINDOW_FULLSCREEN*/);
 	else
-		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOW_FULLSCREEN);
+		sdl_manager::game_window = SDL_CreateWindow(constants::setup::WINDOW_CAPTION.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, constants::setup::WINDOW_WIDTH, constants::setup::WINDOW_HEIGHT, SDL_WINDOW_SHOWN || SDL_WINDOW_FULLSCREEN);
 	
-	//std::cout << constants::WINDOW_WIDTH;
-
 	//initialise window and renderer
 	assert(sdl_manager::game_window);
 	sdl_manager::renderer = SDL_CreateRenderer(sdl_manager::game_window, -1, SDL_RENDERER_ACCELERATED);
@@ -152,9 +150,6 @@ bool sdl_manager::save_window_changes(int w_res, int h_res, bool fullscr)
 	
 	if (h_res > cur_display_mode.h)
 		return false;
-
-	std::cout << cur_display_mode.w << " : " << cur_display_mode.h << std::endl;
-	std::cout << w_res << " : " << h_res << std::endl;
 
 	SDL_SetWindowSize(sdl_manager::game_window, w_res, h_res);
 

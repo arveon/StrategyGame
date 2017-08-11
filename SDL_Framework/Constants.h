@@ -68,6 +68,10 @@ namespace constants
 	//general UI constants
 	const int TEXT_SLIDER_GAP = 35;
 
+	//file templates
+	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";
+	const std::string SETTINGS_MIN_TEMPLATE = "master_volume 100\nmusic_volume 100\nsounds_volume 100\nfullscreen 0\nresolution 0";
+
 	class setup
 	{
 	public:
@@ -78,7 +82,7 @@ namespace constants
 		static const int NUM_SOUND_CHANNELS = 5;
 		static const bool SHOW_CURSOR = true;
 		static bool FULLSCREEN;
-		static char WINDOW_CAPTION[];
+		static std::string WINDOW_CAPTION;
 
 		static void init_resolution_deps();
 		static void init_settings(std::vector<list_item> settings);

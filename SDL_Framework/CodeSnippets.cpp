@@ -11,3 +11,10 @@ SDL_LockTexture(bg, NULL, reinterpret_cast<void**>(&pixels), &pitch); //need to 
 memset(pixels, 100, w * h * sizeof(Uint32)); //setting the values in the memory starting from pixels and finishing at pixels + (w*h*sizeof(Uint32)) to 255
 SDL_UnlockTexture(bg); //unlock the texture so it can be rendered(?)
 */
+
+//another way of getting file info and checking if its a folder
+/*struct stat info;
+if (stat(constants::SAVES_PATH.c_str(), &info) == 0)
+{
+if (info.st_mode & S_IFDIR)
+{*/

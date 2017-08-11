@@ -5,7 +5,7 @@ float constants::setup::scaling_horizontal = (float)WINDOW_WIDTH / 640;
 int constants::setup::WINDOW_WIDTH = 640;
 int constants::setup::WINDOW_HEIGHT = 480;
 bool constants::setup::FULLSCREEN = false;
-char constants::setup::WINDOW_CAPTION[] = "ASD";
+std::string constants::setup::WINDOW_CAPTION = "TempName";
 
 void constants::setup::init_resolution_deps()
 {
@@ -29,7 +29,6 @@ void constants::setup::init_settings(std::vector<list_item> settings)
 
 			constants::setup::WINDOW_WIDTH = stoi(x);
 			constants::setup::WINDOW_HEIGHT = stoi(y);
-			//std::cout << "set resolution to:" << constants::WINDOW_WIDTH << " : " << constants::WINDOW_HEIGHT << std::endl;
 		}
 		else if (settings.at(i).display_name == "fullscreen")
 		{
@@ -42,6 +41,12 @@ void constants::setup::init_settings(std::vector<list_item> settings)
 				fs = false;
 
 			constants::setup::FULLSCREEN = fs;
+		}
+		else if (settings.at(i).display_name == "appname")
+		{
+			constants::setup::WINDOW_CAPTION = settings.at(i).value;
+
+
 		}
 	}
 	init_resolution_deps();
