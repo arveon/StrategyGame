@@ -159,7 +159,63 @@ void file_handler::save_launch(std::string res, bool fs)
 		launch_ofilestr << lines.at(i) << std::endl;
 	}
 	launch_ofilestr.close();
-		
+}
+
+std::vector<list_item> file_handler::load_settings()
+{
+	std::vector<list_item> settings;
+
+	if (!file_exists("cfg/settings.cfg"))
+		file_handler::create_settings_file();
+	std::ifstream filestr("cfg/settings.cfg");
+
+	if (filestr.good())//check if file exists
+	{
+		std::string line;
+		//read file line by line and extract required values
+		while (getline(filestr, line))
+		{
+			std::string temp = "";
+			std::stringstream str_buffer;
+			str_buffer << line;
+			getline(str_buffer, temp, ' ');
+
+			list_item temp_item;
+
+			if (temp == "master_volume")
+			{
+				getline(str_buffer, temp_item.value);
+				temp_item.display_name = "master_volume";
+				settings.push_back(temp_item);
+			}
+			else if (temp == "music_volume")
+			{
+				getline(str_buffer, temp_item.value);
+				temp_item.display_name = "music_volume";
+				settings.push_back(temp_item);
+			}
+			else if (temp == "sounds_volume")
+			{
+				getline(str_buffer, temp_item.value);
+				temp_item.display_name = "sounds_volume";
+				settings.push_back(temp_item);
+			}
+			else if (temp == "fullscreen")
+			{
+				getline(str_buffer, temp_item.value);
+				temp_item.display_name = "fullscreen";
+				settings.push_back(temp_item);
+			}
+			else if (temp == "resolution")
+			{
+				getline(str_buffer, temp_item.value);
+				temp_item.display_name = "resolution";
+				settings.push_back(temp_item);
+			}
+		}
+	}
+
+	return settings;
 }
 
 bool file_handler::create_launch_file()

@@ -146,7 +146,7 @@ void options_menu::save_to_file(int res_w, int res_h)
 	std::stringstream buffer;
 	buffer << "master_volume " << volume->get_value() << std::endl;
 	settings.push_back(buffer.str());
-	buffer.clear();
+	buffer.str(std::string());
 
 	buffer << "music_volume " << music->get_value() << std::endl;
 	settings.push_back(buffer.str());
@@ -173,55 +173,33 @@ void options_menu::save_to_file(int res_w, int res_h)
 
 void options_menu::load_from_file()
 {
-	//TODO: move all file handling to file handler
-	//veriables that will be saved
+	//variables that will be saved
 	int master, music, sound, fullscr, res = 1;
 
-	std::ifstream filestr("cfg/settings.cfg");
+	std::vector<list_item> settings = file_handler::load_settings();
 
-	if (filestr.good())//check if file exists
+	for (int i = 0; i < settings.size(); i++)
 	{
-		std::string line;
-		//read file line by line and extract required values
-		while (getline(filestr, line))
+		if (settings.at(i).display_name == "master_volume")
 		{
-			std::string temp = "";
-			std::stringstream str_buffer;
-			str_buffer << line;
-			getline(str_buffer, temp, ' ');
-
-			if (temp == "master_volume")
-			{
-				getline(str_buffer, temp);
-				master = std::stoi(temp);
-			}
-			else if (temp == "music_volume")
-			{
-				getline(str_buffer, temp);
-				music = std::stoi(temp);
-			}
-			else if (temp == "sounds_volume")
-			{
-				getline(str_buffer, temp);
-				sound = std::stoi(temp);
-			}
-			else if (temp == "fullscreen")
-			{
-				getline(str_buffer, temp);
-				fullscr = std::stoi(temp);
-			}
-			else if (temp == "resolution")
-			{
-				getline(str_buffer, temp);
-				res = std::stoi(temp);
-			}
+			master = std::stoi(settings.at(i).value);
 		}
-	}
-	else
-	{
-		master = music = sound = 100;
-		fullscr = 0;
-		res = 0;
+		else if (settings.at(i).display_name == "music_volume")
+		{
+			music = std::stoi(settings.at(i).value);
+		}
+		else if (settings.at(i).display_name == "sounds_volume")
+		{
+			sound = std::stoi(settings.at(i).value);
+		}
+		else if (settings.at(i).display_name == "fullscreen")
+		{
+			fullscr = std::stoi(settings.at(i).value);
+		}
+		else if (settings.at(i).display_name == "resolution")
+		{
+			res = std::stoi(settings.at(i).value);
+		}
 	}
 
 	volume->set_value(master);

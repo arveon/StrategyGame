@@ -26,6 +26,8 @@ public:
 	static void save_settings(std::vector<std::string> settings);
 	static void save_launch(std::string resolution, bool fullscreen);
 
+	static std::vector<list_item> load_settings();
+
 	//general purpose functions
 	static bool dir_exists(std::string path);
 	static bool file_exists(std::string path);
