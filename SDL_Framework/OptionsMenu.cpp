@@ -173,6 +173,7 @@ void options_menu::save_to_file(int res_w, int res_h)
 
 void options_menu::load_from_file()
 {
+	//TODO: move all file handling to file handler
 	//veriables that will be saved
 	int master, music, sound, fullscr, res = 1;
 
