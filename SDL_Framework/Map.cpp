@@ -4,33 +4,11 @@ Map::Map(int width, int height)
 {
 	
 
-	this->width = width;
-	this->height = height;
-
-	field = new SimplePoint*[height];
-	for (int i = 0; i < height; i++)
-	{
-		field[i] = new SimplePoint[width];
-	}
-
 }
 
 void Map::populate_map_default()
 {
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-			field[i][j] = SimplePoint{ i, j, 0 };
-
-	field[1][5].val = -1;
-	field[2][5].val = -1;
-	field[2][4].val = -1;
-	field[3][4].val = -1;
-	field[4][4].val = -1;
-	field[5][4].val = -1;
-	field[5][3].val = -1;
-	field[5][2].val = -1;
-	field[5][1].val = -1;
-	field[5][0].val = -1;
+	
 }
 
 void Map::link_tiles()

@@ -159,23 +159,30 @@
     <ClCompile Include="ConfirmDialog.cpp" />
     <ClCompile Include="Constants.cpp" />
     <ClCompile Include="DialogWindow.cpp" />
+    <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="LoadWindow.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapManager.cpp" />
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
+    <ClCompile Include="Painter.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="System.cpp" />
+    <ClCompile Include="TaskList.cpp" />
     <ClCompile Include="TextRenderer.cpp" />
+    <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TilesetManager.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -184,17 +191,21 @@
     <ClInclude Include="ConfirmDialog.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DialogWindow.h" />
+    <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="ListItem.h" />
     <ClInclude Include="LoadWindow.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapManager.h" />
     <ClInclude Include="MessageBox.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="OptionsMenu.h" />
+    <ClInclude Include="Painter.h" />
     <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SimplePoint.h" />
@@ -202,9 +213,21 @@
     <ClInclude Include="SplashScreen.h" />
     <ClInclude Include="System.h" />
     <ClInclude Include="TextRenderer.h" />
+    <ClInclude Include="Tile.h" />
+    <ClInclude Include="TilesetManager.h" />
     <ClInclude Include="Time.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\rapidxml.1.13\build\native\rapidxml.targets" Condition="Exists('..\packages\rapidxml.1.13\build\native\rapidxml.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\rapidxml.1.13\build\native\rapidxml.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\rapidxml.1.13\build\native\rapidxml.targets'))" />
+  </Target>
 </Project>
