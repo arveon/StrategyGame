@@ -2,7 +2,7 @@
 
 
 
-void painter::add_object_to_queue(drawable_object obj)
+void painter::add_object_to_queue(drawable_object* obj)
 {
 }
 
