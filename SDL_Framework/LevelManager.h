@@ -9,6 +9,7 @@ private:
 public:
 	void reset_level();
 	void set_level();
+	void unload_level();
 	
 	void update(Mouse);
 	void draw(SDL_Renderer*);

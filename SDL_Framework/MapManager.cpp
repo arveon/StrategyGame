@@ -31,6 +31,7 @@ void map_manager::load_map(int level)
 		x = std::stoi(cur_node->first_attribute("x")->value());
 		y = std::stoi(cur_node->first_attribute("y")->value());
 
+		//TODO: Replace temp_tex with proper textures (and figure out the logic it will do it with)
 		SDL_Texture* temp_tex;
 		if (cur_node->first_attribute("tile")->value() == "1")
 			temp_tex = sdlframework::sdl_manager::create_texture(1, 1, { 255,0,0 });
