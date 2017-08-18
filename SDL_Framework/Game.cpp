@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "MapManager.h"
+
 using namespace sdlframework;
 
 game::game()
@@ -26,6 +28,8 @@ void sdlframework::game::init()
 	mouse.init();
 
 	state_before_exit = constants::game_state::game_flow;
+
+	map_manager::load_map(1);
 }
 
 //called every frame
