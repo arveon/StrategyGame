@@ -1,0 +1,6 @@
+All in-game rendering is done through Painter class.
+
+Queues:
+0 - terrain (maybe should split it into 2 queues)
+1 - characters&items
+2 - UI elements

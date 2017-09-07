@@ -1,5 +1,8 @@
 #include "MapManager.h"
 
+int map_manager::w, map_manager::h = 0;
+int  map_manager::t_w, map_manager::t_h = 1;
+tile_object*** map_manager::map = nullptr;
 void map_manager::load_map(int level)
 {
 	//TODO::Add checks for file not being in the folder, not having anything in the map etc
@@ -33,13 +36,13 @@ void map_manager::load_map(int level)
 
 		//TODO: Replace temp_tex with proper textures (and figure out the logic it will do it with)
 		SDL_Texture* temp_tex;
-		if (cur_node->first_attribute("tile")->value() == "1")
+		int t_type = std::stoi(cur_node->first_attribute("tile")->value());
+		if (t_type == 1)
 			temp_tex = sdlframework::sdl_manager::create_texture(1, 1, { 255,0,0 });
 		else
 			temp_tex = sdlframework::sdl_manager::create_texture(1, 1, { 0,0,255 });
 
-		tile_object* temp_tile = new tile_object({ x * t_w, y * t_h }, t_w, t_h, true, temp_tex, 0, constants::tile_type::grass);
-
+		tile_object* temp_tile = new tile_object({ x * t_w, y * t_h }, t_w, t_h, true, temp_tex, 0, (constants::tile_type)t_type);
 
 		map[y][x] = temp_tile;
 
@@ -51,7 +54,7 @@ void map_manager::load_map(int level)
 	{
 		for (int j = 0; j < h; j++)
 		{
-			std::cout << map[i][j];
+			std::cout << map[i][j]->tile_type;
 		}
 		std::cout << std::endl;
 	}

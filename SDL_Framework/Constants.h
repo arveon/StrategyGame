@@ -72,9 +72,10 @@ namespace constants
 	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";
 	const std::string SETTINGS_MIN_TEMPLATE = "master_volume 100\nmusic_volume 100\nsounds_volume 100\nfullscreen 0\nresolution 0";
 
+	//map constants
 	const enum tilesets
 	{
-		terrain,
+		map,
 		characters,
 		props,
 		items,
@@ -89,6 +90,17 @@ namespace constants
 		stone,
 		water
 	};
+
+	//game constants
+	const enum base_object_type
+	{
+		terrain,
+		character,
+		item,
+		ui,
+		other
+	};
+
 
 	class setup
 	{
