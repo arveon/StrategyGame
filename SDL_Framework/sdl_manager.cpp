@@ -151,12 +151,24 @@ bool sdl_manager::save_window_changes(int w_res, int h_res, bool fullscr)
 	if (h_res > cur_display_mode.h)
 		return false;
 
-	SDL_SetWindowSize(sdl_manager::game_window, w_res, h_res);
+	/*SDL_DisplayMode target, closest;
+	target.w = w_res;
+	target.h = h_res;
+	target.driverdata = 0;
+	target.format = 0;
+	target.refresh_rate = 0;*/
+
+	/*if (SDL_GetClosestDisplayMode(0, &target, &closest) != NULL)
+	{
+		SDL_SetWindowDisplayMode(sdl_manager::game_window, &closest);
+		std::cout << closest.w << " " << closest.h << std::endl;
+	}
+	else*/
+		SDL_SetWindowSize(sdl_manager::game_window, w_res, h_res);
 
 	SDL_SetWindowPosition(sdl_manager::game_window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
 	return true;
 }
-
 
 sdl_manager::sdl_manager()
 {

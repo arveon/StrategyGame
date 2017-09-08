@@ -1,0 +1,3 @@
+Maps are stored in XML files produced by PyxelEdit.
+Map tiles from first layer should be loaded as terrain,
+map tiles from other layers should be put in character and items render queue and saved as rigid objects (OR TILES?)

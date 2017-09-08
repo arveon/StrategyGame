@@ -15,6 +15,7 @@ namespace constants
 	{
 		splash,
 		main_menu,
+		loading,
 		pause_menu,
 		game_flow,
 		confirming_exit,
@@ -64,9 +65,10 @@ namespace constants
 	const int SLIDER_WIDTH = 300;
 	const int SLIDER_HEIGHT = 10;
 
-
 	//general UI constants
 	const int TEXT_SLIDER_GAP = 35;
+	const SDL_Point LOAD_BAR_POS = { 20, 400 };
+	const SDL_Point LOAD_BAR_SIZE = {600, 50};
 
 	//file templates
 	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";

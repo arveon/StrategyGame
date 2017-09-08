@@ -41,7 +41,7 @@ options_menu::options_menu()
 	SDL_Texture* list_bg = sdlframework::sdl_manager::create_texture(1, 1, { 150,150,150 });
 	SDL_Texture* selected_bg = sdlframework::sdl_manager::create_texture(1, 1, { 150, 0, 150 });
 	std::vector<list_item> res_list;
-	res_list.push_back({ "640x480", "640x480" });
+	//res_list.push_back({ "640x480", "640x480" }); //disabled because my screen doesn't properly support it
 	res_list.push_back({ "800x600", "800x600" });
 	res_list.push_back({ "1024x768", "1024x768" });
 	res_list.push_back({ "1600x900", "1600x900" });
@@ -111,6 +111,7 @@ bool options_menu::apply_settings()
 	int res_w, res_h = 0;
 
 	std::string res_str = resolutions->get_element_at(resolutions->get_selected()).value;
+
 	//pull resolution values from string
 	std::stringstream str;
 	str << res_str;

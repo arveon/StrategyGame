@@ -86,23 +86,6 @@ void main_menu::update(Mouse mouse)
 			cur_state = state::waiting;
 		}
 	}
-	else if (cur_state == start_clicked)
-	{//if start got clicked, create a msgbox saying that this feature isn't avaiblable yet
-		//TODO: replace the placeholder window with actual game flow screen and add start adding game logic
-		if (msg_box == nullptr)
-		{
-			SDL_Texture* temp = sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 });
-			msg_box = new message_box(temp, { constants::setup::WINDOW_WIDTH / 2 - 200, constants::setup::WINDOW_HEIGHT / 2 - 50}, "This feature is not available yet!", 400, 100);
-		}
-		msg_box->update(mouse);
-
-		if (msg_box->is_confirmed())
-		{
-			delete msg_box;
-			msg_box = nullptr;
-			cur_state = state::waiting;
-		}
-	}
 	else if (cur_state == load_clicked)
 	{//if load game is clicked, go into load screen and create it if it doesn't exist
 		if (load_game_window == nullptr)

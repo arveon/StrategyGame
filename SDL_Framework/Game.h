@@ -11,6 +11,8 @@
 #include "SplashScreen.h"
 #include "MainMenu.h"
 #include "Mouse.h"
+#include "LevelManager.h"
+#include "LoadScreen.h"
 
 namespace sdlframework
 {
@@ -25,9 +27,13 @@ namespace sdlframework
 		splash_screen splash;
 		main_menu menu;
 		confirm_dialog* exit_confirm = nullptr;
+		load_screen* load_scr;
+
 		constants::game_state state_before_exit = constants::game_state::splash;
 
 		Mouse mouse;
+
+		level_manager* lvl_manager;
 
 		bool quit_game;
 		bool pending_color_change;
