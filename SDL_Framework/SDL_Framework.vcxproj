@@ -168,6 +168,7 @@
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Level_1.cpp" />
+    <ClCompile Include="LivingEntity.cpp" />
     <ClCompile Include="LoadScreen.cpp" />
     <ClCompile Include="LoadWindow.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -177,6 +178,7 @@
     <ClCompile Include="MessageBox.cpp" />
     <ClCompile Include="OptionsMenu.cpp" />
     <ClCompile Include="Painter.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ScrollBar.cpp" />
     <ClCompile Include="sdl_manager.cpp" />
     <ClCompile Include="SimplePoint.cpp" />
@@ -205,6 +207,7 @@
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Level_1.h" />
     <ClInclude Include="ListItem.h" />
+    <ClInclude Include="LivingEntity.h" />
     <ClInclude Include="LoadScreen.h" />
     <ClInclude Include="LoadWindow.h" />
     <ClInclude Include="MainMenu.h" />
@@ -214,6 +217,7 @@
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="OptionsMenu.h" />
     <ClInclude Include="Painter.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ScrollBar.h" />
     <ClInclude Include="sdl_manager.h" />
     <ClInclude Include="SimplePoint.h" />

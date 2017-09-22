@@ -47,7 +47,7 @@ public:
 	int left_margin = 10;//margin of items from the left border of element
 
 	void draw(SDL_Renderer* renderer);
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 
 	int get_selected() { return selected_item; }
 	void set_selected(int new_select);

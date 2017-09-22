@@ -18,3 +18,19 @@ if (stat(constants::SAVES_PATH.c_str(), &info) == 0)
 {
 if (info.st_mode & S_IFDIR)
 {*/
+
+////simulation of percentage changes
+//if (!level_loaded)
+//{
+//	static int passed = 0;
+//	passed += delta_time;
+//	loaded = (float)passed / 2000;
+
+//	if (loaded >= 1)
+//	{
+//		loaded = 1;
+//		level_loaded = true;
+//		passed = 0;
+//	}
+//	loaded_item = std::to_string(loaded);
+//}

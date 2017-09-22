@@ -8,7 +8,7 @@ message_box::message_box(SDL_Texture* bg, SDL_Point window_coords, std::string t
 	ok.set_position({window_coords.x + constants::CONFIRM_EXIT_DIALOG_WIDTH/2 - ok.get_width()/2, window_coords.y + constants::CONFIRM_EXIT_DIALOG_HEIGHT - ok.get_height() - 10});
 }
 
-void message_box::update(Mouse mouse)
+void message_box::update(Mouse* mouse)
 {
 	ok.update(mouse);
 

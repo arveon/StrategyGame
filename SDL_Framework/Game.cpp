@@ -95,7 +95,7 @@ bool game::update(Uint32 delta_time)
 			game_state = constants::game_state::main_menu;
 		break;
 	case constants::game_state::main_menu:
-		menu.update(mouse);
+		menu.update(&mouse);
 		//if exit was clicked in the menu, enter exit state
 		if (menu.cur_state == main_menu::state::exit_clicked)
 		{
@@ -111,12 +111,8 @@ bool game::update(Uint32 delta_time)
 	case constants::game_state::pause_menu:
 		//TODO: implement pause menu while in gameflow
 		break;
-	case constants::game_state::loading:
-		//TODO: implemet loading screen update?
-		break;
 	case constants::game_state::game_flow:
 		//create lvl manager if not existent, show loading screen
-		
 		if (lvl_manager == nullptr)
 			lvl_manager = new level_manager();
 		if (!lvl_manager->is_level_loaded())
@@ -128,17 +124,13 @@ bool game::update(Uint32 delta_time)
 		}
 		else
 		{
-			delete lvl_manager;
 			delete load_scr;
-			lvl_manager = nullptr;
 			load_scr = nullptr;
-			game_state = constants::game_state::main_menu;
+			//game_state = constants::game_state::main_menu;
 		}
 
 		if (lvl_manager != nullptr)
-			lvl_manager->update(mouse, delta_time);
-		
-		//TODO: implement gameflow
+			lvl_manager->update(&mouse, delta_time);
 		break;
 	case constants::game_state::confirming_exit:
 		//if the exit confirmation window didn't exist, create one
@@ -147,7 +139,7 @@ bool game::update(Uint32 delta_time)
 			SDL_Point center = SDL_Point{ (constants::setup::WINDOW_WIDTH - constants::CONFIRM_EXIT_DIALOG_WIDTH) / 2, (constants::setup::WINDOW_HEIGHT - constants::CONFIRM_EXIT_DIALOG_HEIGHT) / 2 };
 			exit_confirm = new confirm_dialog(sdlframework::sdl_manager::create_texture(1, 1, { 255, 255, 255 }), center, "Are you sure you want to exit?", constants::CONFIRM_EXIT_DIALOG_WIDTH, constants::CONFIRM_EXIT_DIALOG_HEIGHT);
 		}
-		exit_confirm->update(mouse);
+		exit_confirm->update(&mouse);
 
 		//if exit is confirmed, stop game from running
 		if (exit_confirm->is_confirmed())
@@ -189,6 +181,8 @@ void game::draw(SDL_Renderer* renderer)
 			break;
 		if (!lvl_manager->is_level_loaded() || load_scr != nullptr)
 			load_scr->draw(renderer);
+		else if(lvl_manager->is_level_loaded())
+			lvl_manager->draw(renderer);
 		break;
 	case constants::game_state::confirming_exit:
 		//if game in exiting state and previous state was menu, draw the menu and then confirm window over it

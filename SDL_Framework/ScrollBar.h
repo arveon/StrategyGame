@@ -29,7 +29,7 @@ private:
 	bool is_clicked = true;
 public:
 	void draw(SDL_Renderer* renderer);
-	void update(Mouse mouse, int percentage = 0);
+	void update(Mouse* mouse, int percentage = 0);
 
 	bool is_up(){ return cur_state == move_up; }
 	bool is_down(){ return cur_state == move_down; }

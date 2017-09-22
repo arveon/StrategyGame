@@ -31,7 +31,7 @@ private:
 	};
 	state cur_state;
 public:
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 	void draw(SDL_Renderer* renderer);
 
 	bool is_back(){ return cur_state == back_clicked; }

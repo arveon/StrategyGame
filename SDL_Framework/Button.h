@@ -65,7 +65,7 @@ public:
 	void init(std::string font_name, std::string caption, SDL_Point position, int font_size = def_fontsize);
 	void init(SDL_Texture* texture, SDL_Rect position);
 
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 	void draw(SDL_Renderer*);
 
 	bool is_clicked() { return (cur_state == state::Clicked); }

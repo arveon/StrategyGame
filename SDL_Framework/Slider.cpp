@@ -85,19 +85,19 @@ void slider::init_title(TTF_Font* font, std::string title)
 #pragma endregion
 
 
-void slider::update(Mouse mouse)
+void slider::update(Mouse* mouse)
 {
 	//set state of slider depending on the mouse
-	SDL_Point mousepoint = { mouse.x, mouse.y };
-	if ((SDL_PointInRect(&mousepoint, &slider_draw_rect) || SDL_PointInRect(&mousepoint, &element_draw_rect)) && mouse.lmb_down && !mouse.prev_lmb_down)
+	SDL_Point mousepoint = { mouse->x, mouse->y };
+	if ((SDL_PointInRect(&mousepoint, &slider_draw_rect) || SDL_PointInRect(&mousepoint, &element_draw_rect)) && mouse->lmb_down && !mouse->prev_lmb_down)
 		is_pressed = true;
-	else if (!mouse.lmb_down)
+	else if (!mouse->lmb_down)
 		is_pressed = false;
 
 	//if clicked, make it follow the mouse
 	if (is_pressed)
 	{
-		slider_draw_rect.x = mouse.x - slider_draw_rect.w / 2;
+		slider_draw_rect.x = mouse->x - slider_draw_rect.w / 2;
 		
 		//if slider is too far to the right/left, clamp it to size of bar
 		if (slider_draw_rect.x + slider_draw_rect.w > element_draw_rect.x + element_draw_rect.w)

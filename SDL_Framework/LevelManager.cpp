@@ -1,32 +1,25 @@
 #include "LevelManager.h"
 
-void level_manager::update(Mouse mouse, int delta_time)
+void level_manager::update(Mouse* mouse, int delta_time)
 {
 	level1.update(mouse);
 	loaded = level1.get_loaded_percent();
 	level_loaded = level1.level_loaded();
-	////simulation of percentage changes
-	//if (!level_loaded)
-	//{
-	//	static int passed = 0;
-	//	passed += delta_time;
-	//	loaded = (float)passed / 2000;
-
-	//	if (loaded >= 1)
-	//	{
-	//		loaded = 1;
-	//		level_loaded = true;
-	//		passed = 0;
-	//	}
-	//	loaded_item = std::to_string(loaded);
-	//}
 	loaded_item = 1;
+
+
+}
+
+void level_manager::draw(SDL_Renderer* renderer)
+{
+	drawing_manager.draw_queue(renderer);
 }
 
 
 level_manager::level_manager()
 {
 	level_loaded = false;
+	level1.init(&drawing_manager);
 }
 
 level_manager::~level_manager()

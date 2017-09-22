@@ -7,8 +7,9 @@
 class level_manager
 {
 private:
+	painter drawing_manager;
 	Level_1 level1;
-
+	
 	enum state
 	{
 		loading,
@@ -27,7 +28,7 @@ public:
 	float get_loaded_percent() { return loaded; }
 	std::string get_loaded_item() { return loaded_item; }
 	
-	void update(Mouse, int delta_time);
+	void update(Mouse*, int delta_time);
 	void draw(SDL_Renderer*);
 	
 	level_manager();

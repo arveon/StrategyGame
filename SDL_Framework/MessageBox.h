@@ -19,7 +19,7 @@ private:
 public:
 	message_box(SDL_Texture* bg, SDL_Point window_center, std::string text, int width, int height);
 
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 	void draw(SDL_Renderer* renderer);
 
 	bool is_confirmed() { return cur_state == state::confirmed; }

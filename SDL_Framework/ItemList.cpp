@@ -60,13 +60,13 @@ void item_list::init_lists(int selected)
 	selected_item_bg_draw_rect.h += item_margin;
 }
 
-void item_list::update(Mouse mouse)
+void item_list::update(Mouse* mouse)
 {
 	//if its empty, don't need to update it
 	if (empty)
 		return;
 
-	SDL_Point mousepoint{ mouse.x, mouse.y };
+	SDL_Point mousepoint{ mouse->x, mouse->y };
 	if (SDL_PointInRect(&mousepoint, &box_draw_rect))
 	{//if mouse inside the box area
 		//loop through all the draw rectangles
@@ -85,7 +85,7 @@ void item_list::update(Mouse mouse)
 
 			//if clicked on the collision rectangle of the item (and it wasnt selected before), 
 			//update selected item index and set selected bg draw rect to collision rect
-			if (SDL_PointInRect(&mousepoint, &collision_rect) && mouse.lmb_down && !mouse.prev_lmb_down && i+top_item != selected_item)
+			if (SDL_PointInRect(&mousepoint, &collision_rect) && mouse->lmb_down && !mouse->prev_lmb_down && i+top_item != selected_item)
 			{
 				previous_selected_item = selected_item;
 				selected_item_bg_draw_rect = collision_rect;

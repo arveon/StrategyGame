@@ -69,7 +69,7 @@ void options_menu::draw(SDL_Renderer* renderer)
 /*
 	depending on the button clicks updates the screen state and all the elements
 */
-void options_menu::update(Mouse mouse)
+void options_menu::update(Mouse* mouse)
 {
 	if (cur_state != state::error)
 	{

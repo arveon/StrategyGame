@@ -6,6 +6,7 @@
 
 class drawable_object : game_object
 {
+	friend class painter;
 protected:
 	SDL_Texture* texture;
 public:

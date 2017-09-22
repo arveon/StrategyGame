@@ -37,7 +37,7 @@ public:
 
 	void init_title(TTF_Font * font, std::string title);
 
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 	void draw(SDL_Renderer*);
 
 	int get_value() { return cur_value; }

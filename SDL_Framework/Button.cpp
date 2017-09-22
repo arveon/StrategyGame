@@ -173,14 +173,14 @@ void Button::finalise()
 #pragma endregion
 
 
-void Button::update(Mouse mouse)
+void Button::update(Mouse* mouse)
 {
 
 	//if button is disabled, don't update it
 	if (cur_state == state::Disabled)
 		return;
 
-	SDL_Point mouse_p = { mouse.x, mouse.y };
+	SDL_Point mouse_p = { mouse->x, mouse->y };
 
 	
 
@@ -188,7 +188,7 @@ void Button::update(Mouse mouse)
 	if (SDL_PointInRect(&mouse_p, &draw_rect))
 	{
 		//if it just got pressed
-		if (mouse.lmb_down && !mouse.prev_lmb_down)
+		if (mouse->lmb_down && !mouse->prev_lmb_down)
 		{
 			//if state wasn't changed yet
 			if (cur_state != Pressed)
@@ -202,11 +202,11 @@ void Button::update(Mouse mouse)
 			}
 			cur_state = state::Pressed;
 		}
-		else if (!mouse.lmb_down && cur_state == state::Pressed)//if was pressed and mouse button is up now, set to clicked
+		else if (!mouse->lmb_down && cur_state == state::Pressed)//if was pressed and mouse button is up now, set to clicked
 		{
 			cur_state = state::Clicked;
 		}
-		else if(!mouse.lmb_down)
+		else if(!mouse->lmb_down)
 		{//if mouse not pressed, but over it, it's in hover mode
 			if (cur_state != Hovered)
 			{

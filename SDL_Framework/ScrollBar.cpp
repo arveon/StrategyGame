@@ -59,7 +59,7 @@ void scroll_bar::init(SDL_Texture* slider_texture, SDL_Texture* up, SDL_Texture*
 	//set_bar_percent(1.0f);
 }
 
-void scroll_bar::update(Mouse mouse, int percentage)
+void scroll_bar::update(Mouse* mouse, int percentage)
 {
 	up.update(mouse);
 	down.update(mouse);
@@ -77,16 +77,16 @@ void scroll_bar::update(Mouse mouse, int percentage)
 		cur_state = none;
 
 	//check if slider was clicked
-	SDL_Point mouse_point = { mouse.x, mouse.y };
-	if (SDL_PointInRect(&mouse_point, &draw_rect) && mouse.lmb_down && !mouse.prev_lmb_down)
+	SDL_Point mouse_point = { mouse->x, mouse->y };
+	if (SDL_PointInRect(&mouse_point, &draw_rect) && mouse->lmb_down && !mouse->prev_lmb_down)
 		is_clicked = true;
-	else if (!mouse.lmb_down)
+	else if (!mouse->lmb_down)
 		is_clicked = false;
 
 	//update slider position and state to percentage_changed so that objects outside can pick it up
 	if (is_clicked)
 	{
-		slider_draw_rect.y = mouse.y - slider_draw_rect.h / 2;
+		slider_draw_rect.y = mouse->y - slider_draw_rect.h / 2;
 		cur_state = state::percentage_changed;
 	}
 

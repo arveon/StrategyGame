@@ -42,7 +42,7 @@ public:
 	state cur_state;
 
 	void init();
-	void update(Mouse mouse);
+	void update(Mouse* mouse);
 	void draw(SDL_Renderer*);
 
 	void reset_state() { cur_state = state::waiting; }

@@ -15,7 +15,7 @@ private:
 	std::vector<drawable_object*> rq_ui;
 
 public:
-	void init(game_object* camera_anchor);
+	void init_anchor(game_object* camera_anchor);
 	void add_object_to_queue(drawable_object* obj);
 	void reset_queue();
 	void sort_queues();

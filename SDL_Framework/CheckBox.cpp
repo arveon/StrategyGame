@@ -72,20 +72,20 @@ void check_box::draw(SDL_Renderer* renderer)
 	SDL_RenderCopy(renderer, to_draw, NULL, &draw_rect);
 }
 
-void check_box::update(Mouse mouse)
+void check_box::update(Mouse* mouse)
 {
-	SDL_Point temp = SDL_Point{ mouse.x, mouse.y };
+	SDL_Point temp = SDL_Point{ mouse->x, mouse->y };
 	if (SDL_PointInRect(&temp, &draw_rect))
 	{//if mouse over the box, switch the state appropriately to mouse state
-		if (mouse.lmb_down && mouse.prev_lmb_down == false)
+		if (mouse->lmb_down && mouse->prev_lmb_down == false)
 		{
 			cur_state = state::Pressed;
 		}
-		else if (!mouse.lmb_down && cur_state == state::Pressed)
+		else if (!mouse->lmb_down && cur_state == state::Pressed)
 		{
 			cur_state = state::Clicked;
 		}
-		else if (!mouse.lmb_down)
+		else if (!mouse->lmb_down)
 		{
 			cur_state = state::Hovered;
 		}

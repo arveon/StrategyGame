@@ -15,7 +15,7 @@ void main_menu::init()
 
 }
 
-void main_menu::update(Mouse mouse)
+void main_menu::update(Mouse* mouse)
 {
 	//if exit was clicked change menu state and reset the button
 	if (exit.is_clicked())

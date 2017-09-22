@@ -1,13 +1,9 @@
 #include "Painter.h"
 
-
-void painter::init(game_object* camera_anchor)
+void painter::init_anchor(game_object* camera_anchor)
 {
 	render_camera.camera_anchor = camera_anchor;
-	render_camera.width = constants::setup::WINDOW_WIDTH;
-	render_camera.height = constants::setup::WINDOW_HEIGHT;
 	render_camera.world_coords = camera_anchor->get_position();
-
 }
 
 void painter::add_object_to_queue(drawable_object* obj)
@@ -41,6 +37,13 @@ void painter::reset_queue()
 
 void painter::draw_queue(SDL_Renderer * renderer)
 {
+	for (std::vector<drawable_object*>::iterator it = rq_terrain.begin(); it != rq_terrain.end(); ++it)
+	{
+		drawable_object* temp = *it;
+		SDL_Rect draw_rect = { temp->world_coords.x, temp->world_coords.y, temp->width, temp->height };
+		SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
+	}
+
 }
 
 

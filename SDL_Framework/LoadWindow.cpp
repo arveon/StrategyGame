@@ -50,7 +50,7 @@ load_window::load_window()
 /*
 	updates screen state based on mouse state
 */
-void load_window::update(Mouse mouse)
+void load_window::update(Mouse* mouse)
 {
 	back.update(mouse);
 	load.update(mouse);

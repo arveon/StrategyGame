@@ -30,7 +30,7 @@ private:
 	void init_draw_rects();
 public:
 	void draw(SDL_Renderer*);
-	void update(Mouse);
+	void update(Mouse*);
 
 	bool is_checked() { return is_box_checked; }
 	void set_checked(bool value) { is_box_checked = value; }

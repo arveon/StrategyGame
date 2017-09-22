@@ -23,7 +23,7 @@ void confirm_dialog::draw(SDL_Renderer* renderer)
 	no.draw(renderer);
 }
 
-void confirm_dialog::update(Mouse mouse)
+void confirm_dialog::update(Mouse* mouse)
 {
 	yes.update(mouse);
 	no.update(mouse);
