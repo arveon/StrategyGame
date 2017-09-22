@@ -69,6 +69,7 @@ namespace constants
 	const int TEXT_SLIDER_GAP = 35;
 	const SDL_Point LOAD_BAR_POS = { 20, 400 };
 	const SDL_Point LOAD_BAR_SIZE = {600, 50};
+	const SDL_Point LOAD_TEXT_POS = {20, 370};
 
 	//file templates
 	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";

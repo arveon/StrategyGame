@@ -73,6 +73,12 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{3d022fac-e552-454c-b599-d1b31d4047d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\levels">
+      <UniqueIdentifier>{1a36a3ba-d6b6-4bcf-aed9-b14d5d31dc8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\levels">
+      <UniqueIdentifier>{6312eb26-d794-45e8-9bf6-c06c5733c195}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -177,6 +183,9 @@
     <ClCompile Include="LoadScreen.cpp">
       <Filter>Source Files\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="Level_1.cpp">
+      <Filter>Source Files\levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -280,6 +289,9 @@
     </ClInclude>
     <ClInclude Include="LoadScreen.h">
       <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_1.h">
+      <Filter>Header Files\levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

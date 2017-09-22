@@ -167,6 +167,7 @@
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="LevelManager.cpp" />
+    <ClCompile Include="Level_1.cpp" />
     <ClCompile Include="LoadScreen.cpp" />
     <ClCompile Include="LoadWindow.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="LevelManager.h" />
+    <ClInclude Include="Level_1.h" />
     <ClInclude Include="ListItem.h" />
     <ClInclude Include="LoadScreen.h" />
     <ClInclude Include="LoadWindow.h" />

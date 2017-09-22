@@ -1,9 +1,14 @@
 #pragma once
 #include "Constants.h"
 #include "Mouse.h"
+
+#include "Level_1.h"
+
 class level_manager
 {
 private:
+	Level_1 level1;
+
 	enum state
 	{
 		loading,
@@ -12,7 +17,7 @@ private:
 	};
 	bool level_loaded;
 	std::string loaded_item;
-	float loaded = 0.5f;
+	float loaded = 0;
 public:
 	void reset_level();
 	void set_level();

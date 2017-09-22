@@ -11,7 +11,7 @@ load_screen::load_screen()
 	progress_bar.texture = sdlframework::sdl_manager::create_texture(1, 1, { 20,150,20 });
 	progress_bar.draw_rect = progress_bar_bg.draw_rect;
 	progress_bar.draw_rect.w = 0;
-	text_indicator = new TextRenderer(sdlframework::sdl_manager::load_font(constants::FONTS_PATH + constants::font_optimus, 24, { 255,255,255 }), { 255,255,255 }, "Loading...");
+	text_indicator = new TextRenderer(sdlframework::sdl_manager::load_font(constants::FONTS_PATH + constants::font_optimus, 24, { 255,255,255 }), { 255,255,255 }, "Loading...", constants::LOAD_TEXT_POS.x, constants::LOAD_TEXT_POS.y);
 }
 
 void load_screen::update()
