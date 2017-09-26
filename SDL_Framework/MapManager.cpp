@@ -3,7 +3,19 @@
 int map_manager::tileswide, map_manager::tileshigh = 0;
 int  map_manager::t_width, map_manager::t_height = 1;
 tile_object*** map_manager::map = nullptr;
+bool map_manager::initialised = false;
 void map_manager::load_map(int level)
+{
+	if (initialised)
+	{
+		tileset_manager::set_initialised();
+		load_from_file();
+		list_tex_to_load();
+		link_textures_to_tiles();
+	}
+}
+
+void map_manager::load_from_file()
 {
 	//TODO::Add checks for file not being in the folder, not having anything in the map etc
 	tileswide = tileshigh = 0;
@@ -34,31 +46,55 @@ void map_manager::load_map(int level)
 		x = std::stoi(cur_node->first_attribute("x")->value());
 		y = std::stoi(cur_node->first_attribute("y")->value());
 
-		//TODO: Replace temp_tex with proper textures (and figure out the logic it will do it with)
-		SDL_Texture* temp_tex;
-		int t_type = std::stoi(cur_node->first_attribute("tile")->value());
-		if (t_type == 1)
-			temp_tex = sdlframework::sdl_manager::create_texture(1, 1, { 255,0,0 });
-		else
-			temp_tex = sdlframework::sdl_manager::create_texture(1, 1, { 0,0,255 });
+		int t_tex_id = std::stoi(cur_node->first_attribute("tile")->value());
 
-		tile_object* temp_tile = new tile_object({ x * t_width, y * t_height }, t_width, t_height, true, temp_tex, 0, (constants::tile_type)t_type);
+		constants::tile_type t_type;
+		switch (t_tex_id)
+		{
+		case 0:
+			t_type = constants::tile_type::grass;
+			break;
+		case 1:
+			t_type = constants::tile_type::mud;
+			break;
+		case 2:
+			t_type = constants::tile_type::empty;
+			break;
+		case 3:
+			t_type = constants::tile_type::water;
+			break;
+		case 4:
+			t_type = constants::tile_type::stone;
+			break;
+		}
 
+		tile_object* temp_tile = new tile_object({ x * t_width, y * t_height }, t_width, t_height, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
 		map[y][x] = temp_tile;
 
 		cur_node = cur_node->next_sibling();
 	}
 
-	//print map array
-	for (int i = 0; i < tileswide; i++)
-	{
-		for (int j = 0; j < tileshigh; j++)
-		{
-			std::cout << map[i][j]->tile_type;
-		}
-		std::cout << std::endl;
-	}
+}
 
+void map_manager::list_tex_to_load()
+{
+	std::vector<int> texture_id_list;
+	for (int i = 0; i < tileshigh; i++)
+	{
+		for (int j = 0; j < tileswide; j++)
+		{
+			if (!helper_functions::is_int_in_vector(texture_id_list, map[i][j]->tile_texture_id))
+				helper_functions::add_to_int_vector_asc(&texture_id_list, map[i][j]->tile_texture_id);
+		}
+	}
+	tileset_manager::load_tiles(texture_id_list, constants::tilesets::map, t_width, t_height);
+}
+
+void map_manager::link_textures_to_tiles()
+{
+	for (int i = 0; i < tileshigh; i++)
+		for (int j = 0; j < tileswide; j++)
+			map[i][j]->texture = tileset_manager::get_texture_by_id(constants::tilesets::map, map[i][j]->tile_texture_id);
 }
 
 void map_manager::unload_map()

@@ -170,6 +170,19 @@ bool sdl_manager::save_window_changes(int w_res, int h_res, bool fullscr)
 	return true;
 }
 
+SDL_Texture* sdl_manager::get_texture_from_tilesheet(SDL_Texture* tilesheet, SDL_Rect src)
+{
+	SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, src.w, src.h);
+	//set result texture as a target of the renderer
+	SDL_SetRenderTarget(renderer, result);
+	//copy a rectangle from the texturemap tex to tile tex
+	SDL_RenderCopy(renderer, tilesheet, &src, NULL);
+	//set renderer target back to screen
+	SDL_SetRenderTarget(renderer, NULL);
+	std::cout << " loaded " << IMG_GetError() << std::endl;
+	return result;
+}
+
 sdl_manager::sdl_manager()
 {
 }

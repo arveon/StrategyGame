@@ -164,6 +164,7 @@
     <ClCompile Include="FileHandler.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="FileHandler.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
     <ClInclude Include="LevelManager.h" />

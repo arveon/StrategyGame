@@ -2,6 +2,7 @@
 
 Level_1::Level_1()
 {
+	map_manager::initialise();
 	loading_state = load_states::loading_map;
 	level_state = level_states::loading;
 	load_percent = 0;

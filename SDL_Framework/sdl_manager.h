@@ -29,6 +29,7 @@ namespace sdlframework
 		static Mix_Chunk* load_sound(std::string path);
 		static Mix_Music* load_music(std::string path);
 		static TTF_Font* load_font(std::string path, int size, SDL_Color color);
+		static SDL_Texture* get_texture_from_tilesheet(SDL_Texture* tilesheet, SDL_Rect source);
 
 		static SDL_Renderer* get_renderer() { return renderer; }
 
