@@ -176,7 +176,6 @@ void game::draw(SDL_Renderer* renderer)
 		//TODO: draw the pause menu
 		break;
 	case constants::game_state::game_flow:
-		//TODO: draw the game
 		if (lvl_manager == nullptr)
 			break;
 		if (!lvl_manager->is_level_loaded() || load_scr != nullptr)
@@ -188,7 +187,11 @@ void game::draw(SDL_Renderer* renderer)
 		//if game in exiting state and previous state was menu, draw the menu and then confirm window over it
 		if (state_before_exit == constants::main_menu)
 			menu.draw(renderer);
-		
+		else if(state_before_exit == constants::game_flow)
+			if (!lvl_manager->is_level_loaded() || load_scr != nullptr)
+				load_scr->draw(renderer);
+			else if (lvl_manager->is_level_loaded())
+				lvl_manager->draw(renderer);
 		if (exit_confirm != nullptr)
 			exit_confirm->draw(renderer);
 		break;

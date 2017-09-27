@@ -1,5 +1,6 @@
 #ifndef RAPIDXML_UTILS_HPP_INCLUDED
 #define RAPIDXML_UTILS_HPP_INCLUDED
+#pragma warning( disable : 4244 )
 
 // Copyright (C) 2006, 2009 Marcin Kalicinski
 // Version 1.13

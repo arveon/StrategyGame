@@ -179,7 +179,7 @@ void options_menu::load_from_file()
 
 	std::vector<list_item> settings = file_handler::load_settings();
 
-	for (int i = 0; i < settings.size(); i++)
+	for (int i = 0; i < (int)settings.size(); i++)
 	{
 		if (settings.at(i).display_name == "master_volume")
 		{

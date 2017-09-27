@@ -16,7 +16,7 @@ void constants::setup::init_resolution_deps()
 void constants::setup::init_settings(std::vector<list_item> settings)
 {
 #pragma warning(disable:4244)
-	for (int i = 0; i < settings.size(); i++)
+	for (int i = 0; i < (int)settings.size(); i++)
 	{
 		if (settings.at(i).display_name == "resolution")
 		{

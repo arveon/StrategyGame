@@ -23,7 +23,7 @@ void load_screen::set_percentage(float new_percentage, std::string loaded_item)
 {
 	text_indicator->change_caption("Loading: " + loaded_item);
 	this->percentage = new_percentage;
-	progress_bar.draw_rect.w = progress_bar_bg.draw_rect.w * percentage + 1;
+	progress_bar.draw_rect.w = (int)(((float)progress_bar_bg.draw_rect.w * percentage) + 1);
 }
 
 void load_screen::draw(SDL_Renderer* renderer)

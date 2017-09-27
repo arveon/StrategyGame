@@ -154,7 +154,7 @@ void file_handler::save_launch(std::string res, bool fs)
 
 	//replace contents of file with the edited version
 	std::ofstream launch_ofilestr("cfg/launch.cfg");
-	for (int i = 0; i < lines.size(); i++)
+	for (int i = 0; i < (int)lines.size(); i++)
 	{
 		launch_ofilestr << lines.at(i) << std::endl;
 	}

@@ -12,34 +12,33 @@ level::level()
 
 void level::update_load(Mouse* mouse)
 {
-	//TODO: move all following code into generic level parent and replace it with level::update(mouse);
 	mouse->is_drawn = false;
 	switch (loading_state)
 	{
 	case loading_map:
 		map_manager::load_map(1);
-		load_percent = 0.2;
+		load_percent = 0.2f;
 		loading_state = loading_textures;
 		break;
 	case loading_textures:
 		map_manager::load_required_tex();
-		load_percent = 0.3;
+		load_percent = 0.3f;
 		loading_state = attaching_textures;
 		break;
 	case attaching_textures:
 		map_manager::link_textures_to_tiles();
-		load_percent = 0.4;
+		load_percent = 0.4f;
 		loading_state = linking_tiles;
 		break;
 	case linking_tiles:
 		//map_manager::link_tiles(); - not implemented yet
 		SDL_Delay(1000);
-		load_percent = 0.6;
+		load_percent = 0.6f;
 		loading_state = load_states::loading_tileset;
 		break;
 	case loading_tileset:
 		SDL_Delay(1000);
-		load_percent = 0.8;
+		load_percent = 0.8f;
 		loading_state = load_states::done;
 		break;
 	case done:
