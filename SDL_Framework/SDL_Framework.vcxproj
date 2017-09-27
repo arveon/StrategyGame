@@ -167,6 +167,7 @@
     <ClCompile Include="HelperFunctions.cpp" />
     <ClCompile Include="ItemList.cpp" />
     <ClCompile Include="LeePathfinder.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Level_1.cpp" />
     <ClCompile Include="LivingEntity.cpp" />
@@ -206,6 +207,7 @@
     <ClInclude Include="HelperFunctions.h" />
     <ClInclude Include="ItemList.h" />
     <ClInclude Include="LeePathfinder.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Level_1.h" />
     <ClInclude Include="ListItem.h" />

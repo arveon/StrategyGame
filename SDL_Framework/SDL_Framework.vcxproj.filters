@@ -195,6 +195,9 @@
     <ClCompile Include="HelperFunctions.cpp">
       <Filter>Source Files\Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\levels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="HelperFunctions.h">
       <Filter>Header Files\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\levels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

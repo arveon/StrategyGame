@@ -1,44 +1,28 @@
 #pragma once
 #include <SDL.h>
 
+#include "Level.h"
+
 #include "Mouse.h"
 #include "MapManager.h"
 #include "Painter.h"
 #include "Tile.h"
 
-class Level_1
+class Level_1 : public level
 {
-private:
-	painter* drawing_manager;
-	enum load_states
-	{
-		loading_map,
-		linking_tiles,
-		loading_tileset,
-		done
-	};
-	load_states loading_state;
-
-
+protected:
 	enum level_states
 	{
 		loading,
-		fadein,
 		gameplay,
 	};
 	level_states level_state;
-
-	bool is_loaded;
-	float load_percent = 0;
-
-
+	
 public:
 	void update(Mouse*);
-
-	float get_loaded_percent() { return load_percent; }
-	bool level_loaded() { return is_loaded; }
+	float get_loaded_percent() { return level::get_loaded_percent(); }
+	bool is_level_loaded() { return (level_state == loading); }
 	Level_1();
-	void init(painter*);
 	~Level_1();
 };
 

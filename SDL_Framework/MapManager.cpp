@@ -10,8 +10,8 @@ void map_manager::load_map(int level)
 	{
 		tileset_manager::set_initialised();
 		load_from_file();
-		list_tex_to_load();
-		link_textures_to_tiles();
+		/*list_tex_to_load();
+		link_textures_to_tiles();*/
 	}
 }
 
@@ -52,13 +52,13 @@ void map_manager::load_from_file()
 		switch (t_tex_id)
 		{
 		case 0:
-			t_type = constants::tile_type::grass;
+			t_type = constants::tile_type::empty;
 			break;
 		case 1:
-			t_type = constants::tile_type::mud;
+			t_type = constants::tile_type::grass;
 			break;
 		case 2:
-			t_type = constants::tile_type::empty;
+			t_type = constants::tile_type::mud;
 			break;
 		case 3:
 			t_type = constants::tile_type::water;
@@ -76,7 +76,7 @@ void map_manager::load_from_file()
 
 }
 
-void map_manager::list_tex_to_load()
+void map_manager::load_required_tex()
 {
 	std::vector<int> texture_id_list;
 	for (int i = 0; i < tileshigh; i++)
