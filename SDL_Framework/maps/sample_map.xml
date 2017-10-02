@@ -1,4 +1,4 @@
-<tilemap tileswide="8" tileshigh="8" tilewidth="16" tileheight="16">
+<tilemap tileswide="8" tileshigh="8" tilewidth="32" tileheight="32">
   <layer number="0" name="Layer 1">
     <tile x="0" y="0" tile="4" rot="0" flipX="false"/>
     <tile x="1" y="0" tile="1" rot="0" flipX="false"/>

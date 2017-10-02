@@ -19,7 +19,7 @@ void tileset_manager::load_tiles(std::vector<int> tile_nums, constants::tilesets
 		{
 			int across, down, id = *it;
 			down =(int)std::floor((float)id / (float)constants::tileset_width);
-			across = id - (down * 4);
+			across = id - (down * constants::tileset_width);
 			SDL_Rect rect = { across*tilewidth, down * tileheight, tilewidth, tileheight };
 			if ((int)tiles.size() <= id) tiles.resize(id+1);
 			tiles.at(id) = sdlframework::sdl_manager::get_texture_from_tilesheet(tilesheet, rect);

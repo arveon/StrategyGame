@@ -68,7 +68,7 @@ void map_manager::load_from_file()
 			break;
 		}
 
-		tile_object* temp_tile = new tile_object({ x * t_width, y * t_height }, t_width, t_height, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
+		tile_object* temp_tile = new tile_object({ x * t_width * constants::tile_scaling, y * t_height * constants::tile_scaling }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
 		map[y][x] = temp_tile;
 
 		cur_node = cur_node->next_sibling();

@@ -76,7 +76,8 @@ namespace constants
 	const std::string SETTINGS_MIN_TEMPLATE = "master_volume 100\nmusic_volume 100\nsounds_volume 100\nfullscreen 0\nresolution 0";
 
 	//map constants
-	const int tileset_width = 4;
+	const int tileset_width = 8;
+	const int tile_scaling = 2;
 	const enum tilesets
 	{
 		map,
