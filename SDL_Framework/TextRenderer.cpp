@@ -21,12 +21,16 @@ TextRenderer::TextRenderer(TTF_Font* font, SDL_Color color, std::string caption,
 	draw_rect.x = x;
 	draw_rect.y = y;
 	text_texture = sdlframework::sdl_manager::render_text(text, draw_color, font);
-
+	SDL_QueryTexture(text_texture, NULL, NULL, &draw_rect.w, &draw_rect.h);
 #pragma warning(disable: 4244)
 	draw_rect.x *= constants::setup::scaling_horizontal;
 	draw_rect.w *= constants::setup::scaling_horizontal;
 	draw_rect.y *= constants::setup::scaling_vertical;
 	draw_rect.h *= constants::setup::scaling_vertical;
+}
+
+TextRenderer::TextRenderer()
+{
 }
 
 /* 
@@ -37,6 +41,7 @@ void TextRenderer::change_caption(std::string new_text)
 	text = new_text;
 	SDL_DestroyTexture(text_texture);
 	text_texture = sdlframework::sdl_manager::render_text(text, draw_color, font);
+	SDL_QueryTexture(text_texture, NULL, NULL, &draw_rect.w, &draw_rect.h);
 }
 
 /*

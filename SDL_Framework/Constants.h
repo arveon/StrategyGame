@@ -48,6 +48,7 @@ namespace constants
 	const std::string FONTS_PATH = "assets/fonts/";
 	const std::string font_inkedout = "Inked_Out.ttf";
 	const std::string font_optimus = "Optimus_Princeps_Semi_Bold.ttf";
+	const std::string font_libertine = "LinLibertine.ttf";
 
 	const SDL_Color SECONDARY_MENU_SLIDER_COLOR = SDL_Color{ 255, 255, 255 };
 
@@ -70,6 +71,7 @@ namespace constants
 	const SDL_Point LOAD_BAR_POS = { 20, 400 };
 	const SDL_Point LOAD_BAR_SIZE = {600, 50};
 	const SDL_Point LOAD_TEXT_POS = {20, 370};
+	const SDL_Point GPI_TILE_TYPE_POS_MARGIN = {20,-40};
 
 	//file templates
 	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";
@@ -90,6 +92,7 @@ namespace constants
 	const enum tile_type
 	{
 		empty,
+		earth,
 		grass,
 		mud,
 		road,

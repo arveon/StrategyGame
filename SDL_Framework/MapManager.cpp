@@ -55,19 +55,31 @@ void map_manager::load_from_file()
 			t_type = constants::tile_type::empty;
 			break;
 		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+			t_type = constants::tile_type::earth;
+			break;
+		case 14:
 			t_type = constants::tile_type::grass;
 			break;
-		case 2:
-			t_type = constants::tile_type::mud;
-			break;
-		case 3:
-			t_type = constants::tile_type::water;
-			break;
-		case 4:
+		case 15:
 			t_type = constants::tile_type::stone;
 			break;
+		case 16:
+			t_type = constants::tile_type::water;
+			break;
 		default:
-			t_type = constants::tile_type::grass;
+			t_type = constants::tile_type::empty;
 		}
 
 		tile_object* temp_tile = new tile_object({ (int)((float)(x * t_width) * constants::tile_scaling), (int)((float)(y * t_height) * constants::tile_scaling) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);

@@ -27,6 +27,8 @@ public:
 	static tile_object*** get_map() { return map; }
 	static SDL_Point get_map_dimensions_t() { return {tileswide, tileshigh}; }
 	static SDL_Point get_map_dimensions_px() { return { (int)((float)tileswide * t_width * constants::tile_scaling), (int)((float)(tileshigh * t_height) * constants::tile_scaling) }; }
+	static int get_tile_size() { return t_width; };
+	static constants::tile_type get_tile_type_at(int x, int y) { return map[y][x]->tile_type; }
 	static void initialise() { initialised = true; }
 	void unload_map();
 	map_manager();

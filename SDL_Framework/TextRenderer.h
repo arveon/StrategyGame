@@ -23,6 +23,7 @@ public:
 	static SDL_Texture* get_texture_from_text(std::string font_path, int size, std::string caption,  SDL_Color clr);
 
 	TextRenderer(TTF_Font*, SDL_Color, std::string, int x = 0, int y = 0);
+	TextRenderer();
 	~TextRenderer();
 };
 

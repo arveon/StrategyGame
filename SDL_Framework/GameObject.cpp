@@ -8,6 +8,7 @@ game_object::game_object(SDL_Point world_coords, int width, int height, bool act
 	this->width = width;
 	this->height = height;
 	this->active = active;
+	this->type = type;
 }
 
 
