@@ -37,10 +37,18 @@ void painter::reset_queue()
 
 void painter::draw_queue(SDL_Renderer * renderer)
 {
+	
 	for (std::vector<drawable_object*>::iterator it = rq_terrain.begin(); it != rq_terrain.end(); ++it)
 	{
 		drawable_object* temp = *it;
-		SDL_Rect draw_rect = { temp->world_coords.x, temp->world_coords.y, temp->width, temp->height};
+
+		if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x+render_camera.width))
+			continue;
+		if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y+render_camera.height)
+			continue;
+
+		SDL_Rect draw_rect = { temp->world_coords.x - render_camera.world_coords.x, temp->world_coords.y - render_camera.world_coords.y, temp->width, temp->height };
+		//SDL_Rect draw_rect = { temp->world_coords.x, temp->world_coords.y, temp->width, temp->height};
 		SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
 	}
 

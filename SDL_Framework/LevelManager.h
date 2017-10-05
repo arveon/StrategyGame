@@ -19,6 +19,9 @@ private:
 	bool level_loaded;
 	std::string loaded_item;
 	float loaded = 0;
+
+	bool camera_frozen;
+	void update_camera(Mouse* mouse, const Uint8* keyboard_state, int);
 public:
 	void reset_level();
 	void set_level();
@@ -28,7 +31,7 @@ public:
 	float get_loaded_percent() { return loaded; }
 	std::string get_loaded_item() { return loaded_item; }
 	
-	void update(Mouse*, int delta_time);
+	void update(Mouse*, const Uint8* keyboard, int delta_time);
 	void draw(SDL_Renderer*);
 	
 	level_manager();

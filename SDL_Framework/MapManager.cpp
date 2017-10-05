@@ -66,11 +66,13 @@ void map_manager::load_from_file()
 		case 4:
 			t_type = constants::tile_type::stone;
 			break;
+		default:
+			t_type = constants::tile_type::grass;
 		}
 
-		tile_object* temp_tile = new tile_object({ x * t_width * constants::tile_scaling, y * t_height * constants::tile_scaling }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
+		tile_object* temp_tile = new tile_object({ (int)((float)(x * t_width) * constants::tile_scaling), (int)((float)(y * t_height) * constants::tile_scaling) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
 		map[y][x] = temp_tile;
-
+		
 		cur_node = cur_node->next_sibling();
 	}
 

@@ -37,6 +37,7 @@ void sdlframework::game::input()
 {
 	mouse.prev_lmb_down = mouse.lmb_down;
 	mouse.prev_rmb_down = mouse.rmb_down;
+	keyboard_state = SDL_GetKeyboardState(NULL);
 
 	//reading events such as windows X button pressed
 	SDL_Event event;
@@ -130,7 +131,7 @@ bool game::update(Uint32 delta_time)
 		}
 
 		if (lvl_manager != nullptr)
-			lvl_manager->update(&mouse, delta_time);
+			lvl_manager->update(&mouse, keyboard_state, delta_time);
 		break;
 	case constants::game_state::confirming_exit:
 		//if the exit confirmation window didn't exist, create one

@@ -5,6 +5,7 @@
 class camera : game_object
 {
 	friend class painter;
+	friend class level_manager;
 public:
 	game_object* camera_anchor;
 	

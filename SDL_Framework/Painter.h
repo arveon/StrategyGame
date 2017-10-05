@@ -20,6 +20,8 @@ public:
 	void reset_queue();
 	void sort_queues();
 
+	camera* get_camera_ptr() { return &render_camera; }
+
 	void draw_queue(SDL_Renderer* renderer);
 
 	painter();

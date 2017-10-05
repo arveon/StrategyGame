@@ -32,17 +32,17 @@ void level::update_load(Mouse* mouse)
 		break;
 	case linking_tiles:
 		//map_manager::link_tiles(); - not implemented yet
-		SDL_Delay(1000);
+		//SDL_Delay(1000);
 		load_percent = 0.6f;
 		loading_state = load_states::loading_tileset;
 		break;
 	case loading_tileset:
-		SDL_Delay(1000);
+		//SDL_Delay(1000);
 		load_percent = 0.8f;
 		loading_state = load_states::done;
 		break;
 	case done:
-		SDL_Delay(1000);
+		//SDL_Delay(1000);
 		load_percent = 1;
 		is_loaded = true;
 		mouse->is_drawn = true;

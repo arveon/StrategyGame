@@ -32,6 +32,7 @@ namespace sdlframework
 		constants::game_state state_before_exit = constants::game_state::splash;
 
 		Mouse mouse;
+		const Uint8* keyboard_state;
 
 		level_manager* lvl_manager;
 

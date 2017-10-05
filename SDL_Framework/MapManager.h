@@ -26,6 +26,7 @@ public:
 	static void load_map(int level);
 	static tile_object*** get_map() { return map; }
 	static SDL_Point get_map_dimensions_t() { return {tileswide, tileshigh}; }
+	static SDL_Point get_map_dimensions_px() { return { (int)((float)tileswide * t_width * constants::tile_scaling), (int)((float)(tileshigh * t_height) * constants::tile_scaling) }; }
 	static void initialise() { initialised = true; }
 	void unload_map();
 	map_manager();
