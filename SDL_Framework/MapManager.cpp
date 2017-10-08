@@ -49,6 +49,12 @@ void map_manager::load_from_file()
 		y = std::stoi(cur_node->first_attribute("y")->value());
 
 		int t_tex_id = std::stoi(cur_node->first_attribute("tile")->value());
+		if (t_tex_id == -1)
+		{
+			cur_node = cur_node->next_sibling();
+			continue;
+		}
+
 
 		constants::tile_type t_type;
 		switch (t_tex_id)
@@ -75,9 +81,21 @@ void map_manager::load_from_file()
 			t_type = constants::tile_type::grass;
 			break;
 		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		case 25:
+		case 26:
+		case 27:
 			t_type = constants::tile_type::stone;
 			break;
-		case 16:
+		case 28:
 			t_type = constants::tile_type::water;
 			break;
 		default:
@@ -101,6 +119,12 @@ void map_manager::load_from_file()
 		y = std::stoi(cur_node->first_attribute("y")->value());
 
 		int tex_id = std::stoi(cur_node->first_attribute("tile")->value());
+		if (tex_id == -1)
+		{
+			cur_node = cur_node->next_sibling();
+			continue;
+		}
+
 
 		//constants::tile_type t_type;
 		game_object* obj1 = nullptr;
