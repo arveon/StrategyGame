@@ -48,7 +48,7 @@ SDL_Texture* sdlframework::sdl_manager::load_png_texture(std::string path)
 	if (initialised)
 	{
 		SDL_Texture* temp = IMG_LoadTexture(renderer, path.c_str());
-		std::cout << IMG_GetError() << " for image " << path;
+		//std::cout << IMG_GetError() << " for image " << path;
 		assert(temp);
 		return temp;
 	}
@@ -175,11 +175,13 @@ SDL_Texture* sdl_manager::get_texture_from_tilesheet(SDL_Texture* tilesheet, SDL
 	SDL_Texture* result = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, src.w, src.h);
 	//set result texture as a target of the renderer
 	SDL_SetRenderTarget(renderer, result);
+	//set texture mode transparent
+	SDL_SetTextureBlendMode(result, SDL_BlendMode::SDL_BLENDMODE_BLEND);
 	//copy a rectangle from the texturemap tex to tile tex
 	SDL_RenderCopy(renderer, tilesheet, &src, NULL);
 	//set renderer target back to screen
 	SDL_SetRenderTarget(renderer, NULL);
-	std::cout << " loaded " << IMG_GetError() << std::endl;
+	//std::cout << " loaded " << IMG_GetError() << std::endl;
 	return result;
 }
 

@@ -79,7 +79,8 @@ namespace constants
 
 	//map constants
 	const int tileset_width = 8;
-	const float tile_scaling = 1.5f;
+	const int tileset_entity_offset = 17;
+	const float tile_scaling = 1;
 	const enum tilesets
 	{
 		map,
@@ -88,6 +89,7 @@ namespace constants
 		items,
 	};
 	const std::string TILESET_TERRAIN_PATH = "assets/tilesets/terrain.png";
+	const std::string TILESET_CHARACTERS_PATH = "assets/tilesets/characters.png";
 
 	const enum tile_type
 	{
@@ -98,6 +100,17 @@ namespace constants
 		road,
 		stone,
 		water
+	};
+
+	const enum entity_type
+	{
+		player = 0,
+		enemy_ai_1 = 1,
+		enemy_ai_2 = 2,
+		enemy_ai_3 = 3,
+		enemy_ai_4 = 4,
+		enemy_ai_5 = 5,
+		friendly_ai = 7
 	};
 
 	//game constants

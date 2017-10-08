@@ -42,18 +42,33 @@ void painter::reset_queue()
 void painter::draw_queue(SDL_Renderer * renderer)
 {
 	//draw terrain
-	for (std::vector<drawable_object*>::iterator it = rq_terrain.begin(); it != rq_terrain.end(); ++it)
-	{
-		drawable_object* temp = *it;
+	if(rq_terrain.size() != 0)
+		for (std::vector<drawable_object*>::iterator it = rq_terrain.begin(); it != rq_terrain.end(); ++it)
+		{
+			drawable_object* temp = *it;
 
-		if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x + render_camera.width))
-			continue;
-		if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y + render_camera.height)
-			continue;
+			if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x + render_camera.width))
+				continue;
+			if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y + render_camera.height)
+				continue;
 
-		SDL_Rect draw_rect = { temp->world_coords.x - render_camera.world_coords.x, temp->world_coords.y - render_camera.world_coords.y, temp->width, temp->height };
-		SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
-	}
+			SDL_Rect draw_rect = { temp->world_coords.x - render_camera.world_coords.x, temp->world_coords.y - render_camera.world_coords.y, temp->width, temp->height };
+			SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
+		}
+
+	if(rq_characters_items.size() != 0)
+		for (std::vector<drawable_object*>::iterator it = rq_characters_items.begin(); it != rq_characters_items.end(); ++it)
+		{
+			drawable_object* temp = *it;
+
+			if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x + render_camera.width))
+				continue;
+			if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y + render_camera.height)
+				continue;
+
+			SDL_Rect draw_rect = { temp->world_coords.x - render_camera.world_coords.x, temp->world_coords.y - render_camera.world_coords.y, temp->width, temp->height };
+			SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
+		}
 
 	if (rq_ui.size() != 0)
 	{

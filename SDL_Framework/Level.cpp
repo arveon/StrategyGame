@@ -17,23 +17,38 @@ void level::update_load(Mouse* mouse)
 	{
 	case loading_map:
 		map_manager::load_map(1);
+		load_percent = 0.1f;
+		loading_state = loading_map_textures;
+		break;
+	case loading_map_textures:
+		map_manager::load_required_tex_tiles();
 		load_percent = 0.2f;
-		loading_state = loading_textures;
+		loading_state = attaching_map_textures;
 		break;
-	case loading_textures:
-		map_manager::load_required_tex();
-		load_percent = 0.3f;
-		loading_state = attaching_textures;
-		break;
-	case attaching_textures:
+	case attaching_map_textures:
 		map_manager::link_textures_to_tiles();
+		load_percent = 0.3f;
+		loading_state = loading_character_textures;
+		break;
+	case loading_character_textures:
+		map_manager::load_required_tex_entities();
 		load_percent = 0.4f;
+		loading_state = attaching_character_textures;
+		break;
+	case attaching_character_textures:
+		map_manager::link_textures_to_entities();
+		load_percent = 0.5f;
+		loading_state = cleaning_up_tilesheet;
+		break;
+	case cleaning_up_tilesheet:
+		tileset_manager::unload_tilesheet();
+		load_percent = 0.6f;
 		loading_state = linking_tiles;
 		break;
 	case linking_tiles:
 		//map_manager::link_tiles(); - not implemented yet
 		//SDL_Delay(1000);
-		load_percent = 0.6f;
+		load_percent = 0.7f;
 		loading_state = load_states::loading_tileset;
 		break;
 	case loading_tileset:
@@ -46,8 +61,10 @@ void level::update_load(Mouse* mouse)
 		load_percent = 1;
 		is_loaded = true;
 		mouse->is_drawn = true;
+		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::terrain);
+		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::character);
 
-		tile_object*** map = map_manager::get_map();
+		/*tile_object*** map = map_manager::get_map();
 		SDL_Point dimensions = map_manager::get_map_dimensions_t();
 		for (int i = 0; i < dimensions.y; i++)
 		{
@@ -55,7 +72,9 @@ void level::update_load(Mouse* mouse)
 			{
 				drawing_manager->add_object_to_queue((drawable_object*)map[i][j]);
 			}
-		}
+		}*/
+
+
 		break;
 	}
 }

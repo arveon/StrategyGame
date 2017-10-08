@@ -17,6 +17,7 @@ void system::game_loop()
 		game.input();
 		gameGoing = game.update(time.get_delta_time());
 
+		SDL_SetRenderDrawColor(sdl_manager::get_renderer(), 0, 0, 0, 0);
 		SDL_RenderClear(sdl_manager::get_renderer());
 		game.draw(sdl_manager::get_renderer());
 		SDL_RenderPresent(sdl_manager::get_renderer());

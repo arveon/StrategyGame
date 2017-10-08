@@ -4,6 +4,8 @@ int map_manager::tileswide, map_manager::tileshigh = 0;
 int  map_manager::t_width, map_manager::t_height = 1;
 tile_object*** map_manager::map = nullptr;
 bool map_manager::initialised = false;
+std::vector<living_entity*> map_manager::map_entities;
+std::vector<item_object*> map_manager::items;
 void map_manager::load_map(int level)
 {
 	if (initialised)
@@ -82,33 +84,90 @@ void map_manager::load_from_file()
 			t_type = constants::tile_type::empty;
 		}
 
-		tile_object* temp_tile = new tile_object({ (int)((float)(x * t_width) * constants::tile_scaling), (int)((float)(y * t_height) * constants::tile_scaling) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
+		tile_object* temp_tile = new tile_object({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
 		map[y][x] = temp_tile;
+		
+		cur_node = cur_node->next_sibling();
+	}
+
+	cur_node = doc.first_node("tilemap")->first_node("layer");
+	cur_node = cur_node->next_sibling()->first_node("tile");
+
+	//loop through all nodes getting their coordinates from attributes and saving the tile types into map array
+	while (cur_node != NULL)
+	{
+		int x, y = 0;
+		x = std::stoi(cur_node->first_attribute("x")->value());
+		y = std::stoi(cur_node->first_attribute("y")->value());
+
+		int tex_id = std::stoi(cur_node->first_attribute("tile")->value());
+
+		//constants::tile_type t_type;
+		game_object* obj1 = nullptr;
+		living_entity* obj;
+		tex_id -= constants::tileset_entity_offset;
+		switch (tex_id)
+		{
+		case 0:
+			obj = new player({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
+			map_entities.push_back(obj);
+			break;
+		case 1:
+		case 2:
+			constants::entity_type type = constants::enemy_ai_1;
+			if (tex_id == 1)
+				type = constants::enemy_ai_1;
+			else if (tex_id == 2)
+				type = constants::enemy_ai_2;
+
+			obj = new enemy({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id, type);
+			map_entities.push_back(obj);
+			break;
+		}
 		
 		cur_node = cur_node->next_sibling();
 	}
 
 }
 
-void map_manager::load_required_tex()
+void map_manager::load_required_tex_tiles()
 {
 	std::vector<int> texture_id_list;
 	for (int i = 0; i < tileshigh; i++)
 	{
 		for (int j = 0; j < tileswide; j++)
 		{
-			if (!helper_functions::is_int_in_vector(texture_id_list, map[i][j]->tile_texture_id))
-				helper_functions::add_to_int_vector_asc(&texture_id_list, map[i][j]->tile_texture_id);
+			if (!helper_functions::is_int_in_vector(texture_id_list, map[i][j]->texture_id))
+				helper_functions::add_to_int_vector_asc(&texture_id_list, map[i][j]->texture_id);
 		}
 	}
 	tileset_manager::load_tiles(texture_id_list, constants::tilesets::map, t_width, t_height);
+}
+
+void map_manager::load_required_tex_entities()
+{
+	std::vector<int> entity_texture_id_list;
+	for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+	{
+		living_entity* ent = *it;
+
+		if (!helper_functions::is_int_in_vector(entity_texture_id_list, ent->texture_id+constants::tileset_entity_offset))
+			helper_functions::add_to_int_vector_asc(&entity_texture_id_list, ent->texture_id);
+	}
+	tileset_manager::load_tiles(entity_texture_id_list, constants::tilesets::characters, t_width, t_height);
 }
 
 void map_manager::link_textures_to_tiles()
 {
 	for (int i = 0; i < tileshigh; i++)
 		for (int j = 0; j < tileswide; j++)
-			map[i][j]->texture = tileset_manager::get_texture_by_id(constants::tilesets::map, map[i][j]->tile_texture_id);
+			map[i][j]->texture = tileset_manager::get_texture_by_id(constants::tilesets::map, map[i][j]->texture_id);
+}
+
+void map_manager::link_textures_to_entities()
+{
+	for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+			(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::characters, (*it)->texture_id);
 }
 
 void map_manager::unload_map()
@@ -121,8 +180,26 @@ void map_manager::unload_map()
 	tileswide = tileshigh = 0;
 }
 
+void map_manager::add_vector_to_painter(painter* drawing_manager, constants::base_object_type type)
+{
+	switch (type)
+	{
+	case constants::base_object_type::terrain:
+		for (int i = 0; i < tileshigh; i++)
+			for (int j = 0; j < tileswide; j++)
+				drawing_manager->add_object_to_queue(map[i][j]);
+		break;
+	case constants::base_object_type::character:
+		for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+			drawing_manager->add_object_to_queue(*it);
+		
+		break;
+	}
+}
+
 map_manager::map_manager()
 {
+
 }
 
 

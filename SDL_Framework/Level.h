@@ -10,8 +10,11 @@ protected:
 	enum load_states
 	{
 		loading_map,
-		loading_textures,
-		attaching_textures,
+		loading_map_textures,
+		loading_character_textures,
+		attaching_map_textures,
+		attaching_character_textures,
+		cleaning_up_tilesheet,
 		linking_tiles,
 		loading_tileset,
 		done
