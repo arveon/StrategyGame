@@ -221,6 +221,12 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 	}
 }
 
+constants::tile_type map_manager::get_tile_type_at(int x, int y)
+{
+	if()
+	return map[y][x]->tile_type;
+}
+
 map_manager::map_manager()
 {
 
