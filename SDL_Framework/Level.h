@@ -6,6 +6,12 @@
 ///A generic representation of the level
 class level
 {
+public:
+	enum camera_mode
+	{
+		free,
+		puppet
+	};
 protected:
 	painter* drawing_manager;
 	enum load_states
@@ -22,6 +28,9 @@ protected:
 	};
 	load_states loading_state;
 
+	
+	camera_mode cam_mode;
+
 	bool is_loaded;
 	float load_percent = 0;
 public:
@@ -30,6 +39,8 @@ public:
 	void init(painter* drawing_manager);
 	bool level_loaded() { return is_loaded; }
 	float get_loaded_percent() { return load_percent; }
+
+	camera_mode get_cam_mode() { return cam_mode; }
 
 	level();
 	~level();

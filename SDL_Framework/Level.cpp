@@ -1,7 +1,7 @@
 #include "Level.h"
 
 
-
+//level initialisation
 level::level()
 {
 	loading_state = load_states::loading_map;
@@ -10,9 +10,12 @@ level::level()
 	// this->drawing_manager = drawing_manager;
 }
 
+///Function called from main update of a specific level to update the loading screen of the level
 void level::update_load(Mouse* mouse)
 {
+	//mouse shouldn't be drawn while level is loading
 	mouse->is_drawn = false;
+	//depending on the state do an appropriate action
 	switch (loading_state)
 	{
 	case loading_map:
@@ -60,25 +63,16 @@ void level::update_load(Mouse* mouse)
 		//SDL_Delay(1000);
 		load_percent = 1;
 		is_loaded = true;
+		//draw mouse when done loading
+		//also add all of the elements to painter
 		mouse->is_drawn = true;
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::terrain);
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::character);
-
-		/*tile_object*** map = map_manager::get_map();
-		SDL_Point dimensions = map_manager::get_map_dimensions_t();
-		for (int i = 0; i < dimensions.y; i++)
-		{
-			for (int j = 0; j < dimensions.x; j++)
-			{
-				drawing_manager->add_object_to_queue((drawable_object*)map[i][j]);
-			}
-		}*/
-
-
 		break;
 	}
 }
 
+///In case need a painter reference inside of level
 void level::init(painter* ptr)
 {
 	drawing_manager = ptr;

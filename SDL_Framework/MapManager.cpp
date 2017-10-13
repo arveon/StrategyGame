@@ -1,11 +1,14 @@
 #include "MapManager.h"
 
+//initialise all of the static variables
 int map_manager::tileswide, map_manager::tileshigh = 0;
 int  map_manager::t_width, map_manager::t_height = 1;
 tile_object*** map_manager::map = nullptr;
 bool map_manager::initialised = false;
 std::vector<living_entity*> map_manager::map_entities;
 std::vector<item_object*> map_manager::items;
+
+///Function is used to load a map with a given level id and initialise the manager
 void map_manager::load_map(int level)
 {
 	if (initialised)
@@ -17,6 +20,7 @@ void map_manager::load_map(int level)
 	}
 }
 
+///Function used to load the actual map from the file and create all of the required objects
 void map_manager::load_from_file()
 {
 	//TODO::Add checks for file not being in the folder, not having anything in the map etc
@@ -166,6 +170,7 @@ void map_manager::load_from_file()
 
 }
 
+///Function is used to build a vector of required terrain tiles and ask tileset manager to load them
 void map_manager::load_required_tex_tiles()
 {
 	std::vector<int> texture_id_list;
@@ -180,6 +185,7 @@ void map_manager::load_required_tex_tiles()
 	tileset_manager::load_tiles(texture_id_list, constants::tilesets::map, t_width, t_height);
 }
 
+///function is used to build a vector of character tiles and load them from a vector
 void map_manager::load_required_tex_entities()
 {
 	std::vector<int> entity_texture_id_list;
@@ -193,6 +199,7 @@ void map_manager::load_required_tex_entities()
 	tileset_manager::load_tiles(entity_texture_id_list, constants::tilesets::characters, t_width, t_height);
 }
 
+///function is used to link all of the terrain textures from tileset manager to actual objects
 void map_manager::link_textures_to_tiles()
 {
 	for (int i = 0; i < tileshigh; i++)
@@ -200,12 +207,14 @@ void map_manager::link_textures_to_tiles()
 			map[i][j]->texture = tileset_manager::get_texture_by_id(constants::tilesets::map, map[i][j]->texture_id);
 }
 
+///function is used to link the entity textures from tileset manager to actual objects
 void map_manager::link_textures_to_entities()
 {
 	for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
 			(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::characters, (*it)->texture_id);
 }
 
+///function used to unload the whole map
 void map_manager::unload_map()
 {
 	for (int i = 0; i < tileshigh; i++)
@@ -216,6 +225,7 @@ void map_manager::unload_map()
 	tileswide = tileshigh = 0;
 }
 
+///function is used to add an appropriate vector (of objects of a certain type) to the painter queues
 void map_manager::add_vector_to_painter(painter* drawing_manager, constants::base_object_type type)
 {
 	switch (type)
@@ -233,6 +243,7 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 	}
 }
 
+///function returns the type of the tile at certain x and y
 constants::tile_type map_manager::get_tile_type_at(int x, int y)
 {
 	//if()
