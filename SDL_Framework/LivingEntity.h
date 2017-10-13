@@ -4,6 +4,7 @@
 #include "DrawableObject.h"
 #include "Constants.h"
 
+///A type of entity that has properties of a living thing (health, energy etc)
 class living_entity : public drawable_object
 {
 protected:

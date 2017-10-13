@@ -8,6 +8,7 @@
 #include "Painter.h"
 #include "Tile.h"
 
+///First level of the game
 class Level_1 : public level
 {
 protected:

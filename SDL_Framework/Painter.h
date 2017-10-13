@@ -8,6 +8,7 @@
 #include "DrawableObject.h"
 #include "Camera.h"
 
+///Class that is responsible for rendering everything in-game
 class painter
 {
 private:

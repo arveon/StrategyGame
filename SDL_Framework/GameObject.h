@@ -2,6 +2,7 @@
 #include <SDL.h>
 #include "Constants.h"
 
+//Class represents a generic gameobject
 class game_object
 {
 protected:

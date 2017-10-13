@@ -96,6 +96,18 @@ void map_manager::load_from_file()
 			t_type = constants::tile_type::stone;
 			break;
 		case 28:
+		case 29:
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+		case 35:
+		case 36:
+		case 37:
+		case 38:
+		case 39:
+		case 40:
 			t_type = constants::tile_type::water;
 			break;
 		default:
@@ -223,7 +235,7 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 
 constants::tile_type map_manager::get_tile_type_at(int x, int y)
 {
-	if()
+	//if()
 	return map[y][x]->tile_type;
 }
 

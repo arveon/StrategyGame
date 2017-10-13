@@ -16,7 +16,7 @@
 #include "Enemy.h"
 #include "Item.h"
 
-
+///Class to manage loading/saving of a map
 class map_manager
 {
 private:

@@ -3,6 +3,7 @@
 #include "MapManager.h"
 #include "Mouse.h"
 
+///A generic representation of the level
 class level
 {
 protected:

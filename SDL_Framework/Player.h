@@ -1,6 +1,6 @@
 #pragma once
 #include "LivingEntity.h"
-
+///A type of living entity that is the main player
 class player : public living_entity
 {
 public:

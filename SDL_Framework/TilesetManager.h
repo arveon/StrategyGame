@@ -2,6 +2,7 @@
 #include "sdl_manager.h"
 #include <vector>
 
+///A class to manage loading/cutting required parts of tilesets
 class tileset_manager
 {
 private:

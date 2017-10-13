@@ -6,6 +6,8 @@
 
 #include "Level_1.h"
 
+
+///Class responsible for global switching and updating between the levels
 class level_manager
 {
 private:

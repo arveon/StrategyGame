@@ -4,6 +4,7 @@
 #include "DrawableObject.h"
 #include "Constants.h"
 
+///A type of drawable object that represents a map tile (mostly terrain)
 class tile_object : drawable_object
 {
 	friend class map_manager;
