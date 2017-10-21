@@ -1,3 +1,4 @@
+//TODO: replace all of the double slash comments with triple slash and triple slash with double slash
 //TODO: replace character and item vectors with 2d arrays in map manager so it's faster to get tile types
 //TODO: think about interface
 //TODO: COMMENT THE CODE

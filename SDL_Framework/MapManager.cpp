@@ -7,12 +7,14 @@ tile_object*** map_manager::map = nullptr;
 bool map_manager::initialised = false;
 std::vector<living_entity*> map_manager::map_entities;
 std::vector<item_object*> map_manager::items;
+bool map_manager::map_currently_loaded = false;
 
 ///Function is used to load a map with a given level id and initialise the manager
 void map_manager::load_map(int level)
 {
 	if (initialised)
 	{
+		map_currently_loaded = false;
 		tileset_manager::set_initialised();
 		load_from_file();
 		/*list_tex_to_load();
@@ -59,7 +61,7 @@ void map_manager::load_from_file()
 			continue;
 		}
 
-
+#pragma region tile_type_switch
 		constants::tile_type t_type;
 		switch (t_tex_id)
 		{
@@ -97,6 +99,21 @@ void map_manager::load_from_file()
 		case 25:
 		case 26:
 		case 27:
+		case 55:
+		case 56:
+		case 57:
+		case 58:
+		case 59:
+		case 60:
+		case 61:
+		case 62:
+		case 63:
+		case 64:
+		case 65:
+		case 66:
+		case 67:
+		case 68:
+		case 69:
 			t_type = constants::tile_type::stone;
 			break;
 		case 28:
@@ -131,13 +148,13 @@ void map_manager::load_from_file()
 		default:
 			t_type = constants::tile_type::empty;
 		}
+#pragma endregion
 
 		tile_object* temp_tile = new tile_object({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, true, nullptr, 0, (constants::tile_type)t_type, t_tex_id);
 		map[y][x] = temp_tile;
 		
 		cur_node = cur_node->next_sibling();
 	}
-
 	cur_node = doc.first_node("tilemap")->first_node("layer");
 	cur_node = cur_node->next_sibling()->first_node("tile");
 
@@ -181,7 +198,7 @@ void map_manager::load_from_file()
 		
 		cur_node = cur_node->next_sibling();
 	}
-
+	map_currently_loaded = true;
 }
 
 ///Function is used to build a vector of required terrain tiles and ask tileset manager to load them
@@ -255,6 +272,41 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 		
 		break;
 	}
+}
+
+//Function links every tile with all of its neighbouring tiles for the pathfinding algorithm
+bool map_manager::link_tiles()
+{
+	//if map is not loaded there is nothing to link
+	if (!map_currently_loaded)
+		return false;
+	
+	///link a tile with all of its neighbouring tiles
+	for (int i = 0; i < tileshigh; i++)
+	{
+		for (int j = 0; j < tileswide; j++)
+		{
+			if (i > 0)
+				map[i][j]->add_neighbour(map[i-1][j]);
+			if (j > 0)
+				map[i][j]->add_neighbour(map[i][j-1]);
+			if (i < tileswide - 1)
+				map[i][j]->add_neighbour(map[i + 1][j]);
+			if (j < tileshigh - 1)
+				map[i][j]->add_neighbour(map[i][j + 1]);
+			if (i > 0 && j > 0)
+				map[i][j]->add_neighbour(map[i - 1][j - 1]);
+			if (i > 0 && j < tileshigh - 1)
+				map[i][j]->add_neighbour(map[i - 1][j + 1]);
+			if (i < tileswide - 1 && j > 0)
+				map[i][j]->add_neighbour(map[i + 1][j - 1]);
+			if (i < tileswide - 1 && j < tileshigh - 1)
+				map[i][j]->add_neighbour(map[i + 1][j + 1]);
+			std::cout << map[i][j]->neighbours.size();
+		}
+		std::cout << std::endl;
+	}
+	return true;
 }
 
 ///function returns the type of the tile at certain x and y

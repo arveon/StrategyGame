@@ -49,8 +49,8 @@ void level::update_load(Mouse* mouse)
 		loading_state = linking_tiles;
 		break;
 	case linking_tiles:
-		//map_manager::link_tiles(); - not implemented yet
-		//SDL_Delay(1000);
+		if (!map_manager::link_tiles())
+			std::cout << "MAP NOT LOADED YET" << std::endl;
 		load_percent = 0.7f;
 		loading_state = load_states::loading_tileset;
 		break;
