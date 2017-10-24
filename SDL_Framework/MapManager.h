@@ -26,23 +26,31 @@ private:
 	static int  t_width, t_height;
 	static tile_object*** map;
 	static std::vector<living_entity*> map_entities;
+	static std::vector<player*> ai_players;
 	static std::vector<item_object*> items;
 	static void load_from_file();
 	static bool map_currently_loaded;
 public:
 	///map initialisation functions
 	static void load_required_tex_tiles();
-	static void load_required_tex_entities();
+	static void load_required_tex_players();
 	static void link_textures_to_tiles();
-	static void link_textures_to_entities();
+	static void link_textures_to_players();
 	static void load_map(int level);
 	static bool link_tiles();
 
 	static tile_object*** get_map() { return map; }
 	static SDL_Point get_map_dimensions_t() { return {tileswide, tileshigh}; }
 	static SDL_Point get_map_dimensions_px() { return { (int)((float)tileswide * t_width * constants::tile_scaling), (int)((float)(tileshigh * t_height) * constants::tile_scaling) }; }
-	static int get_tile_size() { return t_width; };
+	static int get_tile_size() { return t_width; }
+
 	static constants::tile_type get_tile_type_at(int x, int y);
+	static player* get_player(int id) { return ai_players.at(id); }
+
+	static void world_tile_ids_at_mouse(int* to_save_x, int* to_save_y, int mouse_x, int mouse_y, SDL_Point cam_coords);
+	static void world_tile_ids_at_coords(int* to_save_x, int* to_save_y, int x, int y);
+
+	static void get_path_from_to(int from_x, int from_y, int to_x, int to_y);
 
 	static void initialise() { initialised = true; }
 	static void unload_map();

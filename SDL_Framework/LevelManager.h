@@ -7,10 +7,12 @@
 #include "Level_1.h"
 
 
-///Class responsible for global switching and updating between the levels
+//Class responsible for global switching and updating between the levels
 class level_manager
 {
 private:
+	struct tile_coords {};
+
 	painter drawing_manager;
 	Level_1 level1;
 	
@@ -36,6 +38,8 @@ public:
 	bool is_level_loaded() { return level_loaded; }
 	float get_loaded_percent() { return loaded; }
 	std::string get_loaded_item() { return loaded_item; }
+
+	void handle_mouseclicks(Mouse*);
 	
 	void update(Mouse*, const Uint8* keyboard, int delta_time);
 	void draw(SDL_Renderer*);

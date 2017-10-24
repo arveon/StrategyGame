@@ -79,7 +79,7 @@ namespace constants
 
 	//map constants
 	const int tileset_width = 8;
-	const int tileset_entity_offset = 29;
+	const int tileset_entity_offset = 70;
 	const float tile_scaling = 1;
 	const enum tilesets
 	{

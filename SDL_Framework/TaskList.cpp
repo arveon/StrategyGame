@@ -1,3 +1,5 @@
+//TODO: make the pathfinding algorithm to regenerate his collision and values map at the beginning of every players turn
+//TODO: make the pathfinding algorithm to regenerate his collision and values map if the player moved and wants to move to another spot
 //TODO: replace all of the double slash comments with triple slash and triple slash with double slash
 //TODO: replace character and item vectors with 2d arrays in map manager so it's faster to get tile types
 //TODO: think about interface

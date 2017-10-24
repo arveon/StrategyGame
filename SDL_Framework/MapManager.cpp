@@ -1,15 +1,16 @@
 #include "MapManager.h"
 
-//initialise all of the static variables
+///initialise all of the static variables
 int map_manager::tileswide, map_manager::tileshigh = 0;
 int  map_manager::t_width, map_manager::t_height = 1;
 tile_object*** map_manager::map = nullptr;
 bool map_manager::initialised = false;
 std::vector<living_entity*> map_manager::map_entities;
+std::vector<player*> map_manager::ai_players;
 std::vector<item_object*> map_manager::items;
 bool map_manager::map_currently_loaded = false;
 
-///Function is used to load a map with a given level id and initialise the manager
+//Function is used to load a map with a given level id and initialise the manager
 void map_manager::load_map(int level)
 {
 	if (initialised)
@@ -27,19 +28,19 @@ void map_manager::load_from_file()
 {
 	//TODO::Add checks for file not being in the folder, not having anything in the map etc
 	tileswide = tileshigh = 0;
-	//load file into a data structure
+	///load file into a data structure
 	rapidxml::file<> file("maps/sample_map.xml");
 	rapidxml::xml_document<> doc;
 	doc.parse<0>(file.data());
 
-	//get width and height of map from attributes
+	///get width and height of map from attributes
 	tileswide = std::stoi(doc.first_node()->first_attribute("tileswide")->value());
 	tileshigh = std::stoi(doc.first_node()->first_attribute("tileshigh")->value());
 	t_width = std::stoi(doc.first_node()->first_attribute("tilewidth")->value());
 	t_height = std::stoi(doc.first_node()->first_attribute("tileheight")->value());
 	std::cout << "size: " << tileswide << " by " << tileshigh << std::endl;
 
-	//get reference to the first tile node
+	///get reference to the first tile node
 	rapidxml::xml_node<>* cur_node = doc.first_node("tilemap")->first_node("layer")->first_node("tile");
 
 	//allocate space for map array
@@ -47,7 +48,7 @@ void map_manager::load_from_file()
 	for (int i = 0; i < tileshigh; i++)
 		map[i] = new tile_object*[tileswide];
 
-	//loop through all nodes getting their coordinates from attributes and saving the tile types into map array
+	///loop through all nodes getting their coordinates from attributes and saving the tile types into map array
 	while (cur_node != NULL)
 	{
 		int x, y = 0;
@@ -158,7 +159,7 @@ void map_manager::load_from_file()
 	cur_node = doc.first_node("tilemap")->first_node("layer");
 	cur_node = cur_node->next_sibling()->first_node("tile");
 
-	//loop through all nodes getting their coordinates from attributes and saving the tile types into map array
+	///loop through all nodes getting their coordinates from attributes and saving the tile types into map array
 	while (cur_node != NULL)
 	{
 		int x, y = 0;
@@ -173,26 +174,17 @@ void map_manager::load_from_file()
 		}
 
 
-		//constants::tile_type t_type;
+		///constants::tile_type t_type;
 		game_object* obj1 = nullptr;
-		living_entity* obj;
+		player* obj;
 		tex_id -= constants::tileset_entity_offset;
 		switch (tex_id)
 		{
 		case 0:
-			obj = new player({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
-			map_entities.push_back(obj);
-			break;
 		case 1:
 		case 2:
-			constants::entity_type type = constants::enemy_ai_1;
-			if (tex_id == 1)
-				type = constants::enemy_ai_1;
-			else if (tex_id == 2)
-				type = constants::enemy_ai_2;
-
-			obj = new enemy({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id, type);
-			map_entities.push_back(obj);
+			obj = new player({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
+			ai_players.push_back(obj);
 			break;
 		}
 		
@@ -201,7 +193,7 @@ void map_manager::load_from_file()
 	map_currently_loaded = true;
 }
 
-///Function is used to build a vector of required terrain tiles and ask tileset manager to load them
+//Function is used to build a vector of required terrain tiles and ask tileset manager to load them
 void map_manager::load_required_tex_tiles()
 {
 	std::vector<int> texture_id_list;
@@ -216,13 +208,13 @@ void map_manager::load_required_tex_tiles()
 	tileset_manager::load_tiles(texture_id_list, constants::tilesets::map, t_width, t_height);
 }
 
-///function is used to build a vector of character tiles and load them from a vector
-void map_manager::load_required_tex_entities()
+//function is used to build a vector of character tiles and load them from a vector
+void map_manager::load_required_tex_players()
 {
 	std::vector<int> entity_texture_id_list;
-	for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+	for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
 	{
-		living_entity* ent = *it;
+		player* ent = *it;
 
 		if (!helper_functions::is_int_in_vector(entity_texture_id_list, ent->texture_id+constants::tileset_entity_offset))
 			helper_functions::add_to_int_vector_asc(&entity_texture_id_list, ent->texture_id);
@@ -230,7 +222,7 @@ void map_manager::load_required_tex_entities()
 	tileset_manager::load_tiles(entity_texture_id_list, constants::tilesets::characters, t_width, t_height);
 }
 
-///function is used to link all of the terrain textures from tileset manager to actual objects
+//function is used to link all of the terrain textures from tileset manager to actual objects
 void map_manager::link_textures_to_tiles()
 {
 	for (int i = 0; i < tileshigh; i++)
@@ -238,14 +230,14 @@ void map_manager::link_textures_to_tiles()
 			map[i][j]->texture = tileset_manager::get_texture_by_id(constants::tilesets::map, map[i][j]->texture_id);
 }
 
-///function is used to link the entity textures from tileset manager to actual objects
-void map_manager::link_textures_to_entities()
+//function is used to link the entity textures from tileset manager to actual objects
+void map_manager::link_textures_to_players()
 {
-	for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+	for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
 			(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::characters, (*it)->texture_id);
 }
 
-///function used to unload the whole map
+//function used to unload the whole map
 void map_manager::unload_map()
 {
 	for (int i = 0; i < tileshigh; i++)
@@ -256,7 +248,7 @@ void map_manager::unload_map()
 	tileswide = tileshigh = 0;
 }
 
-///function is used to add an appropriate vector (of objects of a certain type) to the painter queues
+//function is used to add an appropriate vector (of objects of a certain type) to the painter queues
 void map_manager::add_vector_to_painter(painter* drawing_manager, constants::base_object_type type)
 {
 	switch (type)
@@ -267,7 +259,7 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 				drawing_manager->add_object_to_queue(map[i][j]);
 		break;
 	case constants::base_object_type::character:
-		for (std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); ++it)
+		for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
 			drawing_manager->add_object_to_queue(*it);
 		
 		break;
@@ -277,7 +269,7 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 //Function links every tile with all of its neighbouring tiles for the pathfinding algorithm
 bool map_manager::link_tiles()
 {
-	//if map is not loaded there is nothing to link
+	///if map is not loaded there is nothing to link
 	if (!map_currently_loaded)
 		return false;
 	
@@ -302,17 +294,45 @@ bool map_manager::link_tiles()
 				map[i][j]->add_neighbour(map[i + 1][j - 1]);
 			if (i < tileswide - 1 && j < tileshigh - 1)
 				map[i][j]->add_neighbour(map[i + 1][j + 1]);
-			std::cout << map[i][j]->neighbours.size();
 		}
-		std::cout << std::endl;
 	}
 	return true;
 }
 
-///function returns the type of the tile at certain x and y
+//Function calculates the x and y id of the tile and stores it in to_save_x and to_save_y
+void map_manager::world_tile_ids_at_mouse(int* to_save_x, int* to_save_y, int mouse_x, int mouse_y, SDL_Point camera_position)
+{
+	//get the world coordinates of where the mouse is pointing to (remove the scaling factor from equasion)
+	SDL_Point total_size = map_manager::get_map_dimensions_px();
+	total_size.x /= constants::tile_scaling;
+	total_size.y /= constants::tile_scaling;
+	SDL_Point mouse_world_pos;
+	mouse_world_pos.x = (mouse_x + camera_position.x) / constants::tile_scaling;
+	mouse_world_pos.y = (mouse_y + camera_position.y) / constants::tile_scaling;
+	//calculate the tile number by x and y the mouse is pointing at and get its type
+	*(to_save_x) = (int)std::floor((float)mouse_world_pos.x / (float)map_manager::get_tile_size());
+	*(to_save_y) = (int)std::floor((float)mouse_world_pos.y / (float)map_manager::get_tile_size());
+}
+
+void map_manager::world_tile_ids_at_coords(int * to_save_x, int * to_save_y, int x, int y)
+{
+	//get the world coordinates of where the mouse is pointing to (remove the scaling factor from equasion)
+	SDL_Point total_size = map_manager::get_map_dimensions_px();
+	//calculate the tile number by x and y the mouse is pointing at and get its type
+	*(to_save_x) = (int)std::floor((float)x / (float)map_manager::get_tile_size());
+	*(to_save_y) = (int)std::floor((float)y / (float)map_manager::get_tile_size());
+}
+
+void map_manager::get_path_from_to(int from_x, int from_y, int to_x, int to_y)
+{
+	//TODO: add logic to interact with pathfinding algorithm and return the vector of tile ids to go to to get to endpoint
+	std::cout << "I will get path from a(" << from_x << ":" << from_y << ") to (" << to_x << ":" << to_y << ")." << std::endl;
+}
+
+//function returns the type of the tile at certain x and y
 constants::tile_type map_manager::get_tile_type_at(int x, int y)
 {
-	//if()
+	///if()
 	return map[y][x]->tile_type;
 }
 

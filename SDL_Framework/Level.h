@@ -1,7 +1,11 @@
 #pragma once
+#include <vector>
+
 #include "Painter.h"
 #include "MapManager.h"
 #include "Mouse.h"
+#include "Player.h"
+
 
 ///A generic representation of the level
 class level
@@ -28,6 +32,8 @@ protected:
 	};
 	load_states loading_state;
 
+	int current_player;
+	int total_players;
 	
 	camera_mode cam_mode;
 
@@ -39,6 +45,8 @@ public:
 	void init(painter* drawing_manager);
 	bool level_loaded() { return is_loaded; }
 	float get_loaded_percent() { return load_percent; }
+
+	virtual void mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at);
 
 	camera_mode get_cam_mode() { return cam_mode; }
 

@@ -4,6 +4,8 @@
 //level initialisation
 level::level()
 {
+	current_player = 0;
+
 	loading_state = load_states::loading_map;
 	load_percent = 0;
 	is_loaded = false;
@@ -34,12 +36,12 @@ void level::update_load(Mouse* mouse)
 		loading_state = loading_character_textures;
 		break;
 	case loading_character_textures:
-		map_manager::load_required_tex_entities();
+		map_manager::load_required_tex_players();
 		load_percent = 0.4f;
 		loading_state = attaching_character_textures;
 		break;
 	case attaching_character_textures:
-		map_manager::link_textures_to_entities();
+		map_manager::link_textures_to_players();
 		load_percent = 0.5f;
 		loading_state = cleaning_up_tilesheet;
 		break;
@@ -76,6 +78,16 @@ void level::update_load(Mouse* mouse)
 void level::init(painter* ptr)
 {
 	drawing_manager = ptr;
+}
+
+void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
+{
+	//TODO: movement logic
+	player* cur_player = map_manager::get_player(current_player);
+	int p_x = 0, p_y = 0;
+	map_manager::world_tile_ids_at_coords(&p_x, &p_y, cur_player->get_position().x, cur_player->get_position().y);
+	map_manager::get_path_from_to(p_x, p_y, x, y);
+
 }
 
 
