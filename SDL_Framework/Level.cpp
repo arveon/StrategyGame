@@ -54,11 +54,16 @@ void level::update_load(Mouse* mouse)
 		if (!map_manager::link_tiles())
 			std::cout << "MAP NOT LOADED YET" << std::endl;
 		load_percent = 0.7f;
+		loading_state = load_states::initialising_pathfinding;
+		break;
+	case initialising_pathfinding:
+		map_manager::init_pathfinding();
+		load_percent = 0.8f;
 		loading_state = load_states::loading_tileset;
 		break;
 	case loading_tileset:
 		//SDL_Delay(1000);
-		load_percent = 0.8f;
+		load_percent = 0.9f;
 		loading_state = load_states::done;
 		break;
 	case done:
@@ -86,7 +91,16 @@ void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 	player* cur_player = map_manager::get_player(current_player);
 	int p_x = 0, p_y = 0;
 	map_manager::world_tile_ids_at_coords(&p_x, &p_y, cur_player->get_position().x, cur_player->get_position().y);
-	map_manager::get_path_from_to(p_x, p_y, x, y);
+	map_manager::init_pathfinding_for_current_map_state(current_player);
+
+	std::vector<SDL_Point> path = map_manager::get_path_from_to(p_x, p_y, x, y);
+	//print out the returned path
+	std::cout << "Path: " << std::endl;
+	for (int i = path.size() - 1; i >= 0; i--)
+	{
+		SDL_Point point = path.at(i);
+		std::cout << point.x << " " << point.y << std::endl;
+	}
 
 }
 

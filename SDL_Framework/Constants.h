@@ -77,6 +77,14 @@ namespace constants
 	const std::string LAUNCH_MIN_TEMPLATE = "appname StratGame\nresolution 640 480\nfullscreen 1";
 	const std::string SETTINGS_MIN_TEMPLATE = "master_volume 100\nmusic_volume 100\nsounds_volume 100\nfullscreen 0\nresolution 0";
 
+	struct pathfinding_tile
+	{
+		SDL_Point position;
+		int cost;
+		int pathfinding_num;
+		std::vector<pathfinding_tile*> neighbours;
+	};
+
 	//map constants
 	const int tileset_width = 8;
 	const int tileset_entity_offset = 70;

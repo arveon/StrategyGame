@@ -27,6 +27,7 @@ protected:
 		attaching_character_textures,
 		cleaning_up_tilesheet,
 		linking_tiles,
+		initialising_pathfinding,
 		loading_tileset,
 		done
 	};

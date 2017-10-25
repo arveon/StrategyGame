@@ -1,28 +1,33 @@
 #pragma once
+#include <iostream>
 #include <vector>
-#include "SimplePoint.h"
-#include "Map.h"
+#include <SDL.h>
+#include "Constants.h"
+#include "Tile.h"
 
 class LeePathfinder
 {
 private:
-	Map map;
+	static constants::pathfinding_tile*** map;
+	static int width, height;
+	static SDL_Point origin;
+	static SDL_Point destination;
+	static bool path_found;
+	static std::vector<SDL_Point> path;
 
-	SimplePoint* start;
-	SimplePoint end;
-	bool path_found;
-	std::vector<SimplePoint*> path;
-
-	std::vector<SimplePoint*> mark_tile_neighbours(SimplePoint* tile, int num);
-	//void mark_field(SimplePoint* start);
-
+	static std::vector<constants::pathfinding_tile*> mark_tile_neighbours(constants::pathfinding_tile* tile, int num);
+	static bool calculate_path(constants::pathfinding_tile* end);
 public:
-	LeePathfinder(Map map);
+	LeePathfinder();
 	~LeePathfinder();
+	static void set_map(constants::pathfinding_tile*** map, int w, int h) { LeePathfinder::map = map; width = w; height = h; }
+	static void set_origin(int x, int y);
+	static void set_destination(int x, int y);
 
-	void mark_field(SimplePoint* start);
-	void calculate_path(SimplePoint* end);
-	std::vector<SimplePoint*> get_path() { return path; }
-	void display_field();
+	static void mark_field(constants::pathfinding_tile* = map[origin.y][origin.x]);
+	static bool find_path(SDL_Point end);
+
+	static std::vector<SDL_Point> get_path() { return path; }
+	static void display_field();
 };
 

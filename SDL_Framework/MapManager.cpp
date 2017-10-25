@@ -9,6 +9,7 @@ std::vector<living_entity*> map_manager::map_entities;
 std::vector<player*> map_manager::ai_players;
 std::vector<item_object*> map_manager::items;
 bool map_manager::map_currently_loaded = false;
+constants::pathfinding_tile*** map_manager::tile_cost_map;
 
 //Function is used to load a map with a given level id and initialise the manager
 void map_manager::load_map(int level)
@@ -323,10 +324,92 @@ void map_manager::world_tile_ids_at_coords(int * to_save_x, int * to_save_y, int
 	*(to_save_y) = (int)std::floor((float)y / (float)map_manager::get_tile_size());
 }
 
-void map_manager::get_path_from_to(int from_x, int from_y, int to_x, int to_y)
+void map_manager::init_pathfinding()
+{
+	if (initialised)
+	{
+		//TODO: build up a map of static collisions with (0 as passable and 1 as non-passable)
+		///initialise the collision map
+		tile_cost_map = new constants::pathfinding_tile**[tileshigh];
+		for (int i = 0; i < tileshigh; i++)
+			tile_cost_map[i] = new constants::pathfinding_tile*[tileswide];
+
+		///loop generates a basic map movement cost map based only on terrain (other objects not included)
+		for (int i = 0; i < tileshigh; i++)
+		{
+			for (int j = 0; j < tileswide; j++)
+			{
+				tile_object* tile = map[i][j];
+				switch (tile->tile_type)
+				{
+				case constants::tile_type::earth:
+				case constants::tile_type::grass:
+				case constants::tile_type::mud:
+				case constants::tile_type::stone:
+					tile->set_travel_cost(1);
+					break;
+				default:
+					tile->set_travel_cost(-1);	
+				}
+
+				tile_cost_map[i][j] = new constants::pathfinding_tile();
+				tile_cost_map[i][j]->cost = tile->get_travel_cost();
+				if (tile_cost_map[i][j]->cost == -1)
+					tile_cost_map[i][j]->pathfinding_num = -1;
+				else
+					tile_cost_map[i][j]->pathfinding_num = 0;
+				map_manager::world_tile_ids_at_coords(&tile_cost_map[i][j]->position.x, &tile_cost_map[i][j]->position.y, tile->get_position().x, tile->get_position().y);
+				//tile_cost_map[i][j]->position = tile->get_position();
+			}
+		}
+
+		for (int i = 0; i < tileshigh; i++)
+		{
+			for (int j = 0; j < tileswide; j++)
+			{
+				//add neighbours for this tile
+				if (i > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j]);
+				if (j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j - 1]);
+				if (i < tileswide - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j]);
+				if (j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j + 1]);
+				if (i > 0 && j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j - 1]);
+				if (i > 0 && j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j + 1]);
+				if (i < tileswide - 1 && j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j - 1]);
+				if (i < tileswide - 1 && j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j + 1]);
+			}
+		}
+		LeePathfinder::set_map(tile_cost_map, tileswide, tileshigh);
+		//LeePathfinder::display_field();
+	}
+}
+
+void map_manager::init_pathfinding_for_current_map_state(int cur_player)
+{
+	if (initialised)
+	{
+		LeePathfinder::set_origin(ai_players.at(cur_player)->get_position().x, ai_players.at(cur_player)->get_position().y);
+		LeePathfinder::mark_field();
+		//LeePathfinder::display_field();	
+	}
+}
+
+std::vector<SDL_Point> map_manager::get_path_from_to(int from_x, int from_y, int to_x, int to_y)
 {
 	//TODO: add logic to interact with pathfinding algorithm and return the vector of tile ids to go to to get to endpoint
-	std::cout << "I will get path from a(" << from_x << ":" << from_y << ") to (" << to_x << ":" << to_y << ")." << std::endl;
+	if (LeePathfinder::find_path({ to_x, to_y }))
+		std::cout << "Path from (" << from_x << " " << from_y << ") to (" << to_x << " " << to_y << ") found" << std::endl;
+	else
+		std::cout << "Path not found" << std::endl;
+	std::vector<SDL_Point> res = LeePathfinder::get_path();
+	return res;
 }
 
 //function returns the type of the tile at certain x and y

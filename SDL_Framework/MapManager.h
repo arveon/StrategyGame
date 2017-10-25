@@ -16,6 +16,8 @@
 #include "Enemy.h"
 #include "Item.h"
 
+#include "LeePathfinder.h"
+
 //Class to manage loading/saving of a map
 class map_manager
 {
@@ -25,6 +27,7 @@ private:
 	static int tileswide, tileshigh;
 	static int  t_width, t_height;
 	static tile_object*** map;
+	static constants::pathfinding_tile*** tile_cost_map;
 	static std::vector<living_entity*> map_entities;
 	static std::vector<player*> ai_players;
 	static std::vector<item_object*> items;
@@ -38,6 +41,8 @@ public:
 	static void link_textures_to_players();
 	static void load_map(int level);
 	static bool link_tiles();
+	static void init_pathfinding();
+	static void init_pathfinding_for_current_map_state(int cur_player);
 
 	static tile_object*** get_map() { return map; }
 	static SDL_Point get_map_dimensions_t() { return {tileswide, tileshigh}; }
@@ -50,7 +55,7 @@ public:
 	static void world_tile_ids_at_mouse(int* to_save_x, int* to_save_y, int mouse_x, int mouse_y, SDL_Point cam_coords);
 	static void world_tile_ids_at_coords(int* to_save_x, int* to_save_y, int x, int y);
 
-	static void get_path_from_to(int from_x, int from_y, int to_x, int to_y);
+	static std::vector<SDL_Point> get_path_from_to(int from_x, int from_y, int to_x, int to_y);
 
 	static void initialise() { initialised = true; }
 	static void unload_map();
