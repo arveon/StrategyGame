@@ -6,6 +6,7 @@ SDL_Texture* tileset_manager::tilesheet = nullptr;
 std::vector<SDL_Texture*> tileset_manager::tiles;
 tileset_manager::tilesheet_state tileset_manager::state;
 std::vector<SDL_Texture*> tileset_manager::entities;
+std::vector<SDL_Texture*> tileset_manager::misc;
 
 ///function loads the textures with ids provided in tile_nums from an appropriate set
 void tileset_manager::load_tiles(std::vector<int> tile_nums, constants::tilesets set, int tilewidth, int tileheight)
@@ -55,6 +56,23 @@ void tileset_manager::load_tiles(std::vector<int> tile_nums, constants::tilesets
 	}
 }
 
+void tileset_manager::load_misc(int tilewidth, int tileheight)
+{
+	SDL_Texture* full_tex = sdlframework::sdl_manager::load_png_texture(constants::TILESET_MISC_PATH);
+	misc.resize(constants::misc_num_items);
+	for (int i = 0; i < constants::misc_num_items; i++)
+	{
+		int x, y;
+		y = (int)std::floor(i/ constants::tileset_width);
+		x = i - y * constants::tileset_width;
+		SDL_Rect src = { x * tilewidth, y* tileheight, tilewidth, tileheight };
+
+		misc.at(i) = sdlframework::sdl_manager::get_texture_from_tilesheet(full_tex, src);
+	}
+
+	SDL_DestroyTexture(full_tex);
+}
+
 ///Functions returns the texture with the given id from a given tileset
 SDL_Texture* tileset_manager::get_texture_by_id(constants::tilesets tileset, int id)
 {
@@ -68,6 +86,10 @@ SDL_Texture* tileset_manager::get_texture_by_id(constants::tilesets tileset, int
 			break;
 		case constants::tilesets::characters:
 			result = entities.at(id);
+			break;
+		case constants::tilesets::misc:
+			result = misc.at(id);
+			break;
 		}	
 	}
 	return result;

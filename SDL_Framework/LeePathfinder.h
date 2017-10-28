@@ -24,7 +24,9 @@ public:
 	static void set_origin(int x, int y);
 	static void set_destination(int x, int y);
 
-	static void mark_field(constants::pathfinding_tile* = map[origin.y][origin.x]);
+	static SDL_Point get_origin() { return origin; }
+
+	static void mark_field(constants::pathfinding_tile* start = map[origin.y][origin.x]);
 	static bool find_path(SDL_Point end);
 
 	static std::vector<SDL_Point> get_path() { return path; }

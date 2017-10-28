@@ -23,6 +23,9 @@ void painter::add_object_to_queue(drawable_object* obj)
 	case constants::base_object_type::ui:
 		rq_ui.push_back(obj);
 		break;
+	case constants::base_object_type::path:
+		rq_path.push_back(obj);
+		break;
 	}
 }
 
@@ -32,7 +35,7 @@ void painter::add_text_ui_to_queue(TextRenderer* text)
 	tq_ui.push_back(text);
 }
 
-///Function will sort the render queues
+///Function will sort the render queues by the objects Y components
 void painter::sort_queues()
 {
 	//TODO: write logic to sort queues so that objects with lowest Y coordinate are at the top of the queue (drawn first)
@@ -45,10 +48,10 @@ void painter::reset_queue()
 }
 
 ///Function is called every tick and draws all of the objects in queues
-///ORDER: terrain -> characters&items -> ui
+///ORDER: terrain -> characters&items -> path -> ui
 void painter::draw_queue(SDL_Renderer* renderer)
 {
-	//draw terrain
+	///draw terrain
 	if (rq_terrain.size() != 0)
 	{
 		for (std::vector<drawable_object*>::iterator it = rq_terrain.begin(); it != rq_terrain.end(); ++it)
@@ -65,7 +68,7 @@ void painter::draw_queue(SDL_Renderer* renderer)
 		}
 	}
 
-	//draw chars and items
+	///draw chars and items
 	if (rq_characters_items.size() != 0)
 	{
 		for (std::vector<drawable_object*>::iterator it = rq_characters_items.begin(); it != rq_characters_items.end(); ++it)
@@ -82,7 +85,23 @@ void painter::draw_queue(SDL_Renderer* renderer)
 		}
 	}
 
-	//draw ui
+	///draw path
+	if (rq_path.size() != 0)
+	{
+		for (std::vector<drawable_object*>::iterator it = rq_path.begin(); it != rq_path.end(); it++)
+		{
+			drawable_object* temp = *it;
+			if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x + render_camera.width))
+				continue;
+			if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y + render_camera.height)
+				continue;
+			
+			SDL_Rect draw_rect = { temp->world_coords.x - render_camera.world_coords.x, temp->world_coords.y - render_camera.world_coords.y, temp->width, temp->height };
+			SDL_RenderCopy(renderer, temp->texture, NULL, &draw_rect);
+		}
+	}
+
+	///draw ui
 	if (rq_ui.size() != 0)
 	{
 		for (std::vector<drawable_object*>::iterator it = rq_ui.begin(); it != rq_ui.end(); ++it)
@@ -95,6 +114,14 @@ void painter::draw_queue(SDL_Renderer* renderer)
 
 }
 
+void painter::remove_old_path()
+{
+	for (std::vector<drawable_object*>::iterator it = rq_path.begin(); it != rq_path.end(); it++)
+	{
+		delete *it;
+	}
+	rq_path.clear();
+}
 
 painter::painter()
 {

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef MAP_MANAGER
+#define MAP_MANAGER
 #include <iostream>
 
 #include <vector>
@@ -29,7 +31,7 @@ private:
 	static tile_object*** map;
 	static constants::pathfinding_tile*** tile_cost_map;
 	static std::vector<living_entity*> map_entities;
-	static std::vector<player*> ai_players;
+	static std::vector<player*> players;
 	static std::vector<item_object*> items;
 	static void load_from_file();
 	static bool map_currently_loaded;
@@ -50,7 +52,7 @@ public:
 	static int get_tile_size() { return t_width; }
 
 	static constants::tile_type get_tile_type_at(int x, int y);
-	static player* get_player(int id) { return ai_players.at(id); }
+	static player* get_player(int id) { return players.at(id); }
 
 	static void world_tile_ids_at_mouse(int* to_save_x, int* to_save_y, int mouse_x, int mouse_y, SDL_Point cam_coords);
 	static void world_tile_ids_at_coords(int* to_save_x, int* to_save_y, int x, int y);
@@ -72,4 +74,4 @@ public:
 	int x, y;
 	std::vector<map_tile*> neighbours;
 };
-
+#endif

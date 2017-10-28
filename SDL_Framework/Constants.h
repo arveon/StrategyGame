@@ -83,9 +83,12 @@ namespace constants
 		int cost;
 		int pathfinding_num;
 		std::vector<pathfinding_tile*> neighbours;
+		bool origin;
+		bool destination;
 	};
 
 	//map constants
+	const int misc_num_items = 2;
 	const int tileset_width = 8;
 	const int tileset_entity_offset = 70;
 	const float tile_scaling = 1;
@@ -95,9 +98,11 @@ namespace constants
 		characters,
 		props,
 		items,
+		misc
 	};
 	const std::string TILESET_TERRAIN_PATH = "assets/tilesets/terrain.png";
 	const std::string TILESET_CHARACTERS_PATH = "assets/tilesets/characters.png";
+	const std::string TILESET_MISC_PATH = "assets/tilesets/misc.png";
 
 	const enum tile_type
 	{
@@ -121,6 +126,12 @@ namespace constants
 		friendly_ai = 7
 	};
 
+	const enum misc_tile
+	{
+		path_tile = 0,
+		end_path_tile = 1
+	};
+
 	//game constants
 	const enum base_object_type
 	{
@@ -128,6 +139,7 @@ namespace constants
 		character,
 		item,
 		ui,
+		path,
 		other
 	};
 
@@ -135,6 +147,7 @@ namespace constants
 	class setup
 	{
 	public:
+		static int tile_height, tile_width;
 		static int WINDOW_WIDTH;
 		static int WINDOW_HEIGHT;
 		static float scaling_vertical/* = (float)WINDOW_HEIGHT / 480*/;

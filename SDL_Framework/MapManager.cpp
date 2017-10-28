@@ -6,7 +6,7 @@ int  map_manager::t_width, map_manager::t_height = 1;
 tile_object*** map_manager::map = nullptr;
 bool map_manager::initialised = false;
 std::vector<living_entity*> map_manager::map_entities;
-std::vector<player*> map_manager::ai_players;
+std::vector<player*> map_manager::players;
 std::vector<item_object*> map_manager::items;
 bool map_manager::map_currently_loaded = false;
 constants::pathfinding_tile*** map_manager::tile_cost_map;
@@ -38,7 +38,9 @@ void map_manager::load_from_file()
 	tileswide = std::stoi(doc.first_node()->first_attribute("tileswide")->value());
 	tileshigh = std::stoi(doc.first_node()->first_attribute("tileshigh")->value());
 	t_width = std::stoi(doc.first_node()->first_attribute("tilewidth")->value());
+	constants::setup::tile_width = t_width;
 	t_height = std::stoi(doc.first_node()->first_attribute("tileheight")->value());
+	constants::setup::tile_height = t_height;
 	std::cout << "size: " << tileswide << " by " << tileshigh << std::endl;
 
 	///get reference to the first tile node
@@ -185,7 +187,7 @@ void map_manager::load_from_file()
 		case 1:
 		case 2:
 			obj = new player({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
-			ai_players.push_back(obj);
+			players.push_back(obj);
 			break;
 		}
 		
@@ -213,7 +215,7 @@ void map_manager::load_required_tex_tiles()
 void map_manager::load_required_tex_players()
 {
 	std::vector<int> entity_texture_id_list;
-	for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
+	for (std::vector<player*>::iterator it = players.begin(); it != players.end(); ++it)
 	{
 		player* ent = *it;
 
@@ -234,7 +236,7 @@ void map_manager::link_textures_to_tiles()
 //function is used to link the entity textures from tileset manager to actual objects
 void map_manager::link_textures_to_players()
 {
-	for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
+	for (std::vector<player*>::iterator it = players.begin(); it != players.end(); ++it)
 			(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::characters, (*it)->texture_id);
 }
 
@@ -260,7 +262,7 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 				drawing_manager->add_object_to_queue(map[i][j]);
 		break;
 	case constants::base_object_type::character:
-		for (std::vector<player*>::iterator it = ai_players.begin(); it != ai_players.end(); ++it)
+		for (std::vector<player*>::iterator it = players.begin(); it != players.end(); ++it)
 			drawing_manager->add_object_to_queue(*it);
 		
 		break;
@@ -370,23 +372,34 @@ void map_manager::init_pathfinding()
 				//add neighbours for this tile
 				if (i > 0)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j]);
-				if (j > 0)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j - 1]);
-				if (i < tileswide - 1)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j]);
-				if (j < tileshigh - 1)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j + 1]);
 				if (i > 0 && j > 0)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j - 1]);
-				if (i > 0 && j < tileshigh - 1)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j + 1]);
+				if (j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j - 1]);
 				if (i < tileswide - 1 && j > 0)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j - 1]);
+				if (i < tileswide - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j]);
 				if (i < tileswide - 1 && j < tileshigh - 1)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j + 1]);
+				if (j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j + 1]);
+				if (i > 0 && j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j + 1]);
+				
+				
 			}
 		}
 		LeePathfinder::set_map(tile_cost_map, tileswide, tileshigh);
+
+
+		SDL_Point player_pos = { players.at(0)->get_position().x, players.at(0)->get_position().y };
+		int x, y;
+		world_tile_ids_at_coords(&x, &y, player_pos.x, player_pos.y);
+		LeePathfinder::set_origin(x, y);
+		LeePathfinder::mark_field();
+		LeePathfinder::display_field();
+
 		//LeePathfinder::display_field();
 	}
 }
@@ -395,9 +408,11 @@ void map_manager::init_pathfinding_for_current_map_state(int cur_player)
 {
 	if (initialised)
 	{
-		LeePathfinder::set_origin(ai_players.at(cur_player)->get_position().x, ai_players.at(cur_player)->get_position().y);
+		SDL_Point player_pos = { players.at(cur_player)->get_position().x, players.at(cur_player)->get_position().y };
+		int x, y;
+		world_tile_ids_at_coords(&x, &y, player_pos.x, player_pos.y);
+		LeePathfinder::set_origin(x, y);
 		LeePathfinder::mark_field();
-		//LeePathfinder::display_field();	
 	}
 }
 
@@ -405,7 +420,10 @@ std::vector<SDL_Point> map_manager::get_path_from_to(int from_x, int from_y, int
 {
 	//TODO: add logic to interact with pathfinding algorithm and return the vector of tile ids to go to to get to endpoint
 	if (LeePathfinder::find_path({ to_x, to_y }))
+	{
+		std::cout << "out cp" << std::endl;
 		std::cout << "Path from (" << from_x << " " << from_y << ") to (" << to_x << " " << to_y << ") found" << std::endl;
+	}
 	else
 		std::cout << "Path not found" << std::endl;
 	std::vector<SDL_Point> res = LeePathfinder::get_path();

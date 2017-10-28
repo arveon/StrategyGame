@@ -7,6 +7,9 @@ int constants::setup::WINDOW_HEIGHT = 480;
 bool constants::setup::FULLSCREEN = false;
 std::string constants::setup::WINDOW_CAPTION = "TempName";
 
+int constants::setup::tile_height = 0;
+int constants::setup::tile_width = 0;
+
 void constants::setup::init_resolution_deps()
 {
 	scaling_vertical = (float)WINDOW_HEIGHT / 480;

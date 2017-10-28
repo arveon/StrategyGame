@@ -59,10 +59,10 @@ void level::update_load(Mouse* mouse)
 	case initialising_pathfinding:
 		map_manager::init_pathfinding();
 		load_percent = 0.8f;
-		loading_state = load_states::loading_tileset;
+		loading_state = load_states::loading_misc;
 		break;
-	case loading_tileset:
-		//SDL_Delay(1000);
+	case loading_misc:
+		tileset_manager::load_misc(map_manager::get_tile_size(), map_manager::get_tile_size());
 		load_percent = 0.9f;
 		loading_state = load_states::done;
 		break;
@@ -93,13 +93,38 @@ void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 	map_manager::world_tile_ids_at_coords(&p_x, &p_y, cur_player->get_position().x, cur_player->get_position().y);
 	map_manager::init_pathfinding_for_current_map_state(current_player);
 
-	std::vector<SDL_Point> path = map_manager::get_path_from_to(p_x, p_y, x, y);
-	//print out the returned path
-	std::cout << "Path: " << std::endl;
-	for (int i = path.size() - 1; i >= 0; i--)
+	if (p_x == x && p_y == y)
+		return;
+
+	if (map_manager::get_player(current_player)->is_dest_same({ x, y }))
 	{
-		SDL_Point point = path.at(i);
-		std::cout << point.x << " " << point.y << std::endl;
+		std::cout << "Player moved" << std::endl;
+		map_manager::get_player(current_player)->move();
+		drawing_manager->remove_old_path();
+		//reset pathfinding for current player
+		map_manager::init_pathfinding_for_current_map_state(current_player);
+		return;
+	}
+
+	std::vector<SDL_Point> path = map_manager::get_path_from_to(p_x, p_y, x, y);
+	map_manager::get_player(current_player)->set_path(path);
+	std::cout << "Path from: " << p_x << ":" << p_y << " to " << x << ":" << y << " takes " << path.size() << " steps." << std::endl;
+	
+	///if tile found, remove old and add new
+	if (path.size() > 0)
+	{
+		drawing_manager->remove_old_path();
+		///add finish tile
+		///create objects for path and add them to render queue
+		for (int i = path.size() - 1; i >= 0; i--)
+		{
+			drawable_object* path_tile = nullptr;
+			if(i != 0)
+				path_tile = new drawable_object({ path.at(i).x * map_manager::get_tile_size(),  path.at(i).y * map_manager::get_tile_size() }, map_manager::get_tile_size(), map_manager::get_tile_size(), true, tileset_manager::get_texture_by_id(constants::tilesets::misc, constants::misc_tile::path_tile), constants::base_object_type::path, constants::misc_tile::path_tile);
+			else if (i == 0)
+				path_tile = new drawable_object({ x * map_manager::get_tile_size(),  y * map_manager::get_tile_size() }, map_manager::get_tile_size(), map_manager::get_tile_size(), true, tileset_manager::get_texture_by_id(constants::tilesets::misc, constants::misc_tile::end_path_tile), constants::base_object_type::path, constants::misc_tile::end_path_tile);
+			drawing_manager->add_object_to_queue(path_tile);
+		}
 	}
 
 }

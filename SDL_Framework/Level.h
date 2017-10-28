@@ -28,7 +28,7 @@ protected:
 		cleaning_up_tilesheet,
 		linking_tiles,
 		initialising_pathfinding,
-		loading_tileset,
+		loading_misc,
 		done
 	};
 	load_states loading_state;
