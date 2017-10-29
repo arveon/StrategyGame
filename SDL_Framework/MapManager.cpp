@@ -372,18 +372,18 @@ void map_manager::init_pathfinding()
 				//add neighbours for this tile
 				if (i > 0)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j]);
-				if (i > 0 && j > 0)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j - 1]);
 				if (j > 0)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j - 1]);
-				if (i < tileswide - 1 && j > 0)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j - 1]);
 				if (i < tileswide - 1)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j]);
-				if (i < tileswide - 1 && j < tileshigh - 1)
-					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j + 1]);
 				if (j < tileshigh - 1)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i][j + 1]);
+				if (i < tileswide - 1 && j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j - 1]);
+				if (i > 0 && j > 0)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j - 1]);
+				if (i < tileswide - 1 && j < tileshigh - 1)
+					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j + 1]);
 				if (i > 0 && j < tileshigh - 1)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j + 1]);
 				

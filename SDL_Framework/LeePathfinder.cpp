@@ -90,7 +90,10 @@ bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 		{
 			constants::pathfinding_tile* temp = cur_point->neighbours.at(i);
 			if (temp->pathfinding_num < cur_point->pathfinding_num && temp->pathfinding_num != -1)
+			{
 				next_point = temp;
+				break;
+			}
 		}
 
 		if (next_point == nullptr)
