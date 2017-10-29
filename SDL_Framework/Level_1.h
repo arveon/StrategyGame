@@ -20,7 +20,7 @@ protected:
 	level_states level_state;
 	
 public:
-	void update(Mouse*);
+	void update(Mouse*, int);
 	float get_loaded_percent() { return level::get_loaded_percent(); }
 	bool is_level_loaded() { return (level_state == loading); }
 	Level_1();

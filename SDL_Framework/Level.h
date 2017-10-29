@@ -43,6 +43,8 @@ protected:
 public:
 	void update_load(Mouse* mouse);
 
+	void update(Mouse* mouse, int delta_time);
+
 	void init(painter* drawing_manager);
 	bool level_loaded() { return is_loaded; }
 	float get_loaded_percent() { return load_percent; }

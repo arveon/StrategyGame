@@ -33,13 +33,11 @@ std::vector<constants::pathfinding_tile*> LeePathfinder::mark_tile_neighbours(co
 
 void LeePathfinder::mark_field(constants::pathfinding_tile* start)
 {
-	std::cout << "Starting to mark from " << start->position.x << " " << start->position.y << std::endl;
 	//if start position not inside wall, set origin position
 	if (map[start->position.y][start->position.x]->pathfinding_num != -1)
 		origin = start->position;
 	else
 	{
-		std::cout << "inside wall" << std::endl;
 		origin = { 0,0 };
 	}
 
@@ -53,7 +51,6 @@ void LeePathfinder::mark_field(constants::pathfinding_tile* start)
 	while (cont)
 	{
 		num++;
-		std::cout << num << std::endl;
 		//iteration points is the list of tiles that will be marked in the next generation
 		std::vector<constants::pathfinding_tile*> next_generation;
 		//loop through all of the tiles from the current generation and add the returned neighbours to the next generation
@@ -69,7 +66,6 @@ void LeePathfinder::mark_field(constants::pathfinding_tile* start)
 		//if there is no more tiles in the next generation to be marked, stop looping
 		if (next_generation.size() == 0)
 		{
-			std::cout << "Marked all" << std::endl;
 			cont = false;
 		}
 	}
@@ -78,7 +74,6 @@ void LeePathfinder::mark_field(constants::pathfinding_tile* start)
 //function backtracks from the given end tile to the origin
 bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 {
-	std::cout << "in cp" << std::endl;
 	constants::pathfinding_tile* cur_point = end;
 	bool start_reached = false;
 	
@@ -90,7 +85,7 @@ bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 	{
 		constants::pathfinding_tile* next_point = nullptr;
 
-		//find the minimal number that is not -1 among the current tile neighbours
+		//find the minimal number that is not -1 among the current tile neighbours and set it as next
 		for (int i = 0; i < cur_point->neighbours.size(); i++)
 		{
 			constants::pathfinding_tile* temp = cur_point->neighbours.at(i);
@@ -103,15 +98,11 @@ bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 		else if (next_point->origin)
 		{
 			start_reached = true;
-			std::cout << "start reached" << std::endl;
 			continue;
 		}
-
-		std::cout << "next: " << next_point->position.x << " " << next_point->position.y << std::endl;
 		path.push_back(next_point->position);
 
 		cur_point = next_point;
-		
 	}
 
 	if (start_reached)
@@ -124,7 +115,11 @@ bool LeePathfinder::find_path(SDL_Point end_coords)
 {
 	path.clear();
 	path.push_back(map[end_coords.y][end_coords.x]->position);
-	return calculate_path(map[end_coords.y][end_coords.x]);
+	bool success = calculate_path(map[end_coords.y][end_coords.x]);
+	if (!success)
+		path.clear();
+
+	return success;
 }
 
 void LeePathfinder::set_origin(int x, int y)

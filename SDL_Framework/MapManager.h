@@ -50,6 +50,7 @@ public:
 	static SDL_Point get_map_dimensions_t() { return {tileswide, tileshigh}; }
 	static SDL_Point get_map_dimensions_px() { return { (int)((float)tileswide * t_width * constants::tile_scaling), (int)((float)(tileshigh * t_height) * constants::tile_scaling) }; }
 	static int get_tile_size() { return t_width; }
+	static int get_max_player_id() { return players.size() - 1; }
 
 	static constants::tile_type get_tile_type_at(int x, int y);
 	static player* get_player(int id) { return players.at(id); }

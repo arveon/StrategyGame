@@ -3,14 +3,17 @@
 //main level update method (level logic and sequences should happen here)
 void level_manager::update(Mouse* mouse, const Uint8* keyboard_state,int delta_time)
 {
-	level1.update(mouse);
+	level1.update(mouse, delta_time);
 	loaded = level1.get_loaded_percent();
 	level_loaded = level1.level_loaded();
 	loaded_item = 1;
 
-	update_displayed_tile_type(mouse);
-	update_camera(mouse, keyboard_state, delta_time);
-	handle_mouseclicks(mouse);
+	if (level_loaded)
+	{
+		update_camera(mouse, keyboard_state, delta_time);
+		update_displayed_tile_type(mouse);
+		handle_mouseclicks(mouse);
+	}
 }
 
 //function called from levelmanager to draw the whole level
@@ -23,46 +26,25 @@ void level_manager::draw(SDL_Renderer* renderer)
 void level_manager::update_camera(Mouse* mouse, const Uint8* keyboard_state, int dt)
 {
 	camera* cam = drawing_manager.get_camera_ptr();
-	SDL_Point mapsize = map_manager::get_map_dimensions_px();
 	//if camera mode is free, then player can manipulate it how he wants using the mouse
 	if (level1.get_cam_mode() == level::camera_mode::free)
 	{
-		int dx = 0, dy = 0;
-
-		if (mouse->x <= 40)
-			dx = -1;
-		else if (mouse->x >= cam->width - 40)
-			dx = 1;
-
-		if (mouse->y <= 40)
-			dy = -1;
-		else if (mouse->y >= cam->height - 40)
-			dy = 1;
-
-		cam->world_coords.x += dx;
-		cam->world_coords.y += dy;
+		cam->cam_mode = camera::camera_mode::free;
 	}
-
-
-	//fix camera to map size
-	if (cam->world_coords.x + cam->width > mapsize.x)
-		cam->world_coords.x = mapsize.x - cam->width;
-	else if (cam->world_coords.x < 0)
-		cam->world_coords.x = 0;
-	if (cam->world_coords.y + cam->height> mapsize.y)
-		cam->world_coords.y = mapsize.y - cam->height;
-	else if (cam->world_coords.y < 0)
-		cam->world_coords.y = 0;
-
+	else if(level1.get_cam_mode() == level::camera_mode::puppet)
+	{
+		cam->cam_mode = camera::camera_mode::puppet;
+	}
+	drawing_manager.get_camera_ptr()->update(mouse, dt);
 }
 
+//function takes care of handling mouse clicks
 void level_manager::handle_mouseclicks(Mouse* mouse)
 {
 	if (mouse->lmb_down && mouse->lmb_down != mouse->prev_lmb_down)
 	{
 		int x,y;
 		map_manager::world_tile_ids_at_mouse(&x, &y, mouse->x, mouse->y, drawing_manager.get_camera_ptr()->get_position());
-		std::cout << "mouse clicked at: " << x << " : " << y << std::endl;
 		level1.mouse_clicked_at(x, y, map_manager::get_tile_type_at(x,y));
 	}
 }
@@ -74,7 +56,7 @@ void level_manager::update_displayed_tile_type(Mouse* mouse)
 	static constants::tile_type old_type = constants::tile_type::empty;
 	constants::tile_type new_type;
 
-	int tile_x, tile_y;
+	int tile_x = 0, tile_y = 0;
 	map_manager::world_tile_ids_at_mouse(&tile_x, &tile_y, mouse->x, mouse->y, drawing_manager.get_camera_ptr()->get_position());
 	
 	new_type = map_manager::get_tile_type_at(tile_x, tile_y);

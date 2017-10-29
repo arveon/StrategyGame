@@ -88,9 +88,15 @@ void painter::draw_queue(SDL_Renderer* renderer)
 	///draw path
 	if (rq_path.size() != 0)
 	{
-		for (std::vector<drawable_object*>::iterator it = rq_path.begin(); it != rq_path.end(); it++)
+		for (int i = rq_path.size()-1; i >= 0; i--)
 		{
-			drawable_object* temp = *it;
+			drawable_object* temp = rq_path.at(i);
+			if (temp == nullptr)
+				continue;
+
+			if (!temp->is_active())
+				continue;
+
 			if ((temp->world_coords.x + temp->width < render_camera.world_coords.x) || (temp->world_coords.x > render_camera.world_coords.x + render_camera.width))
 				continue;
 			if (temp->world_coords.y + temp->width < render_camera.world_coords.y || temp->world_coords.y > render_camera.world_coords.y + render_camera.height)
@@ -120,6 +126,7 @@ void painter::remove_old_path()
 	{
 		delete *it;
 	}
+	path_ignored_before_tile = 0;
 	rq_path.clear();
 }
 

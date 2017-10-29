@@ -421,7 +421,6 @@ std::vector<SDL_Point> map_manager::get_path_from_to(int from_x, int from_y, int
 	//TODO: add logic to interact with pathfinding algorithm and return the vector of tile ids to go to to get to endpoint
 	if (LeePathfinder::find_path({ to_x, to_y }))
 	{
-		std::cout << "out cp" << std::endl;
 		std::cout << "Path from (" << from_x << " " << from_y << ") to (" << to_x << " " << to_y << ") found" << std::endl;
 	}
 	else

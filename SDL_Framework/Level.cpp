@@ -73,9 +73,43 @@ void level::update_load(Mouse* mouse)
 		//draw mouse when done loading
 		//also add all of the elements to painter
 		mouse->is_drawn = true;
+		drawing_manager->get_camera_ptr()->set_world_size(map_manager::get_map_dimensions_px().x, map_manager::get_map_dimensions_px().y);
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::terrain);
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::character);
+		total_players = map_manager::get_max_player_id();
 		break;
+	}
+}
+
+void level::update(Mouse * mouse, int delta_time)
+{
+	for (int i = 0; i < total_players; i++)
+	{
+		map_manager::get_player(i)->update(mouse, delta_time);
+	}
+
+	if (map_manager::get_player(current_player)->is_moving())
+	{
+		mouse->is_drawn = false;
+		drawing_manager->init_anchor(map_manager::get_player(current_player));
+		cam_mode = camera_mode::puppet;
+
+		if (map_manager::get_player(current_player)->path_tile_done)
+		{
+			
+
+			map_manager::get_player(current_player)->path_tile_done = false;
+			drawing_manager->remove_traversed_path_tile();
+		}
+	}
+	else if (map_manager::get_player(current_player)->finished_movement)
+	{
+		map_manager::get_player(current_player)->finished_movement = false;
+		drawing_manager->remove_old_path();
+	}
+	else
+	{
+		cam_mode = camera_mode::free;
 	}
 }
 
@@ -87,8 +121,10 @@ void level::init(painter* ptr)
 
 void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 {
-	//TODO: movement logic
 	player* cur_player = map_manager::get_player(current_player);
+	if (cur_player->is_moving())
+		return;
+
 	int p_x = 0, p_y = 0;
 	map_manager::world_tile_ids_at_coords(&p_x, &p_y, cur_player->get_position().x, cur_player->get_position().y);
 	map_manager::init_pathfinding_for_current_map_state(current_player);
@@ -100,19 +136,19 @@ void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 	{
 		std::cout << "Player moved" << std::endl;
 		map_manager::get_player(current_player)->move();
-		drawing_manager->remove_old_path();
+		//drawing_manager->remove_old_path();
 		//reset pathfinding for current player
 		map_manager::init_pathfinding_for_current_map_state(current_player);
 		return;
 	}
 
 	std::vector<SDL_Point> path = map_manager::get_path_from_to(p_x, p_y, x, y);
-	map_manager::get_player(current_player)->set_path(path);
-	std::cout << "Path from: " << p_x << ":" << p_y << " to " << x << ":" << y << " takes " << path.size() << " steps." << std::endl;
 	
 	///if tile found, remove old and add new
 	if (path.size() > 0)
 	{
+		map_manager::get_player(current_player)->set_path(path);
+		std::cout << "Path from: " << p_x << ":" << p_y << " to " << x << ":" << y << " takes " << path.size() << " steps." << std::endl;
 		drawing_manager->remove_old_path();
 		///add finish tile
 		///create objects for path and add them to render queue
