@@ -15,6 +15,8 @@ private:
 	static bool path_found;
 	static std::vector<SDL_Point> path;
 
+	static std::vector<SDL_Point> cur_players;
+
 	static std::vector<constants::pathfinding_tile*> mark_tile_neighbours(constants::pathfinding_tile* tile, int num);
 	static bool calculate_path(constants::pathfinding_tile* end);
 public:
@@ -23,6 +25,7 @@ public:
 	static void set_map(constants::pathfinding_tile*** map, int w, int h) { LeePathfinder::map = map; width = w; height = h; }
 	static void set_origin(int x, int y);
 	static void set_destination(int x, int y);
+	static void set_players(std::vector<SDL_Point> player_positions);
 
 	static SDL_Point get_origin() { return origin; }
 

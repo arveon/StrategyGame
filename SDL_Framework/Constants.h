@@ -85,6 +85,7 @@ namespace constants
 		std::vector<pathfinding_tile*> neighbours;
 		bool origin;
 		bool destination;
+		bool is_entity;
 	};
 
 	//map constants

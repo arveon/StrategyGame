@@ -356,6 +356,7 @@ void map_manager::init_pathfinding()
 
 				tile_cost_map[i][j] = new constants::pathfinding_tile();
 				tile_cost_map[i][j]->cost = tile->get_travel_cost();
+				tile_cost_map[i][j]->is_entity = false;
 				if (tile_cost_map[i][j]->cost == -1)
 					tile_cost_map[i][j]->pathfinding_num = -1;
 				else
@@ -386,16 +387,26 @@ void map_manager::init_pathfinding()
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i + 1][j + 1]);
 				if (i > 0 && j < tileshigh - 1)
 					tile_cost_map[i][j]->neighbours.push_back(tile_cost_map[i - 1][j + 1]);
-				
-				
 			}
 		}
-		LeePathfinder::set_map(tile_cost_map, tileswide, tileshigh);
-
 
 		SDL_Point player_pos = { players.at(0)->get_position().x, players.at(0)->get_position().y };
+		
+		std::vector<SDL_Point> player_coords;
 		int x, y;
 		world_tile_ids_at_coords(&x, &y, player_pos.x, player_pos.y);
+		for (std::vector<player*>::iterator it = players.begin(); it != players.end(); it++)
+		{
+			player* pl = *it;
+			SDL_Point point = { pl->get_position().x, pl->get_position().y };
+			world_tile_ids_at_coords(&x, &y, point.x, point.y);
+
+			player_coords.push_back({x, y});
+		}
+		LeePathfinder::set_map(tile_cost_map, tileswide, tileshigh);
+		LeePathfinder::set_players(player_coords);
+
+		
 		LeePathfinder::set_origin(x, y);
 		LeePathfinder::mark_field();
 		LeePathfinder::display_field();
@@ -412,6 +423,22 @@ void map_manager::init_pathfinding_for_current_map_state(int cur_player)
 		int x, y;
 		world_tile_ids_at_coords(&x, &y, player_pos.x, player_pos.y);
 		LeePathfinder::set_origin(x, y);
+
+#pragma region set players in pathfinder
+		std::vector<SDL_Point> player_coords;
+		world_tile_ids_at_coords(&x, &y, player_pos.x, player_pos.y);
+		for (std::vector<player*>::iterator it = players.begin(); it != players.end(); it++)
+		{
+			player* pl = *it;
+			SDL_Point point = { pl->get_position().x, pl->get_position().y };
+			world_tile_ids_at_coords(&x, &y, point.x, point.y);
+
+			player_coords.push_back({ x, y });
+		}
+		LeePathfinder::set_players(player_coords);
+#pragma endregion
+		
+
 		LeePathfinder::mark_field();
 	}
 }

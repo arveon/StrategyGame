@@ -6,6 +6,7 @@ SDL_Point LeePathfinder::origin;
 SDL_Point LeePathfinder::destination;
 bool LeePathfinder::path_found;
 std::vector<SDL_Point> LeePathfinder::path;
+std::vector<SDL_Point> LeePathfinder::cur_players;
 
 LeePathfinder::LeePathfinder()
 {
@@ -21,7 +22,7 @@ std::vector<constants::pathfinding_tile*> LeePathfinder::mark_tile_neighbours(co
 	///also will add them to the list of tile whose neighbours will be marked in the next iteration of the mark_field main loop
 	for (int i = 0; i < (int)tile->neighbours.size(); i++)
 	{
-		if (tile->neighbours.at(i)->pathfinding_num == 0 && !tile->neighbours.at(i)->origin)
+		if (tile->neighbours.at(i)->pathfinding_num == 0 && !tile->neighbours.at(i)->origin && !tile->neighbours.at(i)->is_entity)
 		{
 			tile->neighbours.at(i)->pathfinding_num = num;
 			to_mark_next.push_back(tile->neighbours.at(i));
@@ -74,6 +75,7 @@ void LeePathfinder::mark_field(constants::pathfinding_tile* start)
 //function backtracks from the given end tile to the origin
 bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 {
+	
 	constants::pathfinding_tile* cur_point = end;
 	bool start_reached = false;
 	
@@ -91,6 +93,8 @@ bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 			constants::pathfinding_tile* temp = cur_point->neighbours.at(i);
 			if (temp->pathfinding_num < cur_point->pathfinding_num && temp->pathfinding_num != -1)
 			{
+				if (temp->is_entity && !temp->origin)
+					continue;
 				next_point = temp;
 				break;
 			}
@@ -116,9 +120,15 @@ bool LeePathfinder::calculate_path(constants::pathfinding_tile* end)
 
 bool LeePathfinder::find_path(SDL_Point end_coords)
 {
+	bool success= false;
 	path.clear();
+
+	if (map[end_coords.y][end_coords.x]->pathfinding_num == -1)
+		return success;
+
 	path.push_back(map[end_coords.y][end_coords.x]->position);
-	bool success = calculate_path(map[end_coords.y][end_coords.x]);
+
+	success = calculate_path(map[end_coords.y][end_coords.x]);
 	if (!success)
 		path.clear();
 
@@ -144,6 +154,24 @@ void LeePathfinder::set_destination(int x, int y)
 	destination.x = x;
 	destination.y = y;
 	map[destination.y][destination.x]->destination = true;
+}
+
+void LeePathfinder::set_players(std::vector<SDL_Point> player_positions)
+{
+	//remove all of the player indications from map
+	for (std::vector<SDL_Point>::iterator it = cur_players.begin(); it != cur_players.end(); it++)
+	{
+		SDL_Point player_pos = *it;
+		map[player_pos.y][player_pos.x]->is_entity = false;
+	}
+
+	//add new player indications
+	for (std::vector<SDL_Point>::iterator it = player_positions.begin(); it != player_positions.end(); it++)
+	{
+		SDL_Point player_pos = *it;
+		map[player_pos.y][player_pos.x]->is_entity = true;
+	}
+	cur_players = player_positions;
 }
 
 void LeePathfinder::display_field()
