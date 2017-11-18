@@ -39,8 +39,10 @@ public:
 	///map initialisation functions
 	static void load_required_tex_tiles();
 	static void load_required_tex_players();
+	static void load_required_tex_items();
 	static void link_textures_to_tiles();
 	static void link_textures_to_players();
+	static void link_textures_to_items();
 	static void load_map(int level);
 	static bool link_tiles();
 	static void init_pathfinding();

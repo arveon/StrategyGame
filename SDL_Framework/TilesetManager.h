@@ -19,6 +19,7 @@ private:
 	static bool initialised;
 	static std::vector<SDL_Texture*> tiles;
 	static std::vector<SDL_Texture*> entities;
+	static std::vector<SDL_Texture*> objects;
 	static std::vector<SDL_Texture*> misc;
 public:
 	static void load_misc(int tw, int th);

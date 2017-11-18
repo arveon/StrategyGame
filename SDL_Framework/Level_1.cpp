@@ -15,6 +15,7 @@ void Level_1::update(Mouse* mouse, int delta_time)
 		level::update_load(mouse);
 		if (level::level_loaded())
 			level_state = level_states::gameplay;
+		break;
 	case level_states::gameplay:
 		//LOGIC FOR UPDATING THE LEVEL AND ALL ENTITIES WITHIN IT
 		//std::cout << "player position: " << map_manager::get_player(current_player)->get_position().x << " " << map_manager::get_player(current_player)->get_position().x;

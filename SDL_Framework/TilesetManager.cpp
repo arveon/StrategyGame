@@ -7,6 +7,7 @@ std::vector<SDL_Texture*> tileset_manager::tiles;
 tileset_manager::tilesheet_state tileset_manager::state;
 std::vector<SDL_Texture*> tileset_manager::entities;
 std::vector<SDL_Texture*> tileset_manager::misc;
+std::vector<SDL_Texture*> tileset_manager::objects;
 
 ///function loads the textures with ids provided in tile_nums from an appropriate set
 void tileset_manager::load_tiles(std::vector<int> tile_nums, constants::tilesets set, int tilewidth, int tileheight)
@@ -37,6 +38,16 @@ void tileset_manager::load_tiles(std::vector<int> tile_nums, constants::tilesets
 				state = tilesheet_state::characters;
 			}
 			vector_used = &entities;
+			break;
+		case constants::tilesets::items:
+			if (state != tilesheet_state::items)
+			{
+				if (state != tilesheet_state::empty)
+					SDL_DestroyTexture(tilesheet);
+				tilesheet = sdlframework::sdl_manager::load_png_texture(constants::TILESET_TERRAIN_PATH);
+				state = tilesheet_state::items;
+			}
+			vector_used = &objects;
 			break;
 		}
 
@@ -89,6 +100,9 @@ SDL_Texture* tileset_manager::get_texture_by_id(constants::tilesets tileset, int
 			break;
 		case constants::tilesets::misc:
 			result = misc.at(id);
+			break;
+		case constants::tilesets::items:
+			result = objects.at(id);
 			break;
 		}	
 	}

@@ -53,7 +53,7 @@ void player::update(Mouse* mouse, int delta_time)
 			world_coords = {prev_tile.x + deltapos.x, prev_tile.y + deltapos.y};
 		}
 
-
+		std::cout << "moved" << std::endl;
 	}
 	else
 	{

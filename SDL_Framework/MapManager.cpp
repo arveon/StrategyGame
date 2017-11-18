@@ -175,10 +175,38 @@ void map_manager::load_from_file()
 			cur_node = cur_node->next_sibling();
 			continue;
 		}
-
-
-		///constants::tile_type t_type;
+		
+		SDL_Point pos{ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) };
 		game_object* obj1 = nullptr;
+		switch (tex_id)
+		{
+		case 70:
+		case 71:
+		case 72:
+		case 73:
+		case 74:
+		case 75:
+		case 76:
+		case 77:
+		case 79:
+		case 80:
+		case 81:
+			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree);
+			items.push_back(static_cast<item_object*>(obj1));
+			break;
+		case 82:
+		case 83:
+		case 84:
+			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree_trunk);
+			items.push_back(static_cast<item_object*>(obj1));
+			break;
+		}
+		if (obj1 != nullptr)
+		{
+			cur_node = cur_node->next_sibling();
+			continue;
+		}
+		
 		player* obj;
 		tex_id -= constants::tileset_entity_offset;
 		switch (tex_id)
@@ -186,7 +214,7 @@ void map_manager::load_from_file()
 		case 0:
 		case 1:
 		case 2:
-			obj = new player({ (int)std::floor(((float)(x * t_width) * constants::tile_scaling)), (int)std::floor(((float)(y * t_height) * constants::tile_scaling)) }, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
+			obj = new player(pos, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
 			players.push_back(obj);
 			break;
 		}
@@ -225,6 +253,20 @@ void map_manager::load_required_tex_players()
 	tileset_manager::load_tiles(entity_texture_id_list, constants::tilesets::characters, t_width, t_height);
 }
 
+//function is used to build a vector of item tiles and load them from a vector
+void map_manager::load_required_tex_items()
+{
+	std::vector<int> items_texture_id_list;
+	for (std::vector<item_object*>::iterator it = items.begin(); it != items.end(); ++it)
+	{
+		item_object* ent = *it;
+
+		if (!helper_functions::is_int_in_vector(items_texture_id_list, ent->texture_id + constants::tileset_entity_offset))
+			helper_functions::add_to_int_vector_asc(&items_texture_id_list, ent->texture_id);
+	}
+	tileset_manager::load_tiles(items_texture_id_list, constants::tilesets::items, t_width, t_height);
+}
+
 //function is used to link all of the terrain textures from tileset manager to actual objects
 void map_manager::link_textures_to_tiles()
 {
@@ -238,6 +280,13 @@ void map_manager::link_textures_to_players()
 {
 	for (std::vector<player*>::iterator it = players.begin(); it != players.end(); ++it)
 			(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::characters, (*it)->texture_id);
+}
+
+//function is used to link the entity textures from tileset manager to actual objects
+void map_manager::link_textures_to_items()
+{
+	for (std::vector<item_object*>::iterator it = items.begin(); it != items.end(); ++it)
+		(*it)->texture = tileset_manager::get_texture_by_id(constants::tilesets::items, (*it)->texture_id);
 }
 
 //function used to unload the whole map
@@ -264,7 +313,10 @@ void map_manager::add_vector_to_painter(painter* drawing_manager, constants::bas
 	case constants::base_object_type::character:
 		for (std::vector<player*>::iterator it = players.begin(); it != players.end(); ++it)
 			drawing_manager->add_object_to_queue(*it);
-		
+		break;
+	case constants::base_object_type::item:
+		for (std::vector<item_object*>::iterator it = items.begin(); it != items.end(); ++it)
+			drawing_manager->add_object_to_queue(*it);
 		break;
 	}
 }

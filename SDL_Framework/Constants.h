@@ -91,7 +91,7 @@ namespace constants
 	//map constants
 	const int misc_num_items = 2;
 	const int tileset_width = 8;
-	const int tileset_entity_offset = 70;
+	const int tileset_entity_offset = 85;
 	const float tile_scaling = 1;
 	const enum tilesets
 	{
@@ -125,6 +125,13 @@ namespace constants
 		enemy_ai_4 = 4,
 		enemy_ai_5 = 5,
 		friendly_ai = 7
+	};
+
+	const enum item_type
+	{
+		tree_trunk,
+		tree,
+
 	};
 
 	const enum misc_tile

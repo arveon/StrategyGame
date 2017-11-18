@@ -43,11 +43,20 @@ void level::update_load(Mouse* mouse)
 	case attaching_character_textures:
 		map_manager::link_textures_to_players();
 		load_percent = 0.5f;
-		loading_state = cleaning_up_tilesheet;
+		loading_state = loading_item_textures;
 		break;
+	case loading_item_textures:
+		map_manager::load_required_tex_items();
+		load_percent = 0.55f;
+		loading_state = attaching_item_textures;
+		break;
+	case attaching_item_textures:
+		map_manager::link_textures_to_items();
+		load_percent = 0.6f;
+		loading_state = cleaning_up_tilesheet;
 	case cleaning_up_tilesheet:
 		tileset_manager::unload_tilesheet();
-		load_percent = 0.6f;
+		load_percent = 0.65f;
 		loading_state = linking_tiles;
 		break;
 	case linking_tiles:
@@ -76,6 +85,7 @@ void level::update_load(Mouse* mouse)
 		drawing_manager->get_camera_ptr()->set_world_size(map_manager::get_map_dimensions_px().x, map_manager::get_map_dimensions_px().y);
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::terrain);
 		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::character);
+		map_manager::add_vector_to_painter(drawing_manager, constants::base_object_type::item);
 		total_players = map_manager::get_max_player_id();
 		break;
 	}
@@ -83,7 +93,8 @@ void level::update_load(Mouse* mouse)
 
 void level::update(Mouse * mouse, int delta_time)
 {
-	for (int i = 0; i < total_players; i++)
+
+	for (int i = 0; i <= total_players; i++)
 	{
 		map_manager::get_player(i)->update(mouse, delta_time);
 	}
@@ -96,8 +107,6 @@ void level::update(Mouse * mouse, int delta_time)
 
 		if (map_manager::get_player(current_player)->path_tile_done)
 		{
-			
-
 			map_manager::get_player(current_player)->path_tile_done = false;
 			drawing_manager->remove_traversed_path_tile();
 		}
