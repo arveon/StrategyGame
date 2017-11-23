@@ -26,6 +26,7 @@ public:
 	static void set_origin(int x, int y);
 	static void set_destination(int x, int y);
 	static void set_players(std::vector<SDL_Point> player_positions);
+	static void set_objects(std::vector<SDL_Point> object_positions);
 
 	static SDL_Point get_origin() { return origin; }
 

@@ -14,8 +14,10 @@ private:
 
 	SDL_Point prev_tile;
 	SDL_Point next_tile;
+
+	int id;
 public:
-	player(SDL_Point coords, int width, int height, SDL_Texture* texture, bool is_active, int texture_id);
+	player(SDL_Point coords, int width, int height, SDL_Texture* texture, bool is_active, int texture_id, int player_id);
 	~player();
 	
 	bool path_tile_done = false;
@@ -28,5 +30,6 @@ public:
 	bool get_remaining_path_size() { return path.size(); }
 
 	void move();
+	int get_player_id() { return id; }
 };
 

@@ -5,6 +5,7 @@
 #include "Mouse.h"
 
 #include "Level_1.h"
+#include <sstream>
 
 
 //Class responsible for global switching and updating between the levels

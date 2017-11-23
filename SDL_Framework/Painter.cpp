@@ -40,6 +40,45 @@ void painter::sort_queues()
 {
 	//TODO: write logic to sort queues so that objects with lowest Y coordinate are at the top of the queue (drawn first)
 	//TODO: this function should be called every tick
+
+
+	//sort by Y coordinate
+	////BUBBLE SORT
+	//for (int i = 0; i < rq_characters_items.size(); i++)
+	//{
+	//	for (int j = 0; j < rq_characters_items.size()-1; j++)
+	//	{
+	//		drawable_object* left = rq_characters_items.at(j);
+	//		drawable_object* right = rq_characters_items.at(j+1);
+	//		int left_y = left->world_coords.y;
+	//		int right_y = right->world_coords.y;
+
+	//		if (left_y > right_y)
+	//		{
+	//			rq_characters_items.at(j) = right;
+	//			rq_characters_items.at(j+1) = left;
+	//		}
+	//	}
+	//}
+	//sort by priority
+	for (int i = 0; i < rq_characters_items.size(); i++)
+	{
+		for (int j = 0; j < rq_characters_items.size()-1; j++)
+		{
+			drawable_object* left = rq_characters_items.at(j);
+			drawable_object* right = rq_characters_items.at(j+1);
+			constants::base_object_type lt = left->get_type();
+			constants::base_object_type rt = right->get_type();
+
+			if (lt > rt)
+			{
+				rq_characters_items.at(j) = right;
+				rq_characters_items.at(j+1) = left;
+			}
+		}
+	}
+
+
 }
 
 ///Function will be responsible to flush the queue

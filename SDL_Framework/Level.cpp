@@ -93,7 +93,6 @@ void level::update_load(Mouse* mouse)
 
 void level::update(Mouse * mouse, int delta_time)
 {
-
 	for (int i = 0; i <= total_players; i++)
 	{
 		map_manager::get_player(i)->update(mouse, delta_time);
@@ -128,7 +127,7 @@ void level::init(painter* ptr)
 	drawing_manager = ptr;
 }
 
-void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
+void level::mouse_clicked_at(int x, int y)
 {
 	player* cur_player = map_manager::get_player(current_player);
 	if (cur_player->is_moving())
@@ -143,7 +142,7 @@ void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 
 	if (map_manager::get_player(current_player)->is_dest_same({ x, y }))
 	{
-		std::cout << "Player moved" << std::endl;
+		//std::cout << "Player moved" << std::endl;
 		map_manager::get_player(current_player)->move();
 		//drawing_manager->remove_old_path();
 		//reset pathfinding for current player
@@ -157,7 +156,7 @@ void level::mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at)
 	if (path.size() > 0)
 	{
 		map_manager::get_player(current_player)->set_path(path);
-		std::cout << "Path from: " << p_x << ":" << p_y << " to " << x << ":" << y << " takes " << path.size() << " steps." << std::endl;
+		//std::cout << "Path from: " << p_x << ":" << p_y << " to " << x << ":" << y << " takes " << path.size() << " steps." << std::endl;
 		drawing_manager->remove_old_path();
 		///add finish tile
 		///create objects for path and add them to render queue

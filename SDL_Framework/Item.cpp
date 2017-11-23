@@ -5,9 +5,10 @@ item_object::item_object() : drawable_object({0,0},1,1,false,nullptr,constants::
 {
 }
 
-item_object::item_object(SDL_Point coords, int width, int height, SDL_Texture* texture, bool is_active, int texture_id, constants::item_type type) : drawable_object(coords, width, height, true, texture, constants::base_object_type::item, texture_id)
+item_object::item_object(SDL_Point coords, int width, int height, SDL_Texture* texture, bool is_active, int texture_id, constants::item_type type, std::string name) : drawable_object(coords, width, height, true, texture, constants::base_object_type::item, texture_id)
 {
-
+	this->item_name = name;
+	this->i_type = type;
 }
 
 

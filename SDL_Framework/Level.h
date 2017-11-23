@@ -51,7 +51,7 @@ public:
 	bool level_loaded() { return is_loaded; }
 	float get_loaded_percent() { return load_percent; }
 
-	virtual void mouse_clicked_at(int x, int y, constants::tile_type tile_clicked_at);
+	virtual void mouse_clicked_at(int x, int y);
 
 	camera_mode get_cam_mode() { return cam_mode; }
 

@@ -13,6 +13,7 @@ void Level_1::update(Mouse* mouse, int delta_time)
 	{
 	case level_states::loading:
 		level::update_load(mouse);
+		std::cout << "as" << std::endl;
 		if (level::level_loaded())
 			level_state = level_states::gameplay;
 		break;

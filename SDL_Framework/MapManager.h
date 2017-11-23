@@ -30,9 +30,9 @@ private:
 	static int  t_width, t_height;
 	static tile_object*** map;
 	static constants::pathfinding_tile*** tile_cost_map;
-	static std::vector<living_entity*> map_entities;
-	static std::vector<player*> players;
-	static std::vector<item_object*> items;
+	static std::vector<living_entity*> map_entities;//represents non moving non player entities
+	static std::vector<player*> players;//represents players including ai-controlled
+	static std::vector<item_object*> items;//represents items and objects
 	static void load_from_file();
 	static bool map_currently_loaded;
 public:
@@ -54,7 +54,7 @@ public:
 	static int get_tile_size() { return t_width; }
 	static int get_max_player_id() { return players.size() - 1; }
 
-	static constants::tile_type get_tile_type_at(int x, int y);
+	static constants::tile_type get_tile_type_at(int x, int y, game_object** object_at_coords = nullptr);
 	static player* get_player(int id) { return players.at(id); }
 
 	static void world_tile_ids_at_mouse(int* to_save_x, int* to_save_y, int mouse_x, int mouse_y, SDL_Point cam_coords);

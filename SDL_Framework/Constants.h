@@ -85,7 +85,7 @@ namespace constants
 		std::vector<pathfinding_tile*> neighbours;
 		bool origin;
 		bool destination;
-		bool is_entity;
+		bool blocked;
 	};
 
 	//map constants
@@ -113,7 +113,10 @@ namespace constants
 		mud,
 		road,
 		stone,
-		water
+		water,
+		pl,
+		game_obj,
+		entity
 	};
 
 	const enum entity_type
@@ -146,8 +149,8 @@ namespace constants
 		terrain,
 		character,
 		item,
-		ui,
 		path,
+		ui,
 		other
 	};
 

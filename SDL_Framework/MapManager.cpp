@@ -188,16 +188,17 @@ void map_manager::load_from_file()
 		case 75:
 		case 76:
 		case 77:
+		case 78:
 		case 79:
 		case 80:
 		case 81:
-			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree);
+			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree, "Tree");
 			items.push_back(static_cast<item_object*>(obj1));
 			break;
 		case 82:
 		case 83:
 		case 84:
-			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree_trunk);
+			obj1 = new item_object(pos, t_width * constants::tile_scaling, t_height*constants::tile_scaling, nullptr, true, tex_id, constants::item_type::tree_trunk, "Tree roots");
 			items.push_back(static_cast<item_object*>(obj1));
 			break;
 		}
@@ -214,7 +215,7 @@ void map_manager::load_from_file()
 		case 0:
 		case 1:
 		case 2:
-			obj = new player(pos, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id);
+			obj = new player(pos, t_width * constants::tile_scaling, t_height * constants::tile_scaling, nullptr, true, tex_id, tex_id+1);
 			players.push_back(obj);
 			break;
 		}
@@ -408,7 +409,7 @@ void map_manager::init_pathfinding()
 
 				tile_cost_map[i][j] = new constants::pathfinding_tile();
 				tile_cost_map[i][j]->cost = tile->get_travel_cost();
-				tile_cost_map[i][j]->is_entity = false;
+				tile_cost_map[i][j]->blocked = false;
 				if (tile_cost_map[i][j]->cost == -1)
 					tile_cost_map[i][j]->pathfinding_num = -1;
 				else
@@ -458,6 +459,23 @@ void map_manager::init_pathfinding()
 		LeePathfinder::set_map(tile_cost_map, tileswide, tileshigh);
 		LeePathfinder::set_players(player_coords);
 
+#pragma region set objects in pathfinder
+		std::vector<SDL_Point> obj_coords;
+		for (std::vector<item_object*>::iterator it = items.begin(); it != items.end(); it++)
+		{
+			item_object* i = *it;
+			//exclusions
+			if (i->get_item_type() == constants::item_type::tree)
+				continue;
+
+			item_object* pl = *it;
+			SDL_Point point = { pl->get_position().x, pl->get_position().y };
+			world_tile_ids_at_coords(&x, &y, point.x, point.y);
+
+			obj_coords.push_back({ x, y });
+		}
+		LeePathfinder::set_objects(obj_coords);
+#pragma endregion
 		
 		LeePathfinder::set_origin(x, y);
 		LeePathfinder::mark_field();
@@ -489,8 +507,6 @@ void map_manager::init_pathfinding_for_current_map_state(int cur_player)
 		}
 		LeePathfinder::set_players(player_coords);
 #pragma endregion
-		
-
 		LeePathfinder::mark_field();
 	}
 }
@@ -508,11 +524,56 @@ std::vector<SDL_Point> map_manager::get_path_from_to(int from_x, int from_y, int
 	return res;
 }
 
-//function returns the type of the tile at certain x and y
-constants::tile_type map_manager::get_tile_type_at(int x, int y)
+//function returns the type of the tile at certain x and y and if the tile is not empty, a pointer to an object on it
+constants::tile_type map_manager::get_tile_type_at(int x, int y, game_object** object_at_coords)
 {
-	///if()
-	return map[y][x]->tile_type;
+	constants::tile_type t = map[y][x]->tile_type;
+	
+	//check if there are any entities at the coordinate
+	for(std::vector<living_entity*>::iterator it = map_entities.begin(); it != map_entities.end(); it++)
+	{
+		living_entity* ent = *it;
+		int e_x, e_y;
+		world_tile_ids_at_coords(&e_x, &e_y, ent->world_coords.x, ent->world_coords.y);
+		if (e_x == x && e_y == y)
+		{
+			*object_at_coords = ent;
+			t = constants::tile_type::entity;
+			goto end;
+		}
+	}
+
+	//check if there are any players at the coordinate
+	for (std::vector<player*>::iterator it = players.begin(); it != players.end(); it++)
+	{
+		player* ent = *it;
+		int e_x, e_y;
+		world_tile_ids_at_coords(&e_x, &e_y, ent->world_coords.x, ent->world_coords.y);
+		if (e_x == x && e_y == y)
+		{
+			*object_at_coords = ent;
+			t = constants::tile_type::pl;
+			goto end;
+		}
+	}
+
+	//check if there are any items/other objects at the coordinate
+	for (std::vector<item_object*>::iterator it = items.begin(); it != items.end(); it++)
+	{
+		item_object* ent = *it;
+		int e_x, e_y;
+		world_tile_ids_at_coords(&e_x, &e_y, ent->world_coords.x, ent->world_coords.y);
+		if (e_x == x && e_y == y)
+		{
+			*object_at_coords = ent;
+			t = constants::tile_type::game_obj;
+			goto end;
+		}
+	}
+
+	
+end:
+	return  t;
 }
 
 map_manager::map_manager()

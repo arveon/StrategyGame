@@ -19,6 +19,7 @@ void level_manager::update(Mouse* mouse, const Uint8* keyboard_state,int delta_t
 //function called from levelmanager to draw the whole level
 void level_manager::draw(SDL_Renderer* renderer)
 {
+	drawing_manager.sort_queues();
 	drawing_manager.draw_queue(renderer);
 }
 
@@ -45,7 +46,7 @@ void level_manager::handle_mouseclicks(Mouse* mouse)
 	{
 		int x,y;
 		map_manager::world_tile_ids_at_mouse(&x, &y, mouse->x, mouse->y, drawing_manager.get_camera_ptr()->get_position());
-		level1.mouse_clicked_at(x, y, map_manager::get_tile_type_at(x,y));
+		level1.mouse_clicked_at(x, y);
 	}
 }
 
@@ -54,19 +55,41 @@ void level_manager::update_displayed_tile_type(Mouse* mouse)
 {
 	///need to store old type so that it doesn't create texture from text a million times a second
 	static constants::tile_type old_type = constants::tile_type::empty;
+	static std::string old_string = "a";
 	constants::tile_type new_type;
 
 	int tile_x = 0, tile_y = 0;
 	map_manager::world_tile_ids_at_mouse(&tile_x, &tile_y, mouse->x, mouse->y, drawing_manager.get_camera_ptr()->get_position());
 	
-	new_type = map_manager::get_tile_type_at(tile_x, tile_y);
+	game_object* obj = nullptr;
+	new_type = map_manager::get_tile_type_at(tile_x, tile_y, &obj);
 
-	///if the tile has the same type as the one mouse was pointing before, just skip everything else
-	if (new_type == old_type)
-		return;
+	std::string newstring = "a";
+	//if the tile is not empty
+	if (obj != nullptr)
+	{
+		std::stringstream new_text;
+		player* pl;
+		item_object* it;
+		switch (obj->get_type())
+		{
+		case constants::base_object_type::character:
+			pl = (player*)obj;
+			new_text << "Player " << pl->get_player_id();
+			break;
+		case constants::base_object_type::item:
+			it = (item_object*)obj;
+			new_text << it->get_item_name();
+			break;		
+		}
+
+		newstring = new_text.str();
+	}
+	
+	if (newstring != "a")
+		goto setUiText;
 
 	///set the text to appropriate name
-	std::string newstring = "";
 	switch (new_type)
 	{
 	case constants::tile_type::empty:
@@ -85,11 +108,18 @@ void level_manager::update_displayed_tile_type(Mouse* mouse)
 		newstring = "Water";
 		break;
 	}
+
+	///if the tile has the same type as the one mouse was pointing before, just skip everything else
+	if (newstring == old_string)
+		return;
+
+setUiText:
 	std::string fontpath = constants::FONTS_PATH;
 	fontpath.append(constants::font_libertine);
 	tile_type_indicator->change_texture(sdlframework::sdl_manager::render_text(newstring, { 255,255,255 }, sdlframework::sdl_manager::load_font(fontpath, 20, { 0,0,0 })));
 	///store the old type as new type
 	old_type = new_type;
+	old_string = newstring;
 }
 
 //Constructor initialises level, and the UI elements
